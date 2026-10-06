@@ -311,3 +311,24 @@ Library equivalents live in `schematica.design.paths` / `.roofs` / `.flora` /
 
 Read `references/design_playbook.md` for the composition/color/verification
 methodology these tools support.
+
+
+### Layout & structure (Phase 15)
+
+- `flatten frm= to= [y=N] fill= cap=` — level a build pad (default median ground).
+- `plaza center=x,z radius=10 palette=modern_concrete fountain=true` — banded
+  plaza with border, four lamp posts, and a central fountain.
+- `road.net points="x,z;x,z;..." width=3 palette=...` — minimum-spanning-tree
+  road network; `edges="0,2"` adds ring loops, `complete=true` full mesh.
+- `tower at=x,z r=4 floors=3 palette=medieval_stone roof=cone` — shell +
+  floors + windows + roof in one call.
+- `battlements frm= to= every=2` — crenellate wall tops (auto-matched block).
+- `bridge points=... pier_spacing=6 lamps=true` — deck + rails + piers.
+- `ruin frm= to= amount=0.35 debris=true` — seeded collapse with rubble.
+- `lighting frm= to= spacing=7 light=minecraft:lantern` — street-light pass.
+- `caves frm= to= scale=0.08 threshold=0.6 protect=3` — underground Perlin worms.
+- `replace.mix src=minecraft:stone pattern="3x stone_bricks, 1x mossy"` —
+  WorldEdit-style weighted patterns (see `references/advanced_techniques.md`).
+
+Library: `schematica.design.layout` / `.buildings` / `.decay` / `.light` /
+`.caves`, and `schematica.patterns` for the pattern parser.

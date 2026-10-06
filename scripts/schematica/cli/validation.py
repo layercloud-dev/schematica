@@ -808,3 +808,81 @@ def check_forest(frm: str, to: str, density: float, kinds: str,
             out.append(CheckResult("error", "unknown_tree_kind",
                                    f"kind {k!r} unknown; options: {', '.join(sorted(known))}"))
     return out
+
+
+def check_flatten(frm: str, to: str, y: int) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    if _coord_tuple(frm) is None or _coord_tuple(to) is None:
+        out.append(CheckResult("error", "bad_coords",
+                               f"frm={frm!r} to={to!r} did not parse to x,y,z"))
+    if y < 0:
+        out.append(CheckResult("error", "bad_y", f"y={y} must be >= 0"))
+    return out
+
+
+def check_plaza(center: str, radius: int, palette: str) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    if not _parse_points_str(center):
+        out.append(CheckResult("error", "bad_coords",
+                               f"center={center!r} did not parse to x,z"))
+    if radius < 3:
+        out.append(CheckResult("error", "bad_radius", f"radius={radius} must be >= 3"))
+    if palette:
+        from ..design.palettes import load_palettes
+        if palette not in load_palettes():
+            out.append(CheckResult("error", "unknown_palette",
+                                   f"palette {palette!r} not found; run palette.list"))
+    return out
+
+
+def check_tower(at: str, r: int, floors: int, roof: str) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    if not _parse_points_str(at):
+        out.append(CheckResult("error", "bad_coords", f"at={at!r} did not parse"))
+    if r < 2:
+        out.append(CheckResult("error", "bad_radius", f"r={r} must be >= 2"))
+    if floors < 0:
+        out.append(CheckResult("error", "bad_floors", f"floors={floors} must be >= 0"))
+    if roof not in ("cone", "hip", "gable", "dome", "flat", "none"):
+        out.append(CheckResult("error", "bad_roof",
+                               f"roof must be cone|hip|gable|dome|flat|none, got {roof!r}"))
+    return out
+
+
+def check_ruin_arguments(frm: str, to: str, amount: float) -> list[CheckResult]:
+    out = check_flatten(frm, to, 0)
+    if not (0.0 < amount <= 1.0):
+        out.append(CheckResult("error", "bad_amount",
+                               f"amount={amount} must be in (0, 1]"))
+    return out
+
+
+def check_lighting(spacing: int) -> list[CheckResult]:
+    if spacing < 2:
+        return [CheckResult("error", "bad_spacing",
+                            f"spacing={spacing} must be >= 2")]
+    return []
+
+
+def check_caves(frm: str, to: str, scale: float, threshold: float) -> list[CheckResult]:
+    out = check_flatten(frm, to, 0)
+    if scale <= 0:
+        out.append(CheckResult("error", "bad_scale", f"scale={scale} must be positive"))
+    if not (0.0 < threshold < 1.0):
+        out.append(CheckResult("error", "bad_threshold",
+                               f"threshold={threshold} must be in (0, 1)"))
+    return out
+
+
+def check_replace_mix(pattern: str) -> list[CheckResult]:
+    try:
+        from ..patterns import parse_pattern
+        parse_pattern(pattern)
+    except ValueError as e:
+        return [CheckResult("error", "bad_pattern",
+                            f"pattern {pattern!r} unparseable: {e}")]
+    return []
+
+
+def check_bridge(points: str, width: int, session: Any) -> list[CheckResult]:
+    return check_road(points, width, session)

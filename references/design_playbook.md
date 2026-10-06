@@ -125,6 +125,34 @@ same in-game. Practical rules:
 
 ---
 
+## 5b. Layout & structure tools (Phase 15)
+
+When the map crosses from "some structures" to "a designed place":
+
+- **`flatten frm= to=`** — the honest foundation. Pad level = median ground;
+  add a `cap=` (grass/stone_bricks) for a uniform surface. Always flatten
+  *before* raising walls, then let the road network kiss the pad edge.
+- **`plaza center=x,z radius=`** — spawn hubs and market squares in one call:
+  banded paving (palette `path` role), trim border, four lamp posts, optional
+  fountain. Plazas are the map's "rest" notes — place one per district.
+- **`road.net points=...`** — give it the waypoint list (gates, plaza, tower,
+  houses) and it connects them with a minimum-spanning-tree of draped roads.
+  Add `edges=0,2;3,4` for ring roads or `complete=true` for full meshes.
+- **`tower at=x,z r= floors= roof=`** — the 4-line watchtower: shell, floors,
+  window slits, conical/hip/gabled/domed/flat roof. `roof=flat` auto-crenellates.
+- **`battlements frm= to=`** — crenellation on any wall top; auto-matches the
+  existing material, `every=2` merlons. Instantly medieval.
+- **`bridge points=...`** — elevated deck at max-ground+1 with railings, piers
+  at `pier_spacing`, lamp posts; the standard river/ravine crossing.
+- **`ruin frm= to= amount=`** — seeded collapse with height bias (tops crumble
+  first) and a rubble scatter made of the destroyed materials. Ruins read as
+  "history"; undamaged boxes read as "tutorial".
+- **`caves frm= to= threshold= protect=`** — 3D Perlin tunnels with a preserved
+  surface skin. Great under keeps and inside hills.
+- **`lighting frm= to= spacing=`** — even lantern grid on walkable ground.
+- **`replace.mix src= pattern=`** — WorldEdit-style weighted material mixes
+  (see `references/advanced_techniques.md` for the pattern language).
+
 ## 6. Lighting
 
 - Light is functional *and* a palette accent: place per-palette `light` blocks

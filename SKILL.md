@@ -1,6 +1,6 @@
 ---
 name: schematica
-description: "Schematica is a Python toolkit and interactive REPL for building Minecraft Java Edition schematics, exposed as an AI skill. Use this skill when the user asks to build, generate, design, or export Minecraft structures, schematics, .schem/.schematic/.litematic files, voxel maps, or 3D builds programmatically; when the user wants a procedural or creative toolkit for Minecraft builds; when the user mentions shapes, polygons, geometry, heightmaps, meshes, sessions, previews, Sponge schematics, MCEdit schematics, or Litematica; or when the user wants to script Minecraft map construction from Python or a REPL with undo/redo, block palettes, and multi-view PNG previews. Also use for tasks involving minecraft-data block catalogs, blockstate validation, trimesh/shapely geometry voxelization, or Perlin terrain. The AI agent is the creative driver: it composes shapes, blocks, and generators from this toolkit to realize the user's request."
+description: "Schematica is a Python toolkit and interactive REPL for building Minecraft Java Edition schematics, exposed as an AI skill. Use this skill when the user asks to build, generate, design, or export Minecraft structures, schematics, .schem/.schematic/.litematic files, voxel maps, or 3D builds programmatically; when the user wants a procedural or creative toolkit for Minecraft builds; when the user mentions shapes, polygons, geometry, heightmaps, meshes, sessions, previews, Sponge schematics, MCEdit schematics, or Litematica; or when the user wants to script Minecraft map construction from Python or a REPL with undo/redo, block palettes, and multi-view PNG previews. Also use for tasks involving minecraft-data block catalogs, blockstate validation, trimesh/shapely geometry voxelization, Perlin terrain, or 3D-noise cave carving. Use for professional map design tasks: themed block palettes, terrain-draped roads/rivers, MST road networks, plazas, towers, battlements, bridges, ruins, lighting passes, seeded forests, and texture-derived block-color previews. The AI agent is the creative driver: it composes shapes, blocks, and generators from this toolkit to realize the user's request."
 ---
 
 # Schematica - Minecraft Schematic Toolkit (AI Skill)
@@ -214,6 +214,8 @@ procedural detail. This combines CLI validation with Python flexibility.
 
 Load these on demand for detailed information:
 
+- `references/design_playbook.md` — **read this for any real map request**: composition, palette/color theory grounded in live texture data, roads/rivers/roofs/forests workflow, detailing order, and the preview-driven verification loop.
+- `references/advanced_techniques.md` — pattern/mask language (WorldEdit-grounded), WFC C1/C2 usage theory, and a goal->tool recipe table.
 - `references/workflow_guide.md` — **read this first before building**: CLI vs Python vs inline decision tree, advanced recipes for each mode, hybrid workflow, verification steps.
 - `references/agent_cli_guide.md` — **read this if driving the CLI**: execution pattern, argument rules, real captured output, error recovery, anti-patterns, validation codes.
 - `references/architecture.md` — full module layout, data model, design choices.
@@ -231,7 +233,10 @@ Load these on demand for detailed information:
 `scripts/schematica/` is the toolkit (not a reference doc). Run it; do not read
 it into context unless patching. Key modules:
 
-- `schematica.blocks` — `Block`, `BlockRegistry`, `BlockDef`, `BlockStateSchema`; `schematica.blocks.download` — on-demand minecraft-data fetcher (`download_version`, `list_available_versions`, CLI `python -m schematica.blocks.download`)
+- `schematica.blocks` — `Block`, `BlockRegistry`, `BlockDef`, `BlockStateSchema`; `schematica.blocks.download` — on-demand minecraft-data fetcher; `schematica.blocks.colors` — texture-derived block-color fetcher (`python -m schematica.blocks.colors <version>`)
+- `schematica.design` — themed palettes; terrain-draped paths/rivers; gable/hip roofs; trees/forests; layout (`apply_flatten`, `apply_plaza`, `apply_road_network`); buildings (`apply_tower`, `apply_battlements`, `apply_bridge`); decay (`apply_ruin`); lighting; cave carving. Data-driven from `schematica/data/design_palettes.json`
+- `schematica.patterns` — WorldEdit-style weighted pattern parser (`parse_pattern`) used by `replace.mix`
+- `schematica.config` — `default_version()` (env `SCHEMATICA_MC_VERSION`); `schematica.resources` — env-overridable JSON data loading
 - `schematica.core` — `VoxelGrid`, `Palette`, `ChunkedGrid` (sparse big-map backend)
 - `schematica.shapes.primitives` — `Box`, `Sphere`, `Ellipsoid`, `Cylinder`, `Cone`, `Pyramid`, `Torus`, `Dome`, `Helix`, `Arch`, `Spiral`, `Staircase`, `Plane`, `Wedge`, `Line`, `BezierCurve` (16 shapes)
 - `schematica.shapes.boolean` — `Union`, `Intersect`, `Subtract`, `Xor`

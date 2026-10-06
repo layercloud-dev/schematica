@@ -72,9 +72,9 @@ def main(out_dir: str = "town_out") -> Path:
     s.surface_scatter("minecraft:moss_carpet", density=0.06, min_exposure=1,
                       max_exposure=6, seed=8, on_blocks=["minecraft:grass_block"])
 
-    # 80^3 maps exceed the comfortable 3D-voxel render size; projected
-    # previews are the intended, fast path for maps at this scale.
-    paths = preview(s.grid, out / "previews", max_voxels=48 ** 3, max_dim=192)
+    # 80^3 maps exceed the 3D-voxel filled limit; preview() now falls back
+    # to fast projected previews automatically (watch for the RuntimeWarning).
+    paths = preview(s.grid, out / "previews", max_dim=192)
     schem = write_sponge(s.grid, out / "town.schem")
     print(f"b town: {s.stats()}, trees={planted}")
     for p in paths:

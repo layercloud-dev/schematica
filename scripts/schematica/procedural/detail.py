@@ -64,6 +64,47 @@ def _air_neighbour_count(dense: np.ndarray) -> np.ndarray:
     return count
 
 
+def _dense_region(grid: Grid, lo: tuple[int, int, int], hi: tuple[int, int, int],
+                  halo: int = 0) -> np.ndarray:
+    """Dense uint16 array for region [lo..hi] plus ``halo`` ghost rings.
+
+    Cells outside the grid / absent chunks read as air (0). Memory scales with
+    the *region*, not the whole map, so this is the right way to run
+    voxel-neighbour ops on chunked mega-maps.
+    """
+    gs = grid.shape
+    rlo = [lo[i] - halo for i in range(3)]
+    rhi = [hi[i] + halo for i in range(3)]
+    shape = tuple(rhi[i] - rlo[i] + 1 for i in range(3))
+    out = np.zeros(shape, dtype=np.uint16)
+    vlo = [max(rlo[i], 0) for i in range(3)]
+    vhi = [min(rhi[i], gs[i] - 1) for i in range(3)]
+    if any(vlo[i] > vhi[i] for i in range(3)):
+        return out
+    dst = tuple(slice(vlo[i] - rlo[i], vhi[i] - rlo[i] + 1) for i in range(3))
+    if not isinstance(grid, ChunkedGrid):
+        out[dst] = grid.data[vlo[0]:vhi[0] + 1, vlo[1]:vhi[1] + 1,
+                             vlo[2]:vhi[2] + 1].astype(np.uint16, copy=False)
+        return out
+    for cx, cy, cz, arr, origin in grid.iter_chunks_in_box(vlo[0], vlo[1], vlo[2],
+                                                           vhi[0], vhi[1], vhi[2]):
+        cs = grid._chunk_shape(cx, cy, cz)
+        glo: list[int] = []
+        ghi: list[int] = []
+        for i in range(3):
+            glo.append(max(vlo[i], origin[i]))
+            ghi.append(min(vhi[i], origin[i] + cs[i] - 1))
+            if glo[i] > ghi[i]:
+                break
+        else:
+            src_slc = tuple(slice(glo[i] - origin[i], ghi[i] - origin[i] + 1)
+                            for i in range(3))
+            dst_slc = tuple(slice(glo[i] - rlo[i], ghi[i] - rlo[i] + 1)
+                            for i in range(3))
+            out[dst_slc] = arr[src_slc]
+    return out
+
+
 # ---- chunked helpers ------------------------------------------------------
 
 def _iter_halo_chunks(grid: ChunkedGrid

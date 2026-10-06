@@ -1008,6 +1008,173 @@ class Session:
         return _af(self, frm, to, density=density, kinds=kinds, seed=seed,
                    min_spacing=min_spacing)
 
+    # ---- design: layout, buildings, decay, lighting, caves -------------
+
+    def apply_flatten(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                      *, y: int | None = None, fill: str = "minecraft:dirt",
+                      cap: str | None = None) -> int:
+        """Flatten a footprint to a level pad (median ground by default)."""
+        from ..design.layout import apply_flatten as _f
+        return _f(self, frm, to, y=y, fill=fill, cap=cap)
+
+    def apply_plaza(self, center: tuple[int, ...], radius: int, *,
+                    palette: str | None = None, bands: list[str] | None = None,
+                    ring_spacing: int = 4, border: str | None = None,
+                    fountain: bool = True, light: str | None = None) -> int:
+        """Flatten + pave a circular plaza (bands, border, lights, fountain)."""
+        from ..design.layout import apply_plaza as _p
+        return _p(self, center, radius, palette=palette, bands=bands,
+                  ring_spacing=ring_spacing, border=border, fountain=fountain,
+                  light=light)
+
+    def apply_road_network(self, points: list[tuple[int, ...]], *,
+                           width: int = 3, palette: str | None = None,
+                           blocks: list[str] | None = None,
+                           border: str | None = None, smooth: int = 0,
+                           complete: bool = False,
+                           extra_edges: list[tuple[int, int]] | None = None,
+                           seed: int = 0) -> list[tuple[int, int]]:
+        """MST-connected draped roads between waypoints; returns edges."""
+        from ..design.layout import apply_road_network as _rn
+        return _rn(self, points, width=width, palette=palette, blocks=blocks,
+                   border=border, smooth=smooth, complete=complete,
+                   extra_edges=extra_edges, seed=seed)
+
+    def apply_tower(self, x: int, z: int, *, radius: int = 4,
+                    height: int | None = None, floors: int = 3,
+                    block: str | None = None, palette: str | None = None,
+                    roof: str = "cone", windows: bool = True,
+                    door: str | None = "south", seed: int = 0) -> dict[str, int]:
+        """Round tower with floors/window slits/roof, terrain-snapped."""
+        from ..design.buildings import apply_tower as _t
+        return _t(self, x, z, radius=radius, height=height, floors=floors,
+                  block=block, palette=palette, roof=roof, windows=windows,
+                  door=door, seed=seed)
+
+    def apply_battlements(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                          *, block: str | None = None, merlon_every: int = 2,
+                          height: int = 1) -> int:
+        """Crenellate the top course of a wall box; returns voxels placed."""
+        from ..design.buildings import apply_battlements as _b
+        return _b(self, frm, to, block=block, merlon_every=merlon_every,
+                  height=height)
+
+    def apply_bridge(self, points: list[tuple[int, ...]], *, width: int = 3,
+                     deck: str | None = None, palette: str | None = None,
+                     railing: str | None = None, support: str | None = None,
+                     pier_spacing: int = 6, lamps: bool = True) -> int:
+        """Elevated deck + railings + piers over terrain. Returns voxels written."""
+        from ..design.buildings import apply_bridge as _br
+        return _br(self, points, width=width, deck=deck, palette=palette,
+                   railing=railing, support=support, pier_spacing=pier_spacing,
+                   lamps=lamps)
+
+    def apply_ruin(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                   *, amount: float = 0.35, seed: int = 0,
+                   collapse_bias: float = 1.0, debris: bool = True,
+                   debris_blocks: list[str] | None = None) -> int:
+        """Seeded decay: crumble a structure, leave believable rubble."""
+        from ..design.decay import apply_ruin as _r
+        return _r(self, frm, to, amount=amount, seed=seed,
+                  collapse_bias=collapse_bias, debris=debris,
+                  debris_blocks=debris_blocks)
+
+    def apply_lighting(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                       *, light: str = "minecraft:lantern", spacing: int = 7,
+                       offset: int = 0) -> int:
+        """Evenly spaced lights on walkable ground; returns lights placed."""
+        from ..design.light import apply_lighting as _l
+        return _l(self, frm, to, light=light, spacing=spacing, offset=offset)
+
+    def apply_caves(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                    *, scale: float = 0.08, octaves: int = 3,
+                    threshold: float = 0.6, seed: int = 0,
+                    protect_surface: int = 3) -> int:
+        """3D Perlin cave carving through solids; returns voxels removed."""
+        from ..design.caves import apply_caves as _c
+        return _c(self, frm, to, scale=scale, octaves=octaves,
+                  threshold=threshold, seed=seed, protect_surface=protect_surface)
+
+    def replace_weighted(self, src: str, pattern: str | list[str], *,
+                         seed: int = 0) -> int:
+        """Replace `src` voxels randomly per a WorldEdit-style weighted pattern.
+
+        e.g. ``replace_weighted("minecraft:stone",
+        "3x stone_bricks, 1x mossy_stone_bricks")``. Weights are relative and
+        need not sum to 100. Seeded and undoable on both backends.
+        """
+        import numpy as np
+
+        from ..blocks.block import Block
+        from ..core.chunked import ChunkedGrid
+        from ..patterns import cumulative, parse_pattern
+        from ..procedural.detail import _iter_halo_chunks
+        from .history import Delta
+
+        pats = parse_pattern(pattern)
+        cum = np.array(cumulative(pats))
+        new_idx = np.array(
+            [self.grid.palette.add(self._resolve(b)) for b, _ in pats],
+            dtype=np.uint16)
+        src_idx = self.grid.palette.index_of(Block.parse(src))
+        if src_idx is None:
+            return 0
+        rng = np.random.default_rng(seed)
+        total = 0
+        if isinstance(self.grid, ChunkedGrid):
+            all_coords: list[tuple[int, int, int]] = []
+            all_old: list[int] = []
+            all_new: list[int] = []
+            for (cx, cy, cz), arr, _halo, shape in _iter_halo_chunks(self.grid):
+                sel = arr == src_idx
+                count = int(np.count_nonzero(sel))
+                if count == 0:
+                    continue
+                origin = self.grid._chunk_origin(cx, cy, cz)
+                draws = rng.random(shape)
+                choice = np.clip(np.searchsorted(cum, draws, side="right"),
+                                 0, len(new_idx) - 1)
+                old_values = arr[sel].copy()
+                new_values = new_idx[choice[sel]]
+                arr[sel] = new_values
+                lx, ly, lz = np.nonzero(sel)
+                gi = np.stack([lx + origin[0], ly + origin[1], lz + origin[2]],
+                              axis=1)
+                for (gx, gy2, gz) in gi:
+                    all_coords.append((int(gx), int(gy2), int(gz)))
+                all_old.extend(int(v) for v in old_values)
+                all_new.extend(int(v) for v in new_values)
+                total += count
+            if all_coords:
+                xs = np.array([c[0] for c in all_coords], dtype=np.int64)
+                ys = np.array([c[1] for c in all_coords], dtype=np.int64)
+                zs = np.array([c[2] for c in all_coords], dtype=np.int64)
+                self.history.push(Delta(
+                    coords=(xs, ys, zs),
+                    old_values=np.array(all_old, dtype=np.uint16),
+                    new_values=np.array(all_new, dtype=np.uint16),
+                ))
+            return total
+        data = self.grid.data
+        flat = data.reshape(-1)
+        sel_flat = flat == src_idx
+        total = int(np.count_nonzero(sel_flat))
+        if total == 0:
+            return 0
+        draws = rng.random(total)
+        choice = np.clip(np.searchsorted(cum, draws, side="right"),
+                         0, len(new_idx) - 1)
+        new_vals = new_idx[choice]
+        flat_idx = np.flatnonzero(sel_flat)
+        old_vals = flat[flat_idx].copy()
+        flat[flat_idx] = new_vals
+        coords = np.unravel_index(flat_idx, data.shape)
+        coords3 = (np.asarray(coords[0]), np.asarray(coords[1]),
+                   np.asarray(coords[2]))
+        self.history.push(Delta(coords=coords3, old_values=old_vals,
+                                new_values=new_vals))
+        return total
+
     # ---- spatial analysis -----------------------------------------------
 
     def walkable_at(self, x: int, y: int, z: int) -> bool:

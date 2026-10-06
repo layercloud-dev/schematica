@@ -453,6 +453,65 @@ Returns False on empty columns or without headroom — safe to call repeatedly.
 Seeded forest with Chebyshev `min_spacing` rejection sampling; deterministic per
 seed. Returns trees planted.
 
+## `schematica.patterns`
+
+### `parse_pattern(text) -> list[(blockstate, weight)]`
+WorldEdit-style weighted material lists: `3x a, b`, `75%a,25%b`, plain comma/
+`|`/`+` mixes, full blockstate strings. Weights are relative (normalized by
+their sum). `is_weighted_pattern(text)`, `cumulative(pattern)` helpers.
+
+## `schematica.design.layout`
+
+### `apply_flatten(session, frm, to, *, y=None, fill="minecraft:dirt", cap=None) -> int`
+Level pad at median (or given) height; cut/fill through history.
+
+### `apply_plaza(session, center, radius, *, palette=None, bands=None, ring_spacing=4, border=None, fountain=True, light=None) -> int`
+Flatten + banded circular paving + trim border + 4 light posts + optional
+fountain. Materials default to palette `path`/`trim`/`light` roles.
+
+### `apply_road_network(session, points, *, width=3, palette=None, blocks=None, border=None, smooth=0, complete=False, extra_edges=None, seed=0) -> list[(i, j)]`
+Minimum-spanning-tree of draped roads over XZ Euclidean distance; `complete`
+or `extra_edges` for loops. `mst_edges(points)` is the raw planner.
+
+## `schematica.design.buildings`
+
+### `apply_tower(session, x, z, *, radius=4, height=None, floors=3, block=None, palette=None, roof="cone", windows=True, door="south", seed=0) -> dict`
+Terrain-snapped round tower: hollow walls, per-floor trim platforms, rotated
+window slits, door carve, and `cone | hip | gable | dome | flat | none` roof
+(flat auto-battlements). Returns part counts + height/top.
+
+### `apply_battlements(session, frm, to, *, block=None, merlon_every=2, height=1) -> int`
+Perimeter-loop crenellation; wall-matched material by default.
+
+### `apply_bridge(session, points, *, width=3, deck=None, palette=None, railing=None, support=None, pier_spacing=6, lamps=True) -> int`
+Elevated deck at max-ground+1 with kerb railings, ground-reaching piers every
+`pier_spacing` cells, and lamp posts. Pier heights come from the pre-deck
+plan, so terrain never masquerades as deck.
+
+## `schematica.design.decay`
+
+### `apply_ruin(session, frm, to, *, amount=0.35, seed=0, collapse_bias=1.0, debris=True, debris_blocks=None) -> int`
+Height-biased demolition (tops decay first, exposed faces bonus 0.15) with a
+light rubble rain of the destroyed materials. Region-only memory, both
+backends, seeded.
+
+## `schematica.design.light`
+
+### `apply_lighting(session, frm, to, *, light="minecraft:lantern", spacing=7, offset=0) -> int`
+Lantern lattice on walkable ground cells (solid floor + 2 air headroom).
+
+## `schematica.design.caves`
+
+### `apply_caves(session, frm, to, *, scale=0.08, octaves=3, threshold=0.6, seed=0, protect_surface=3) -> int`
+3D simplex-noise carving, only through solid voxels, optionally under a
+preserved surface skin of `protect_surface` blocks. Region clipped to grid.
+(~1-2 s per million cells — carve sub-regions on mega maps.)
+
+## `schematica.generators.noise` additions
+
+### `perlin3d(shape, scale=0.08, octaves=3, persistence=0.5, lacunarity=2.0, seed=0) -> np.ndarray`
+3D simplex field normalized to [0, 1]; seed offsets the sampling window.
+
 ## `schematica.export.sponge`
 
 ### `write_sponge(grid, path, data_version=3465, offset=(0,0,0), metadata=None) -> Path`

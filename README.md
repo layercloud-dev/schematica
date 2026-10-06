@@ -6,10 +6,12 @@ polygons, trimesh meshes, heightmaps, boolean ops, and procedural generators
 into structures, with session-based editing (undo/redo), multi-view PNG
 previews, and Sponge `.schem`, MCEdit `.schematic`, and Litematica `.litematic`
 export. Version 0.2 adds an **advanced map-design toolkit**: 12 themed design
-palettes, terrain-draped roads and rivers, gable/hip roof builders, seeded
-forests, and preview colors derived from the real vanilla textures. The AI
-agent is the creative driver: it uses this toolkit to realize the user's
-request.
+palettes, terrain-draped roads/rivers, MST road networks, plazas with
+fountains, towers with crenellated roofs, bridges with piers and lamps, seeded
+ruin/decay passes, lighting lattices, 3D-noise cave carving, WorldEdit-style
+weighted replace patterns, and preview colors derived from the real vanilla
+textures. The AI agent is the creative driver: it uses this toolkit to realize
+the user's request.
 
 ## Install
 
@@ -107,6 +109,15 @@ preview out_dir=previews
 | `tree2` / `forest` | `at=x,z kind=spruce` / `frm=A to=B density=0.05` | seeded vegetation |
 | `surface` | `x=N z=N` | top solid height probe |
 | `palette.list` / `palette.info` | | themed design palettes |
+| `flatten` | `frm=A to=B cap=B` | level build pad (median height) |
+| `plaza` | `center=x,z radius=R palette=P` | banded plaza + fountain |
+| `road.net` | `points=x,z;x,z width=3` | MST-connected road network |
+| `tower` / `battlements` | `at=x,z r=4 roof=cone` / `frm=A to=B` | towers, crenellation |
+| `bridge` | `points=x,z;x,z pier_spacing=6` | elevated deck + piers + lamps |
+| `ruin` | `frm=A to=B amount=0.35` | seeded collapse + rubble |
+| `lighting` | `frm=A to=B spacing=7` | lantern lattice |
+| `caves` | `frm=A to=B threshold=0.6 protect=3` | 3D Perlin cave carving |
+| `replace.mix` | `src=B pattern="3x a, 1x b"` | weighted find/replace |
 | `fill` | `block=B` | fill entire grid |
 | `clear` | | all air |
 | `mirror` | `axis=x\|y\|z` | |

@@ -109,6 +109,17 @@ In the REPL, type `help` to list commands, `exit` to quit.
 | `tree2` | `at`(=`x,z`), `kind`=`oak`, `height`=`0`(auto), `seed`=`0` | | terrain-snapped tree, kinds oak/birch/spruce/cherry/jungle/mega/dead |
 | `forest` | `frm`, `to`, `density`=`0.02`, `kinds`=`oak`, `seed`=`0`, `min_spacing`=`3` | | seeded forest, spacing enforced |
 | `surface` | `x`, `z` | | print top solid y of a column |
+| `flatten` | `frm`, `to`, `y`=`0`(auto-median), `fill`=`minecraft:dirt`, `cap`=`` | | level pad |
+| `plaza` | `center`(=`x,z`), `radius`, `palette`, `bands`, `ring`=`4`, `border`, `fountain`=`true`, `light` | | paved spawn hub |
+| `road.net` | `points`, `width`=`3`, `palette`/`blocks`, `border`, `smooth`, `complete`=`false`, `edges`=`i,j;..`, `seed` | | MST-connected roads |
+| `tower` | `at`, `r`=`4`, `h`=`0`, `floors`=`3`, `block`/`palette`, `roof`=`cone`, `windows`=`true`, `door`=`south` | | round tower; roofs cone/hip/gable/dome/flat/none |
+| `battlements` | `frm`, `to`, `block`(auto), `every`=`2`, `height`=`1` | | crenellate wall top |
+| `bridge` | `points`, `width`=`3`, `deck`/`palette`, `railing`, `support`, `pier_spacing`=`6`, `lamps`=`true` | | elevated deck + piers |
+| `ruin` | `frm`, `to`, `amount`=`0.35`, `seed`, `debris`=`true` | | seeded collapse + rubble |
+| `lighting` | `frm`, `to`, `light`=`minecraft:lantern`, `spacing`=`7`, `offset`=`0` | | evenly spaced lights |
+| `caves` | `frm`, `to`, `scale`=`0.08`, `octaves`=`3`, `threshold`=`0.6`, `seed`, `protect`=`3` | | 3D Perlin caves under a surface skin |
+| `replace.mix` | `src`, `pattern`, `seed`=`0` | | weighted find/replace (`3x a, 1x b`, `%` weights); spaces OK |
+
 | `help` | | | list commands (REPL only) |
 | `exit` | | | quit (REPL only) |
 

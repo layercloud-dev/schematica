@@ -76,3 +76,27 @@ def test_paint_gradient_chunked_big_grid_no_dense_fallback():
     low = s.grid.get(120, 3, 120).name    # t=3/47 ~ 0.06 -> deepslate
     high = s.grid.get(120, 38, 120).name  # t=38/47 ~ 0.81 -> stone
     assert low == "minecraft:deepslate" and high == "minecraft:stone"
+
+
+def test_hollow_box_chunk_seam_parity():
+    # Regression: mask_region used to clear the *chunk-local* interior,
+    # inflating hollow walls at every chunk seam (and disagreeing at the grid
+    # edge). Both cases must now match the dense mask exactly.
+    import numpy as np
+
+    from schematica.shapes.primitives import Box
+    gs = (48, 24, 48)
+    for box in (Box(10, 5, 10, 20, 12, 20, hollow=True),
+                Box(20, 16, 20, 34, 24, 34, hollow=True)):  # y1 beyond grid top
+        full = box.mask(gs)
+        stitched = np.zeros(gs, dtype=bool)
+        cs = 16
+        for cx in range(3):
+            for cy in range(2):
+                for cz in range(3):
+                    o = (cx * cs, cy * cs, cz * cs)
+                    size = (min(cs, gs[0] - o[0]), min(cs, gs[1] - o[1]),
+                            min(cs, gs[2] - o[2]))
+                    stitched[o[0]:o[0] + size[0], o[1]:o[1] + size[1],
+                             o[2]:o[2] + size[2]] = box.mask_region(gs, o, size)
+        assert bool((full == stitched).all())

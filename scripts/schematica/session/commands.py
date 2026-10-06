@@ -790,6 +790,104 @@ def cmd_surface(s: Session, x: int, z: int) -> str:
 
 
 
+def cmd_flatten(s: Session, frm: str, to: str, y: int = 0,
+                fill: str = "minecraft:dirt", cap: str = "") -> str:
+    n = s.apply_flatten(_coord_tuple(frm), _coord_tuple(to),
+                        y=(y if y > 0 else None), fill=fill, cap=cap or None)
+    return f"flattened {frm}->{to} changed={n}"
+
+
+def cmd_plaza(s: Session, center: str, radius: int, palette: str = "",
+              bands: str = "", ring: int = 4, border: str = "",
+              fountain: bool = True, light: str = "") -> str:
+    pts = _points_list(center)
+    if not pts:
+        return "error: center did not parse"
+    n = s.apply_plaza(pts[0], radius, palette=palette or None,
+                      bands=_pipe_list(bands) or None, ring_spacing=ring,
+                      border=border or None, fountain=fountain,
+                      light=light or None)
+    return f"plaza r={radius} at {center} changed={n}"
+
+
+def cmd_road_network(s: Session, points: str, width: int = 3,
+                     palette: str = "", blocks: str = "", border: str = "",
+                     smooth: int = 0, complete: bool = False,
+                     edges: str = "", seed: int = 0) -> str:
+    extra = []
+    for e in edges.split(";"):
+        e = e.strip()
+        if not e:
+            continue
+        a, _, b = e.partition(",")
+        extra.append((int(a), int(b)))
+    pts = _points_list(points)
+    edge_list = s.apply_road_network(
+        pts, width=width, palette=palette or None,
+        blocks=_pipe_list(blocks) or None, border=border or None,
+        smooth=smooth, complete=complete, extra_edges=extra or None, seed=seed)
+    return f"road.network laid {len(edge_list)} roads between {len(pts)} waypoints"
+
+
+def cmd_tower(s: Session, at: str, r: int = 4, h: int = 0, floors: int = 3,
+              block: str = "", palette: str = "", roof: str = "cone",
+              windows: bool = True, door: str = "south", seed: int = 0) -> str:
+    pts = _points_list(at)
+    if not pts:
+        return "error: at did not parse"
+    x, z = pts[0][0], pts[0][-1]
+    res = s.apply_tower(x, z, radius=r, height=h or None, floors=floors,
+                        block=block or None, palette=palette or None,
+                        roof=roof, windows=windows, door=door or None, seed=seed)
+    return f"tower at {x},{z} h={res['height']} top={res['top']} walls={res['walls']}"
+
+
+def cmd_battlements(s: Session, frm: str, to: str, block: str = "",
+                    every: int = 2, height: int = 1) -> str:
+    n = s.apply_battlements(_coord_tuple(frm), _coord_tuple(to),
+                            block=block or None, merlon_every=every, height=height)
+    return f"battlements placed {n} merlons"
+
+
+def cmd_bridge(s: Session, points: str, width: int = 3, deck: str = "",
+               palette: str = "", railing: str = "", support: str = "",
+               pier_spacing: int = 6, lamps: bool = True) -> str:
+    n = s.apply_bridge(_points_list(points), width=width, deck=deck or None,
+                       palette=palette or None, railing=railing or None,
+                       support=support or None, pier_spacing=pier_spacing,
+                       lamps=lamps)
+    return f"bridge built, {n} voxels"
+
+
+def cmd_ruin(s: Session, frm: str, to: str, amount: float = 0.35,
+             seed: int = 0, debris: bool = True) -> str:
+    n = s.apply_ruin(_coord_tuple(frm), _coord_tuple(to), amount=amount,
+                     seed=seed, debris=debris)
+    return f"ruin decayed {n} voxels (amount={amount})"
+
+
+def cmd_lighting(s: Session, frm: str, to: str, light: str = "minecraft:lantern",
+                 spacing: int = 7, offset: int = 0) -> str:
+    n = s.apply_lighting(_coord_tuple(frm), _coord_tuple(to), light=light,
+                         spacing=spacing, offset=offset)
+    return f"lighting placed {n} lights at spacing={spacing}"
+
+
+def cmd_caves(s: Session, frm: str, to: str, scale: float = 0.08,
+              octaves: int = 3, threshold: float = 0.6, seed: int = 0,
+              protect: int = 3) -> str:
+    n = s.apply_caves(_coord_tuple(frm), _coord_tuple(to), scale=scale,
+                      octaves=octaves, threshold=threshold, seed=seed,
+                      protect_surface=protect)
+    return f"caves carved {n} voxels (threshold={threshold})"
+
+
+def cmd_replace_mix(s: Session, src: str, pattern: str, seed: int = 0) -> str:
+    n = s.replace_weighted(src, pattern, seed=seed)
+    return f"replace.mix {src} -> [{pattern}]: {n} voxels"
+
+
+
 COMMANDS: dict[str, CommandSpec] = {
     "session.new": CommandSpec("session.new", (
         ArgSpec("size", "str"), ArgSpec("version", "str", default=default_version(), required=False),
@@ -1142,4 +1240,83 @@ COMMANDS: dict[str, CommandSpec] = {
     "surface": CommandSpec("surface", (
         ArgSpec("x", "int"), ArgSpec("z", "int"),
     ), cmd_surface, "print top surface y at column x,z"),
+    # ---- design toolkit: phase 15 ----
+    "flatten": CommandSpec("flatten", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("y", "int", default=0, required=False),
+        ArgSpec("fill", "block", default="minecraft:dirt", required=False),
+        ArgSpec("cap", "block", default="", required=False),
+    ), cmd_flatten, "level pad frm=A to=B [y=N fill=F cap=C]"),
+    "plaza": CommandSpec("plaza", (
+        ArgSpec("center", "str"), ArgSpec("radius", "int"),
+        ArgSpec("palette", "str", default="", required=False),
+        ArgSpec("bands", "str", default="", required=False),
+        ArgSpec("ring", "int", default=4, required=False),
+        ArgSpec("border", "block", default="", required=False),
+        ArgSpec("fountain", "bool", default=True, required=False),
+        ArgSpec("light", "block", default="", required=False),
+    ), cmd_plaza, "paved plaza center=x,z radius=R palette=P fountain=true"),
+    "road.net": CommandSpec("road.net", (
+        ArgSpec("points", "str"),
+        ArgSpec("width", "int", default=3, required=False),
+        ArgSpec("palette", "str", default="", required=False),
+        ArgSpec("blocks", "str", default="", required=False),
+        ArgSpec("border", "str", default="", required=False),
+        ArgSpec("smooth", "int", default=0, required=False),
+        ArgSpec("complete", "bool", default=False, required=False),
+        ArgSpec("edges", "str", default="", required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+    ), cmd_road_network, "MST road network points=x,z;x,z;... complete=false edges=0,2;1,4"),
+    "tower": CommandSpec("tower", (
+        ArgSpec("at", "coords"),
+        ArgSpec("r", "int", default=4, required=False),
+        ArgSpec("h", "int", default=0, required=False),
+        ArgSpec("floors", "int", default=3, required=False),
+        ArgSpec("block", "str", default="", required=False),
+        ArgSpec("palette", "str", default="", required=False),
+        ArgSpec("roof", "str", default="cone", required=False),
+        ArgSpec("windows", "bool", default=True, required=False),
+        ArgSpec("door", "str", default="south", required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+    ), cmd_tower, "round tower at=X,Z r=4 floors=3 roof=cone|hip|gable|dome|flat|none"),
+    "battlements": CommandSpec("battlements", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("block", "str", default="", required=False),
+        ArgSpec("every", "int", default=2, required=False),
+        ArgSpec("height", "int", default=1, required=False),
+    ), cmd_battlements, "crenellate wall top frm=A to=B every=2"),
+    "bridge": CommandSpec("bridge", (
+        ArgSpec("points", "str"),
+        ArgSpec("width", "int", default=3, required=False),
+        ArgSpec("deck", "str", default="", required=False),
+        ArgSpec("palette", "str", default="", required=False),
+        ArgSpec("railing", "str", default="", required=False),
+        ArgSpec("support", "str", default="", required=False),
+        ArgSpec("pier_spacing", "int", default=6, required=False),
+        ArgSpec("lamps", "bool", default=True, required=False),
+    ), cmd_bridge, "elevated bridge points=x,z;x,z railing=F support=S"),
+    "ruin": CommandSpec("ruin", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("amount", "float", default=0.35, required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+        ArgSpec("debris", "bool", default=True, required=False),
+    ), cmd_ruin, "seeded decay frm=A to=B amount=0.35 debris=true"),
+    "lighting": CommandSpec("lighting", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("light", "block", default="minecraft:lantern", required=False),
+        ArgSpec("spacing", "int", default=7, required=False),
+        ArgSpec("offset", "int", default=0, required=False),
+    ), cmd_lighting, "place lights frm=A to=B spacing=7"),
+    "caves": CommandSpec("caves", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("scale", "float", default=0.08, required=False),
+        ArgSpec("octaves", "int", default=3, required=False),
+        ArgSpec("threshold", "float", default=0.6, required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+        ArgSpec("protect", "int", default=3, required=False),
+    ), cmd_caves, "carve 3D-noise caves frm=A to=B threshold=0.6 protect=3"),
+    "replace.mix": CommandSpec("replace.mix", (
+        ArgSpec("src", "block"), ArgSpec("pattern", "str"),
+        ArgSpec("seed", "int", default=0, required=False),
+    ), cmd_replace_mix, "weighted replace src=B pattern='3x stone_bricks, mossy_cobblestone'"),
 }

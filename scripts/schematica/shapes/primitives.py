@@ -40,12 +40,20 @@ class Box:
         ox, oy, oz = origin
         sx, sy, sz = size
         m = np.zeros((sx, sy, sz), dtype=bool)
-        x0 = max(self.x0, ox)
-        y0 = max(self.y0, oy)
-        z0 = max(self.z0, oz)
-        x1 = min(self.x1, ox + sx - 1)
-        y1 = min(self.y1, oy + sy - 1)
-        z1 = min(self.z1, oz + sz - 1)
+        # Clip the box to the GRID first (same convention as mask()), so the
+        # hollow-interior test below uses the same world bounds everywhere.
+        bx0 = max(self.x0, 0)
+        by0 = max(self.y0, 0)
+        bz0 = max(self.z0, 0)
+        bx1 = min(self.x1, grid_shape[0] - 1)
+        by1 = min(self.y1, grid_shape[1] - 1)
+        bz1 = min(self.z1, grid_shape[2] - 1)
+        x0 = max(bx0, ox)
+        y0 = max(by0, oy)
+        z0 = max(bz0, oz)
+        x1 = min(bx1, ox + sx - 1)
+        y1 = min(by1, oy + sy - 1)
+        z1 = min(bz1, oz + sz - 1)
         if x1 < x0 or y1 < y0 or z1 < z0:
             return m
         lx0, ly0, lz0 = x0 - ox, y0 - oy, z0 - oz
@@ -53,10 +61,17 @@ class Box:
         if self.hollow and self.wall_thickness > 0:
             m[lx0:lx1 + 1, ly0:ly1 + 1, lz0:lz1 + 1] = True
             t = self.wall_thickness
-            ix0, iy0, iz0 = lx0 + t, ly0 + t, lz0 + t
-            ix1, iy1, iz1 = lx1 - t, ly1 - t, lz1 - t
-            if ix0 <= ix1 and iy0 <= iy1 and iz0 <= iz1:
-                m[ix0:ix1 + 1, iy0:iy1 + 1, iz0:iz1 + 1] = False
+            # Carve only the *global* interior: interior-ness is defined by the
+            # full box in world coords, not by this chunk's clipped window
+            # (otherwise every chunk seam becomes a phantom wall).
+            gix0 = max(bx0 + t, x0) - ox
+            giy0 = max(by0 + t, y0) - oy
+            giz0 = max(bz0 + t, z0) - oz
+            gix1 = min(bx1 - t, x1) - ox
+            giy1 = min(by1 - t, y1) - oy
+            giz1 = min(bz1 - t, z1) - oz
+            if gix0 <= gix1 and giy0 <= giy1 and giz0 <= giz1:
+                m[gix0:gix1 + 1, giy0:giy1 + 1, giz0:giz1 + 1] = False
         else:
             m[lx0:lx1 + 1, ly0:ly1 + 1, lz0:lz1 + 1] = True
         return m

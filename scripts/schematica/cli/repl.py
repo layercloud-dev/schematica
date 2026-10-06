@@ -203,6 +203,31 @@ def _run_checks(name: str, kwargs: dict[str, Any], session: Session) -> list[v.C
                               kwargs.get("kinds", "oak"), session)
     if name in ("palette.list", "palette.info", "surface"):
         return []
+    if name == "flatten":
+        return v.check_flatten(kwargs["frm"], kwargs["to"], kwargs.get("y", 0))
+    if name == "plaza":
+        return v.check_plaza(kwargs["center"], int(kwargs.get("radius", 0)),
+                             kwargs.get("palette", ""))
+    if name == "road.net":
+        return v.check_road(kwargs["points"], int(kwargs.get("width", 3)), session)
+    if name == "tower":
+        return v.check_tower(kwargs["at"], int(kwargs.get("r", 4)),
+                             int(kwargs.get("floors", 3)), kwargs.get("roof", "cone"))
+    if name == "bridge":
+        return v.check_bridge(kwargs["points"], int(kwargs.get("width", 3)), session)
+    if name == "battlements":
+        return v.check_flatten(kwargs["frm"], kwargs["to"], 0)
+    if name == "ruin":
+        return v.check_ruin_arguments(kwargs["frm"], kwargs["to"],
+                                      float(kwargs.get("amount", 0.35)))
+    if name == "lighting":
+        return v.check_lighting(int(kwargs.get("spacing", 7)))
+    if name == "caves":
+        return v.check_caves(kwargs["frm"], kwargs["to"],
+                             float(kwargs.get("scale", 0.08)),
+                             float(kwargs.get("threshold", 0.6)))
+    if name == "replace.mix":
+        return v.check_replace_mix(kwargs["pattern"])
     if name == "generate.wfc":
         return v.check_generate_wfc(kwargs["frm"], kwargs["to"], session,
                                     kwargs["blocks"], reg)
@@ -254,6 +279,13 @@ def dispatch(session: Session, line: str) -> str:
             kwargs[arg.name] = arg.default
             continue
         kwargs[arg.name] = _coerce(raw, arg.kind)
+
+    # Usability: patterns read better with spaces ("3x a, b"). Leftover
+    # positionals after all named args are appended to `pattern`.
+    if spec.name == "replace.mix" and pos_idx < len(pos_list):
+        tail = " ".join(pos_list[pos_idx:])
+        if tail:
+            kwargs["pattern"] = f'{kwargs.get("pattern", "")} {tail}'.strip()
 
     # Pre-execution validation. Errors refuse the command; warnings proceed.
     checks = _run_checks(spec.name, kwargs, session)

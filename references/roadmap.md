@@ -192,6 +192,46 @@ covered by tests in `tests/test_sdf.py` and `tests/test_review_fixes.py`.
   parity, texture-color extraction (with mocked network + mini PNG encoder),
   resources/config/env overrides, preview color chain.
 
+## Phase 15 changelog (more design tools — patterns, layout, buildings, decay)
+
+### New tools
+- `schematica.patterns` — WorldEdit-style weighted pattern parser
+  (`3x a, b` / `75%a,25%b` / `[states]`); powers `replace.mix` (seeded,
+  undoable, dense+chunked).
+- `design.layout`: `apply_flatten` (median pads), `apply_plaza` (bands +
+  fountain + lights), `apply_road_network` (Prim MST over waypoints, ring
+  loops via `edges=`), `mst_edges`.
+- `design.buildings`: `apply_tower` (walls/floors/windows/door/roof incl.
+  cone|hip|gable|dome|flat), `apply_battlements` (perimeter-loop merlons,
+  auto material match), `apply_bridge` (elevated deck, rails, piers, lamps).
+- `design.decay.apply_ruin` — height-biased seeded demolition + matching
+  rubble; region-bounded memory.
+- `design.light.apply_lighting` — walkable-ground lantern lattice.
+- `design.caves.apply_caves` + `generators.noise.perlin3d` — 3D simplex
+  carving with surface protection; region clipped to grid bounds.
+- 10 new CLI commands with validators (`bad_radius`, `bad_roof`,
+  `bad_spacing`, `bad_amount`, `bad_threshold`, `bad_pattern`, ...).
+
+### Fixes
+- `Box.mask_region` hollow semantics are now computed from GRID-clipped world
+  bounds (fixes phantom seam walls and grid-edge disagreement between dense
+  and chunked backends; regression-tested, hollow+grid-edge cases).
+- `preview` falls back to projected previews when filled voxels exceed 45k —
+  matplotlib 3D rendering of ~180k solids was a >10-minute hang.
+- `replace.mix` tolerates spaces inside the pattern value (dispatch appends
+  trailing positionals), and `parse_pattern` rejects bare weights.
+- Ruin/caves/flatten/bridge/plaza run region-locally on chunked sessions
+  (no full dense materialization; verified via a `to_dense`-forbidden test).
+
+### Docs
+- New `references/advanced_techniques.md`: pattern/mask concepts mapped from
+  WorldEdit 7.4 docs (grounded research, original text), WFC C1/C2 usage
+  theory, goal->tool recipe table.
+
+### Tests
+- +61 tests: patterns, layout, buildings, decay, lighting, caves, CLI paths,
+  chunked parity (name-normalized), no-densify guard, hollow-box seam parity.
+
 ## Remaining
 
 ### Polish

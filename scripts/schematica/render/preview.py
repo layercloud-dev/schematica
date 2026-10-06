@@ -16,6 +16,10 @@ from ..core.voxel import VoxelGrid
 from ..resources import load_json_resource
 
 _DENSE_VOXEL_RENDER_LIMIT = 96 ** 3
+# Beyond ~45k filled voxels matplotlib's per-face 3D shading becomes
+# unusably slow (measured: ~180k filled voxels took > 10 minutes per view),
+# so larger-but-dense builds fall back to the fast projected previews.
+_DENSE_FILLED_RENDER_LIMIT = 45_000
 _PROJECTED_MAX_DIM = 256
 
 # ---------------------------------------------------------------------------
@@ -201,15 +205,18 @@ def _render_view(grid: VoxelGrid, elev: int, azim: int, out: Path, *, title: str
 def preview(grid: VoxelGrid | ChunkedGrid, out_dir: str | Path,
             views: tuple[str, ...] = ("top", "front", "right", "iso"), *,
             max_voxels: int = _DENSE_VOXEL_RENDER_LIMIT,
+            max_filled: int = _DENSE_FILLED_RENDER_LIMIT,
             max_dim: int = _PROJECTED_MAX_DIM) -> list[Path]:
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     if isinstance(grid, ChunkedGrid):
         return preview_chunked(grid, out_dir, views, max_dim=max_dim)
-    if grid.volume > max_voxels:
+    filled = int(np.count_nonzero(grid.data))
+    if grid.volume > max_voxels or filled > max_filled:
         warnings.warn(
-            f"grid volume {grid.volume} exceeds dense voxel preview limit {max_voxels}; "
-            f"using downsampled projected previews",
+            f"grid (volume {grid.volume}, filled {filled}) exceeds 3D voxel preview "
+            f"limits (volume {max_voxels}, filled {max_filled}); "
+            f"using downsampled projected previews (fast)",
             RuntimeWarning,
             stacklevel=2,
         )
@@ -337,6 +344,7 @@ def preview_region(grid: VoxelGrid | ChunkedGrid, corner: tuple[int, int, int],
                     size: tuple[int, int, int], out_dir: str | Path,
                     views: tuple[str, ...] = ("top", "front", "right", "iso"), *,
                     max_voxels: int = _DENSE_VOXEL_RENDER_LIMIT,
+                    max_filled: int = _DENSE_FILLED_RENDER_LIMIT,
                     max_dim: int = _PROJECTED_MAX_DIM) -> list[Path]:
     """Render a cropped sub-region of the grid.
 
@@ -353,7 +361,8 @@ def preview_region(grid: VoxelGrid | ChunkedGrid, corner: tuple[int, int, int],
     if x0 < 0 or y0 < 0 or z0 < 0 or x0 + sx > gx or y0 + sy > gy or z0 + sz > gz:
         raise ValueError(f"region {corner}+{size} is outside grid {grid.shape}")
     sub = grid.subregion(corner, size)
-    return preview(sub, out_dir, views, max_voxels=max_voxels, max_dim=max_dim)
+    return preview(sub, out_dir, views, max_voxels=max_voxels,
+                   max_filled=max_filled, max_dim=max_dim)
 
 
 def _projected_preview_name(view: str) -> str:
