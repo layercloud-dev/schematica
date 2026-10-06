@@ -9,6 +9,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
+from ..config import default_version
 from .session import Session
 
 
@@ -52,16 +53,16 @@ def _size_tuple(s: str) -> tuple[int, int, int]:
     return _coord_tuple(s.replace("x", ","))
 
 
-def cmd_session_new(s: Session, size: str, version: str = "1.20.1",
+def cmd_session_new(s: Session, size: str, version: str = "",
                     fill: str = "minecraft:air", chunked: bool = False,
                     chunk_size: int = 16) -> str:
     from ..blocks.block import Block as _Block
-    new = Session.new(_size_tuple(size), version=version,
+    new = Session.new(_size_tuple(size), version=version or default_version(),
                       fill=_Block.parse(fill), chunked=chunked,
                       chunk_size=chunk_size)
     s.__dict__.update(new.__dict__)
     mode = "chunked" if chunked else "dense"
-    return f"new session {size} v{version} ({mode})"
+    return f"new session {size} v{new.version} ({mode})"
 
 
 def cmd_add_box(s: Session, frm: str, to: str, block: str = "minecraft:stone",
@@ -671,9 +672,127 @@ def cmd_generate_wfc(s: Session, frm: str, to: str,
     return f"wfc {frm}->{to} blocks={len(palette)} seed={seed}"
 
 
+def _points_list(s: str) -> list[tuple[int, ...]]:
+    """Parse "x,z;x,z" or "x,y,z;..." path point lists."""
+    out: list[tuple[int, ...]] = []
+    for part in s.split(";"):
+        part = part.strip().lstrip("(").rstrip(")")
+        if not part:
+            continue
+        nums = [int(p) for p in part.replace(",", " ").split()]
+        if len(nums) == 2:
+            out.append((nums[0], nums[1]))
+        elif len(nums) == 3:
+            out.append((nums[0], nums[1], nums[2]))
+        else:
+            raise ValueError(f"expected x,z or x,y,z point, got {part!r}")
+    return out
+
+
+def _pipe_list(s: str) -> list[str]:
+    out = [b.strip() for b in s.replace("+", "|").split("|") if b.strip()]
+    return out
+
+
+def cmd_palette_list(s: Session) -> str:
+    from ..design.palettes import list_palettes
+    lines = [f"{p.name} -- {p.description}" for p in list_palettes()]
+    return "palettes:\n  " + "\n  ".join(lines)
+
+
+def cmd_palette_info(s: Session, name: str) -> str:
+    from ..design.palettes import get_palette
+    p = get_palette(name)
+    def short(b: str) -> str:
+        return b.removeprefix("minecraft:")
+
+    ramp_str = " -> ".join(short(b) for b in p.ramp)
+    mix_str = ", ".join(f"{short(b)}x{w:g}" for b, w in p.mix)
+    accent_str = ", ".join(short(b) for b in p.accents)
+    return (f"palette {p.name}: {p.description}\n"
+            f"  ramp: {ramp_str}\n"
+            f"  mix: {mix_str}\n"
+            f"  accents: {accent_str}\n"
+            f"  trim: {p.trim} | light: {p.light} | path: {', '.join(p.path)}")
+
+
+def cmd_paint_ramp(s: Session, palette: str, frm: str, to: str,
+                   axis: str = "y", blend: float = 0.0, seed: int = 0) -> str:
+    n = s.paint_palette_gradient(_coord_tuple(frm), _coord_tuple(to), palette,
+                                 axis=axis, blend=blend, seed=seed)
+    return f"palette gradient '{palette}' painted {n} voxels axis={axis}"
+
+
+def cmd_road(s: Session, points: str, width: int = 3, block: str = "",
+             blocks: str = "", palette: str = "", border: str = "",
+             drape: bool = True, closed: bool = False, smooth: int = 0,
+             support: str = "", seed: int = 0) -> str:
+    n = s.apply_path(
+        _points_list(points), width=width,
+        block=block or None, blocks=_pipe_list(blocks) or None,
+        palette=palette or None, border=border or None,
+        drape=drape, closed=closed, smooth=smooth,
+        support=support or None, seed=seed,
+    )
+    return f"road paved {n} voxels width={width}"
+
+
+def cmd_river(s: Session, points: str, width: int = 3, depth: int = 3,
+              water: str = "minecraft:water", bed: str = "",
+              smooth: int = 0, closed: bool = False) -> str:
+    n = s.apply_river(_points_list(points), width=width, depth=depth,
+                      water=water, bed=bed or None, smooth=smooth, closed=closed)
+    return f"river carved {n} voxels width={width} depth={depth}"
+
+
+def cmd_roof_gable(s: Session, frm: str, to: str, axis: str = "x",
+                   block: str = "", ramp: str = "", palette: str = "",
+                   overhang: int = 1, steps: int = 1, stairs: str = "",
+                   fill: bool = False) -> str:
+    n = s.apply_gable_roof(_coord_tuple(frm), _coord_tuple(to), axis=axis,
+                           block=block or None, ramp=_pipe_list(ramp) or None,
+                           palette=palette or None, overhang=overhang,
+                           steps_per_rise=steps, stair_block=stairs or None,
+                           fill=fill)
+    return f"gable roof placed {n} voxels axis={axis}"
+
+
+def cmd_roof_hip(s: Session, frm: str, to: str, block: str = "",
+                 ramp: str = "", palette: str = "", overhang: int = 1,
+                 steps: int = 1) -> str:
+    n = s.apply_hip_roof(_coord_tuple(frm), _coord_tuple(to),
+                         block=block or None, ramp=_pipe_list(ramp) or None,
+                         palette=palette or None, overhang=overhang,
+                         steps_per_rise=steps)
+    return f"hip roof placed {n} voxels"
+
+
+def cmd_tree2(s: Session, at: str, kind: str = "oak", height: int = 0,
+              seed: int = 0) -> str:
+    pts = _points_list(at)
+    p = pts[0]
+    x, z = p[0], (p[2] if len(p) == 3 else p[1])
+    ok = s.apply_tree_v2(x, z, kind=kind, height=height or None, seed=seed)
+    return f"tree({kind}) {'planted' if ok else 'skipped (no ground/occupied)'} at {x},{z}"
+
+
+def cmd_forest(s: Session, frm: str, to: str, density: float = 0.02,
+               kinds: str = "oak", seed: int = 0, min_spacing: int = 3) -> str:
+    kinds_t = tuple(_pipe_list(kinds)) or ("oak",)
+    n = s.apply_forest(_coord_tuple(frm), _coord_tuple(to), density=density,
+                       kinds=kinds_t, seed=seed, min_spacing=min_spacing)
+    return f"forest planted {n} trees kinds={'+'.join(kinds_t)}"
+
+
+def cmd_surface(s: Session, x: int, z: int) -> str:
+    y = s.surface_height(int(x), int(z))
+    return f"surface ({x},{z}) = {'none (empty column)' if y is None else y}"
+
+
+
 COMMANDS: dict[str, CommandSpec] = {
     "session.new": CommandSpec("session.new", (
-        ArgSpec("size", "str"), ArgSpec("version", "str", default="1.20.1", required=False),
+        ArgSpec("size", "str"), ArgSpec("version", "str", default=default_version(), required=False),
         ArgSpec("fill", "block", default="minecraft:air", required=False),
         ArgSpec("chunked", "bool", default=False, required=False),
         ArgSpec("chunk_size", "int", default=16, required=False),
@@ -955,4 +1074,72 @@ COMMANDS: dict[str, CommandSpec] = {
     ), cmd_constraint_add, "add a constraint kind=height|ban|allowlist|symmetry|bounds|max_count|palette|solid_ratio a=... b=..."),
     "constraint.check": CommandSpec("constraint.check", (), cmd_constraint_check,
                                     "check all constraints against the current grid"),
+    # ---- design toolkit ----
+    "palette.list": CommandSpec("palette.list", (), cmd_palette_list,
+                                 "list themed design palettes"),
+    "palette.info": CommandSpec("palette.info", (ArgSpec("name", "str"),),
+                                 cmd_palette_info, "show one palette's roles"),
+    "paint.ramp": CommandSpec("paint.ramp", (
+        ArgSpec("palette", "str"), ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("axis", "str", default="y", required=False),
+        ArgSpec("blend", "float", default=0.0, required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+    ), cmd_paint_ramp, "gradient using a palette's ramp palette=NAME frm=A to=B axis=y"),
+    "road": CommandSpec("road", (
+        ArgSpec("points", "str"),
+        ArgSpec("width", "int", default=3, required=False),
+        ArgSpec("block", "str", default="", required=False),
+        ArgSpec("blocks", "str", default="", required=False),
+        ArgSpec("palette", "str", default="", required=False),
+        ArgSpec("border", "str", default="", required=False),
+        ArgSpec("drape", "bool", default=True, required=False),
+        ArgSpec("closed", "bool", default=False, required=False),
+        ArgSpec("smooth", "int", default=0, required=False),
+        ArgSpec("support", "str", default="", required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+    ), cmd_road, "terrain-draped road points=x,z;x,z width=3 palette=NAME border=..."),
+    "river": CommandSpec("river", (
+        ArgSpec("points", "str"),
+        ArgSpec("width", "int", default=3, required=False),
+        ArgSpec("depth", "int", default=3, required=False),
+        ArgSpec("water", "block", default="minecraft:water", required=False),
+        ArgSpec("bed", "block", default="", required=False),
+        ArgSpec("smooth", "int", default=0, required=False),
+        ArgSpec("closed", "bool", default=False, required=False),
+    ), cmd_river, "carve a river points=x,z;x,z width=3 depth=3 bed=minecraft:gravel"),
+    "roof.gable": CommandSpec("roof.gable", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("axis", "str", default="x", required=False),
+        ArgSpec("block", "str", default="", required=False),
+        ArgSpec("ramp", "str", default="", required=False),
+        ArgSpec("palette", "str", default="", required=False),
+        ArgSpec("overhang", "int", default=1, required=False),
+        ArgSpec("steps", "int", default=1, required=False),
+        ArgSpec("stairs", "str", default="", required=False),
+        ArgSpec("fill", "bool", default=False, required=False),
+    ), cmd_roof_gable, "gable roof over wall box frm=A to=B axis=x palette=NAME"),
+    "roof.hip": CommandSpec("roof.hip", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("block", "str", default="", required=False),
+        ArgSpec("ramp", "str", default="", required=False),
+        ArgSpec("palette", "str", default="", required=False),
+        ArgSpec("overhang", "int", default=1, required=False),
+        ArgSpec("steps", "int", default=1, required=False),
+    ), cmd_roof_hip, "hip roof over wall box frm=A to=B palette=NAME"),
+    "tree2": CommandSpec("tree2", (
+        ArgSpec("at", "coords"),
+        ArgSpec("kind", "str", default="oak", required=False),
+        ArgSpec("height", "int", default=0, required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+    ), cmd_tree2, "terrain-snapped tree at=X,Z kind=oak|birch|spruce|cherry|jungle|mega|dead"),
+    "forest": CommandSpec("forest", (
+        ArgSpec("frm", "coords"), ArgSpec("to", "coords"),
+        ArgSpec("density", "float", default=0.02, required=False),
+        ArgSpec("kinds", "str", default="oak", required=False),
+        ArgSpec("seed", "int", default=0, required=False),
+        ArgSpec("min_spacing", "int", default=3, required=False),
+    ), cmd_forest, "seeded forest frm=A to=B density=0.02 kinds=oak+birch"),
+    "surface": CommandSpec("surface", (
+        ArgSpec("x", "int"), ArgSpec("z", "int"),
+    ), cmd_surface, "print top surface y at column x,z"),
 }

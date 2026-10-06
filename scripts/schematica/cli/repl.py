@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from ..config import default_version
 from ..session.commands import COMMANDS
 from ..session.session import Session
 from . import validation as v
@@ -38,7 +39,7 @@ def _run_checks(name: str, kwargs: dict[str, Any], session: Session) -> list[v.C
     reg = getattr(session, "registry", None)
     if name == "session.new":
         return v.check_session_new(kwargs.get("size", ""),
-                                   kwargs.get("version", "1.20.1"), reg)
+                                   kwargs.get("version", default_version()), reg)
     if name == "add.box":
         return v.check_add_box(kwargs["frm"], kwargs["to"],
                                kwargs.get("block", "minecraft:stone"),
@@ -181,6 +182,27 @@ def _run_checks(name: str, kwargs: dict[str, Any], session: Session) -> list[v.C
         return []
     if name == "generate.tree":
         return v.check_generate_tree(kwargs["at"], kwargs.get("height", 6), session)
+    if name == "paint.ramp":
+        return v.check_paint_ramp(kwargs["palette"], kwargs["frm"], kwargs["to"],
+                                  kwargs.get("axis", "y"), session)
+    if name == "road":
+        return v.check_road(kwargs["points"], int(kwargs.get("width", 3)), session)
+    if name == "river":
+        return v.check_river(kwargs["points"], int(kwargs.get("width", 3)),
+                             int(kwargs.get("depth", 3)), session)
+    if name == "roof.gable":
+        return v.check_roof(kwargs["frm"], kwargs["to"], kwargs.get("axis", "x"),
+                            session)
+    if name == "roof.hip":
+        return v.check_roof(kwargs["frm"], kwargs["to"], "x", session, hip=True)
+    if name == "tree2":
+        return v.check_tree2(kwargs["at"], kwargs.get("kind", "oak"), session)
+    if name == "forest":
+        return v.check_forest(kwargs["frm"], kwargs["to"],
+                              float(kwargs.get("density", 0.02)),
+                              kwargs.get("kinds", "oak"), session)
+    if name in ("palette.list", "palette.info", "surface"):
+        return []
     if name == "generate.wfc":
         return v.check_generate_wfc(kwargs["frm"], kwargs["to"], session,
                                     kwargs["blocks"], reg)

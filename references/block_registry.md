@@ -27,8 +27,14 @@
    `list_available_versions()`, `is_version_cached(version, cache_root=None)`.
 
 4. **Built-in fallback catalog** (when none of the above exists): a compact
-   hardcoded list in `scripts/schematica/blocks/registry.py::_FALLBACK_BLOCKS`.
-   Always importable; never throws on missing data.
+   list shipped as JSON at `scripts/schematica/blocks/data/fallback_blocks.json`
+   (486+ blocks, 20+ state tables). It is *data, not code*: edit the file to
+   add blocks, or point `SCHEMATICA_FALLBACK_BLOCKS` at an alternate JSON with
+   the same layout. The JSON has `{"format": 1, "states": {<named state tables>},
+   "blocks": [{"id", "name", "displayName", "states": ["<table>", ...]}]}`;
+   each block's `states` list references named state tables (e.g. `stairs`,
+   `slab`, `axis`) whose field lists are concatenated. If the file is missing
+   or invalid, an 8-block emergency list keeps the package importable.
 
 The default loader checks `SCHEMATICA_MINECRAFT_DATA`, then
 `<skill_root>/minecraft_data`, then `scripts/minecraft_data`.
@@ -194,3 +200,30 @@ For pre-1.13 targets, remember that Minecraft used numeric IDs plus metadata.
 The registry can validate names, but it does not synthesize every legacy
 metadata variant into a modern-style blockstate. Use `write_mcedit` for legacy
 colored blocks when targeting 1.7-1.12 workflows.
+
+
+## Texture-derived block colors (`schematica.blocks.colors`)
+
+A sibling of the downloader that fetches average per-block colors from the
+PrismarineJS/**minecraft-assets** repo (not minecraft-data) so previews render
+blocks in their true vanilla colors:
+
+```
+python -m schematica.blocks.colors 1.20.1      # -> <cache_root>/data/pc/1.20.1/block_colors.json
+python -m schematica.blocks.colors --list      # list minecraft-assets snapshots
+python -m schematica.blocks.colors 1.21.5 --force
+```
+
+Python API: `best_assets_version(mc_version)`, `compute_block_colors(assets_version)`,
+`download_block_colors(mc_version, *, cache_root=None, force=False)`.
+
+- Version mapping picks the newest minecraft-assets snapshot `<=` the target's
+  major.minor (falling back to the earliest). The chosen snapshot is recorded
+  in the output JSON (`assets_version`).
+- The renderer merges all cached version tables (newest wins) over the bundled
+  `data/block_colors.json`; `SCHEMATICA_BLOCK_COLORS` overrides everything.
+- Biome-tinted textures (grass block, foliage) are multiplied by the plains
+  colormap so they do not render gray; `water` and `grass_block` carry curated
+  colors because their particle/side textures are misleading.
+- Dependency-free: textures decode with an internal minimal PNG decoder
+  (1/2/4/8-bit palette and 8-bit gray/RGB/RGBA), so no Pillow is needed.

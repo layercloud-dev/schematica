@@ -135,6 +135,63 @@ covered by tests in `tests/test_sdf.py` and `tests/test_review_fixes.py`.
 - mypy: **−1 error** (29 baseline → 28; the new code is stricter-typed than
   the surrounding baseline).
 
+## Phase 14 changelog (advanced map design)
+
+### De-hardcoding / live data
+- Fallback block catalog moved from ~460 lines of Python literals to
+  `blocks/data/fallback_blocks.json` (486+ entries incl. 50+ modern decor:
+  mud bricks, dripstone, campfires, stems, leaves families, flowers), override
+  via `SCHEMATICA_FALLBACK_BLOCKS`.
+- Preview colors: 21-entry hardcoded dict replaced by a 987-block table
+  averaged from real vanilla textures (`schematica.blocks.colors` fetches
+  per-version tables from PrismarineJS minecraft-assets; stdlib PNG decoder;
+  bundled in `data/block_colors.json`; override `SCHEMATICA_BLOCK_COLORS`),
+  plus variant-family fallback (`polished_granite_stairs` -> granite) and
+  singular/plural tolerance.
+- Default MC version centralized in `schematica.config.default_version()`
+  (`SCHEMATICA_MC_VERSION`); resource loading via `schematica.resources`
+  with path-keyed caching.
+- Litematic exporter: replaced unused `n_longs` with a real padding assertion.
+
+### Advanced design toolkit (`schematica.design`)
+- `palettes`: 12 themed palettes (ramp/mix/accents/trim/path/light roles) in
+  data JSON; `DesignPalette.texture()` bridges to noise texturing.
+- `paths`: terrain-draped roads w/ Catmull-Rom smoothing, median-smoothed
+  draping, deterministic per-cell material mixes, kerb borders, bridge
+  supports for fixed-elevation segments; rivers carve + bed + flood.
+- `roofs`: gable (with gradient ramps, overhang, facing stair courses) and
+  hip roofs over wall boxes.
+- `flora`: 7 data-defined tree kinds (sphere/cone/stacked canopies, mega 2x2,
+  dead), terrain-snapped with headroom/refusal checks; seeded forests with
+  spacing enforcement.
+- Wired into Session (`apply_path`, `apply_river`, `apply_gable_roof`,
+  `apply_hip_roof`, `apply_tree_v2`, `apply_forest`, `surface_height`,
+  `paint_palette_gradient`, `list_design_palettes`) and 12 CLI commands
+  (`paint.ramp`, `road`, `river`, `roof.gable`, `roof.hip`, `tree2`,
+  `forest`, `surface`, `palette.list`, `palette.info`, ...) with validators
+  (`unknown_palette`, `bad_points`, `bad_width`, `bad_depth`, `bad_axis`,
+  `inverted_bounds`, `unknown_tree_kind`, `bad_density`).
+
+### Chunked-backend fixes (big maps)
+- `paint_gradient` / `edge_wear` / `surface_scatter` no longer materialize the
+  whole grid into a dense copy: they stream chunk-by-chunk with 1-voxel ghost
+  halos. Bit-parity with the dense backend is regression-tested (incl. noise
+  jitter with same seed). Fixed two latent bugs: halo seam off-by-one that
+  treated chunk interiors as surface, and cross-axis region leakage in the
+  chunked gradient.
+- Gradient band mapping uses rounding (equal-width bands) instead of floor
+  (end block previously only painted at t=1.0).
+
+### Docs
+- New `references/design_playbook.md`: composition, 60/30/10, value ramps,
+  terrain transitions, vegetation/lighting discipline, WFC usage theory,
+  and the preview verification loop.
+
+### Tests
+- +63 tests: design toolkit (~29), design CLI + validators, chunked detail
+  parity, texture-color extraction (with mocked network + mini PNG encoder),
+  resources/config/env overrides, preview color chain.
+
 ## Remaining
 
 ### Polish

@@ -99,6 +99,16 @@ In the REPL, type `help` to list commands, `exit` to quit.
 | `connected` | `a`, `b` | | check walkability between two points |
 | `reachable` | `x`, `y`, `z` | | flood-fill reachable walkable area |
 | `path` | `a`, `b` | | shortest walking path |
+| `paint.ramp` | `palette`, `frm`, `to`, `axis`=`y`, `blend`=`0.0`, `seed`=`0` | | palette dark->light gradient |
+| `palette.list` | | | list design palettes |
+| `palette.info` | `name` | | show palette roles |
+| `road` | `points`(=`x,z;x,z`), `width`=`3`, `block`/`blocks`/`palette`, `border`, `drape`=`true`, `closed`=`false`, `smooth`=`0`, `support`, `seed`=`0` | | terrain-draped road; 3D points + `drape=false` + `support` = viaduct |
+| `river` | `points`, `width`=`3`, `depth`=`3`, `water`=`minecraft:water`, `bed`, `smooth`=`0`, `closed`=`false` | | carve + flood a river |
+| `roof.gable` | `frm`, `to`, `axis`=`x`, `block`/`ramp`/`palette`, `overhang`=`1`, `steps`=`1`, `stairs`, `fill`=`false` | | pitched roof over wall box |
+| `roof.hip` | `frm`, `to`, `block`/`ramp`/`palette`, `overhang`=`1`, `steps`=`1` | | hip roof (towers) |
+| `tree2` | `at`(=`x,z`), `kind`=`oak`, `height`=`0`(auto), `seed`=`0` | | terrain-snapped tree, kinds oak/birch/spruce/cherry/jungle/mega/dead |
+| `forest` | `frm`, `to`, `density`=`0.02`, `kinds`=`oak`, `seed`=`0`, `min_spacing`=`3` | | seeded forest, spacing enforced |
+| `surface` | `x`, `z` | | print top solid y of a column |
 | `help` | | | list commands (REPL only) |
 | `exit` | | | quit (REPL only) |
 

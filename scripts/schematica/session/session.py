@@ -23,6 +23,7 @@ import numpy as np
 
 from ..blocks.block import AIR, Block
 from ..blocks.registry import BlockRegistry
+from ..config import default_version
 from ..core.chunked import DEFAULT_CHUNK_SIZE, ChunkedGrid
 from ..core.palette import Palette
 from ..core.voxel import VoxelGrid
@@ -65,7 +66,7 @@ class _MaskShape:
 
 @dataclass
 class Session:
-    version: str = "1.20.1"
+    version: str = field(default_factory=default_version)
     grid: VoxelGrid | ChunkedGrid = field(default_factory=lambda: VoxelGrid(shape=(16, 16, 16)))
     history: History = field(default_factory=History)
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -77,9 +78,10 @@ class Session:
             self.registry = BlockRegistry.for_version(self.version)
 
     @classmethod
-    def new(cls, shape: tuple[int, int, int], version: str = "1.20.1",
+    def new(cls, shape: tuple[int, int, int], version: str | None = None,
             fill: Block = AIR, *, chunked: bool = False,
             chunk_size: int = DEFAULT_CHUNK_SIZE) -> Session:
+        version = version or default_version()
         reg = BlockRegistry.for_version(version)
         if chunked:
             grid: VoxelGrid | ChunkedGrid = ChunkedGrid(shape=shape, chunk_size=chunk_size)
@@ -925,6 +927,86 @@ class Session:
         if not self.is_chunked and n > 0:
             self._record(self.grid.data.copy())
         return n
+
+    # ---- design toolkit (palettes, paths, rivers, roofs, flora) --------
+
+    def surface_height(self, x: int, z: int) -> int | None:
+        """Y of the topmost non-air voxel in column ``(x, z)``, or None."""
+        from ..design.paths import ground_height
+        return ground_height(self.grid, x, z)
+
+    @staticmethod
+    def list_design_palettes() -> list[str]:
+        """Names of available themed design palettes."""
+        from ..design.palettes import list_palettes
+        return [p.name for p in list_palettes()]
+
+    def paint_palette_gradient(self, frm: tuple[int, int, int],
+                               to: tuple[int, int, int], palette: str, *,
+                               axis: str = "y", blend: float = 0.0,
+                               seed: int = 0) -> int:
+        """Paint a gradient using a named palette's dark->light ``ramp``."""
+        from ..design.palettes import get_palette
+        ramp = list(get_palette(palette).ramp)
+        if not ramp:
+            raise ValueError(f"palette '{palette}' has no ramp")
+        return self.paint_gradient(frm, to, ramp, axis=axis, blend=blend, seed=seed)
+
+    def apply_path(self, points: list[tuple[int, ...]], *, width: int = 3,
+                   block: str | None = None, blocks: list[str] | None = None,
+                   palette: str | None = None, border: str | None = None,
+                   drape: bool = True, closed: bool = False, smooth: int = 0,
+                   smooth_drape: bool = True, support: str | None = None,
+                   seed: int = 0) -> int:
+        """Lay a terrain-draped road (or fixed-elevation viaduct with support)."""
+        from ..design.paths import apply_path as _ap
+        return _ap(self, points, width=width, block=block, blocks=blocks,
+                   palette=palette, border=border, drape=drape, closed=closed,
+                   smooth=smooth, smooth_drape=smooth_drape, support=support,
+                   seed=seed)
+
+    def apply_river(self, points: list[tuple[int, ...]], *, width: int = 3,
+                    depth: int = 3, water: str = "minecraft:water",
+                    bed: str | None = None, drape: bool = True,
+                    closed: bool = False, smooth: int = 0) -> int:
+        """Carve a terrain-draped river channel and fill it with water."""
+        from ..design.paths import apply_river as _ar
+        return _ar(self, points, width=width, depth=depth, water=water, bed=bed,
+                   drape=drape, closed=closed, smooth=smooth)
+
+    def apply_gable_roof(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                         *, axis: str = "x", block: str | None = None,
+                         ramp: list[str] | None = None, palette: str | None = None,
+                         overhang: int = 1, steps_per_rise: int = 1,
+                         stair_block: str | None = None, fill: bool = False) -> int:
+        """Build a pitched gable roof over a rectangular wall box."""
+        from ..design.roofs import apply_gable_roof as _gr
+        return _gr(self, frm, to, axis=axis, block=block, ramp=ramp,
+                   palette=palette, overhang=overhang, steps_per_rise=steps_per_rise,
+                   stair_block=stair_block, fill=fill)
+
+    def apply_hip_roof(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                       *, block: str | None = None, ramp: list[str] | None = None,
+                       palette: str | None = None, overhang: int = 1,
+                       steps_per_rise: int = 1) -> int:
+        """Build a four-sided hip roof (great on square towers)."""
+        from ..design.roofs import apply_hip_roof as _hr
+        return _hr(self, frm, to, block=block, ramp=ramp, palette=palette,
+                   overhang=overhang, steps_per_rise=steps_per_rise)
+
+    def apply_tree_v2(self, x: int, z: int, *, kind: str = "oak",
+                      height: int | None = None, seed: int = 0) -> bool:
+        """Plant one tree of ``kind`` snapped to the terrain surface."""
+        from ..design.flora import apply_tree as _at
+        return _at(self, x, z, kind=kind, height=height, seed=seed)
+
+    def apply_forest(self, frm: tuple[int, int, int], to: tuple[int, int, int],
+                     *, density: float = 0.02, kinds: tuple[str, ...] = ("oak",),
+                     seed: int = 0, min_spacing: int = 3) -> int:
+        """Seed a spaced forest; returns trees planted."""
+        from ..design.flora import apply_forest as _af
+        return _af(self, frm, to, density=density, kinds=kinds, seed=seed,
+                   min_spacing=min_spacing)
 
     # ---- spatial analysis -----------------------------------------------
 

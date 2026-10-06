@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "schematica"
-version = "0.1.0"
+version = "0.2.0"
 description = "AI-driven Minecraft Java schematic map builder"
 requires-python = ">=3.11"
 license = {text = "MIT"}
@@ -22,13 +22,17 @@ dependencies = [
 
 [project.optional-dependencies]
 amulet = ["amulet-core>=1.9.41"]
-dev = ["pytest>=8.0", "pytest-cov>=5.0", "hypothesis>=6.100", "ruff>=0.5", "mypy>=1.10"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "hypothesis>=6.100", "ruff>=0.5", "mypy>=1.10", "scipy>=1.10"]
 
 [project.scripts]
 schematica = "schematica.cli.repl:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
+
+[tool.setuptools.package-data]
+# Bundled, editable JSON data (fallback catalog, preview colors, design palettes)
+"schematica" = ["data/*.json", "blocks/data/*.json"]
 
 [tool.ruff]
 line-length = 100

@@ -37,29 +37,39 @@ rendered image axis. Projected fallback `iso` output is named
 `preview_iso_projected.png` because it is a bounded top projection, not a true
 3D isometric voxel render.
 
-## Color map
+## Color map (live, texture-derived)
 
-`schematica/render/preview.py::_BLOCK_COLORS` (inside `scripts/`) is a hand-picked dict of
-`block_name -> (r, g, b)` for common vanilla blocks. Examples:
-- `minecraft:grass_block` -> `(0.35, 0.65, 0.25)` green
-- `minecraft:stone` -> `(0.5, 0.5, 0.5)` gray
-- `minecraft:glass` -> `(0.7, 0.85, 0.95)` light blue
-- `minecraft:obsidian` -> `(0.08, 0.05, 0.12)` near-black
-- `minecraft:oak_log` -> `(0.45, 0.30, 0.18)` brown
+Preview colors are **not** a hand-picked code table anymore. Resolution order
+(first hit wins):
 
-Unknown blocks get a stable color derived from `abs(hash(name)) % 0xFFFFFF`,
-lightened by +0.2 in each channel. This makes every build visually
-distinguishable but not necessarily accurate to in-game textures.
+1. `SCHEMATICA_BLOCK_COLORS` env var -> path to a JSON file
+   (`{"colors": {"minecraft:stone": [r, g, b]}}` or a flat map; both 0-1
+   floats and 0-255 ints are accepted).
+2. Cached per-version tables `data/pc/<v>/block_colors.json` under the
+   minecraft-data root, merged oldest -> newest (newest cached version wins).
+   Generate one with `python -m schematica.blocks.colors <mc_version>`.
+3. The bundled `scripts/schematica/data/block_colors.json` — 987 blocks with
+   colors averaged from the actual vanilla textures (PrismarineJS
+   minecraft-assets snapshot 1.21.4, plains-biome colormap tints applied to
+   grass/foliage).
+4. Family heuristic: variant blocks fall back to their base material color
+   (`polished_granite_stairs` -> `minecraft:polished_granite`,
+   `waxed_oxidized_cut_copper_stairs` -> `minecraft:copper_block`), with
+   singular/plural tolerance (`stone_brick_wall` -> `stone_bricks`).
+5. Stable name hash (last resort for modded/unknown blocks).
+
+`_BLOCK_COLORS` still exists as a module attribute (now a merged view of the
+chain above) for backwards compatibility.
 
 ## Extending colors
 
-Edit `_BLOCK_COLORS` in `preview.py` to add or override:
-```python
-_BLOCK_COLORS["minecraft:polished_andesite"] = (0.78, 0.78, 0.78)
+Preferred: point `SCHEMATICA_BLOCK_COLORS` at a small JSON of your overrides,
+or regenerate a version-true table:
+```bash
+python -m schematica.blocks.colors 1.20.1   # fetch textures, write cache
 ```
-Tests do not assert on colors, so this is safe to change without breaking the
-suite. The `test_preview.py` test only checks that PNGs are written and
-non-trivially sized (>100 bytes).
+The fetcher is stdlib-only (a minimal PNG decoder handles 1/2/4/8-bit
+palette/RGB(A) vanilla textures), so it runs anywhere.
 
 ## Performance
 

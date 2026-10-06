@@ -139,7 +139,7 @@ def write_litematic(grid: VoxelGrid | ChunkedGrid, path: str | Path, *,
         palette_nbt, packed, _bits = _encode_chunked(grid)
     else:
         palette_nbt, packed, _bits = _encode_dense(grid)
-    n_longs = len(packed) // 8
+    assert len(packed) % 8 == 0, "bitstream must be padded to 64-bit words"
     longs = LongArray(np.frombuffer(packed, dtype='>i8'))
     root = Compound({
         "MinecraftDataVersion": Int(data_version),

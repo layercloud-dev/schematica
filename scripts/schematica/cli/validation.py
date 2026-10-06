@@ -700,3 +700,111 @@ def _check_clone_source(frm: str, to: str, session: Any) -> list[CheckResult]:
         out.append(CheckResult("error", "clone_source_out_of_bounds",
                                "clone source must be fully inside the grid"))
     return out
+
+
+# ---------------------------------------------------------------------------
+# design toolkit validators
+# ---------------------------------------------------------------------------
+
+def _parse_points_str(points: str) -> list[tuple[int, ...]] | None:
+    out: list[tuple[int, ...]] = []
+    for part in points.split(";"):
+        part = part.strip().lstrip("(").rstrip(")")
+        if not part:
+            continue
+        try:
+            nums = [int(p) for p in part.replace(",", " ").split()]
+        except ValueError:
+            return None
+        if len(nums) not in (2, 3):
+            return None
+        out.append(tuple(nums))
+    return out
+
+
+def check_paint_ramp(palette: str, frm: str, to: str, axis: str, session: Any
+                     ) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    from ..design.palettes import load_palettes
+    if palette not in load_palettes():
+        out.append(CheckResult("error", "unknown_palette",
+                               f"palette {palette!r} not found; run palette.list"))
+    a, b = _coord_tuple(frm), _coord_tuple(to)
+    if a is None or b is None:
+        out.append(CheckResult("error", "bad_coords",
+                               f"frm={frm!r} to={to!r} did not parse to x,y,z"))
+    if axis not in ("x", "y", "z"):
+        out.append(CheckResult("error", "bad_axis", f"axis must be x|y|z, got {axis!r}"))
+    return out
+
+
+def check_road(points: str, width: int, session: Any) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    pts = _parse_points_str(points)
+    if not pts or len(pts) < 2:
+        out.append(CheckResult("error", "bad_points",
+                               "road needs >= 2 points like 'x,z;x,z'"))
+        pts = []
+    if width < 1:
+        out.append(CheckResult("error", "bad_width", f"width={width} must be >= 1"))
+    sx, _sy, sz = session.grid.shape
+    for p in pts:
+        if not (0 <= p[0] < sx and 0 <= p[-1] < sz):
+            out.append(CheckResult("warn", "out_of_bounds",
+                                   f"path point {p} is outside grid XZ extent"))
+    return out
+
+
+def check_river(points: str, width: int, depth: int, session: Any) -> list[CheckResult]:
+    out = check_road(points, width, session)
+    if depth < 1:
+        out.append(CheckResult("error", "bad_depth", f"depth={depth} must be >= 1"))
+    return out
+
+
+def check_roof(frm: str, to: str, axis: str, session: Any,
+               hip: bool = False) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    a, b = _coord_tuple(frm), _coord_tuple(to)
+    if a is None or b is None:
+        out.append(CheckResult("error", "bad_coords",
+                               f"frm={frm!r} to={to!r} did not parse to x,y,z"))
+    elif b[1] < a[1]:
+        out.append(CheckResult("error", "inverted_bounds",
+                               "roof needs the wall box top: to.y must be >= frm.y"))
+    if not hip and axis not in ("x", "z"):
+        out.append(CheckResult("error", "bad_axis",
+                               f"gable roof axis must be x or z, got {axis!r}"))
+    return out
+
+
+def check_tree2(at: str, kind: str, session: Any) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    pts = _parse_points_str(at)
+    if not pts:
+        out.append(CheckResult("error", "bad_coords", f"at={at!r} did not parse"))
+    from ..design.flora import tree_kinds
+    if kind not in tree_kinds():
+        out.append(CheckResult("error", "unknown_tree_kind",
+                               f"kind {kind!r} unknown; options: "
+                               f"{', '.join(sorted(tree_kinds()))}"))
+    return out
+
+
+def check_forest(frm: str, to: str, density: float, kinds: str,
+                 session: Any) -> list[CheckResult]:
+    out: list[CheckResult] = []
+    if _coord_tuple(frm) is None or _coord_tuple(to) is None:
+        out.append(CheckResult("error", "bad_coords",
+                               f"frm={frm!r} to={to!r} did not parse to x,y,z"))
+    if not (0 < density <= 1):
+        out.append(CheckResult("error", "bad_density",
+                               f"density={density} must be in (0, 1]"))
+    from ..design.flora import tree_kinds
+    known = tree_kinds()
+    for k in (kinds.replace("+", "|").split("|")):
+        k = k.strip()
+        if k and k not in known:
+            out.append(CheckResult("error", "unknown_tree_kind",
+                                   f"kind {k!r} unknown; options: {', '.join(sorted(known))}"))
+    return out

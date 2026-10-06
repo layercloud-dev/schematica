@@ -10,10 +10,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from schematica.session.session import Session
-from schematica.shapes.primitives import Box, Cylinder, Dome, Staircase
 from schematica.export.sponge import write_sponge
 from schematica.render.preview import preview
+from schematica.session.session import Session
+from schematica.shapes.primitives import Box, Cylinder, Dome, Staircase
 
 
 def main() -> None:

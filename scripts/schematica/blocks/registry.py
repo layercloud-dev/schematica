@@ -59,546 +59,70 @@ class BlockDef:
         return Block(name=self.name, states=pairs)
 
 
-_HORIZONTAL_DIRECTIONS = ["north", "south", "west", "east"]
-_AXIS_STATES = [
-    {"name": "axis", "type": "enum", "values": ["x", "y", "z"], "default": "y"},
-]
-_FACING_STATE = {
-    "name": "facing", "type": "enum", "values": _HORIZONTAL_DIRECTIONS, "default": "north",
-}
-_WATERLOGGED_STATE = {"name": "waterlogged", "type": "bool", "default": False}
-_STAIRS_STATES = [
-    _FACING_STATE,
-    {"name": "half", "type": "enum", "values": ["top", "bottom"], "default": "bottom"},
-    {"name": "shape", "type": "enum", "values": [
-        "straight", "inner_left", "inner_right", "outer_left", "outer_right",
-    ], "default": "straight"},
-    _WATERLOGGED_STATE,
-]
-_SLAB_STATES = [
-    {"name": "type", "type": "enum", "values": ["top", "bottom", "double"], "default": "bottom"},
-    _WATERLOGGED_STATE,
-]
-_FENCE_STATES = [
-    {"name": "north", "type": "bool", "default": False},
-    {"name": "east", "type": "bool", "default": False},
-    {"name": "south", "type": "bool", "default": False},
-    {"name": "west", "type": "bool", "default": False},
-    _WATERLOGGED_STATE,
-]
-_WALL_STATES = [
-    {"name": "up", "type": "bool", "default": True},
-    {"name": "north", "type": "enum", "values": ["none", "low", "tall"], "default": "none"},
-    {"name": "east", "type": "enum", "values": ["none", "low", "tall"], "default": "none"},
-    {"name": "south", "type": "enum", "values": ["none", "low", "tall"], "default": "none"},
-    {"name": "west", "type": "enum", "values": ["none", "low", "tall"], "default": "none"},
-    _WATERLOGGED_STATE,
-]
-_FENCE_GATE_STATES = [
-    _FACING_STATE,
-    {"name": "in_wall", "type": "bool", "default": False},
-    {"name": "open", "type": "bool", "default": False},
-    {"name": "powered", "type": "bool", "default": False},
-]
-_TRAPDOOR_STATES = [
-    _FACING_STATE,
-    {"name": "half", "type": "enum", "values": ["top", "bottom"], "default": "bottom"},
-    {"name": "open", "type": "bool", "default": False},
-    {"name": "powered", "type": "bool", "default": False},
-    _WATERLOGGED_STATE,
-]
-_DOOR_STATES = [
-    _FACING_STATE,
-    {"name": "half", "type": "enum", "values": ["lower", "upper"], "default": "lower"},
-    {"name": "hinge", "type": "enum", "values": ["left", "right"], "default": "left"},
-    {"name": "open", "type": "bool", "default": False},
-    {"name": "powered", "type": "bool", "default": False},
-]
-_BED_STATES = [
-    _FACING_STATE,
-    {"name": "part", "type": "enum", "values": ["head", "foot"], "default": "foot"},
-    {"name": "occupied", "type": "bool", "default": False},
-]
-_CHEST_STATES = [
-    _FACING_STATE,
-    {"name": "type", "type": "enum", "values": ["single", "left", "right"], "default": "single"},
-    _WATERLOGGED_STATE,
-]
-_PANE_STATES = [
-    {"name": "north", "type": "bool", "default": False},
-    {"name": "east", "type": "bool", "default": False},
-    {"name": "south", "type": "bool", "default": False},
-    {"name": "west", "type": "bool", "default": False},
-    _WATERLOGGED_STATE,
-]
+# ---------------------------------------------------------------------------
+# Built-in fallback catalog (data-driven).
+#
+# The full fallback catalog lives in the package data file
+# ``schematica/blocks/data/fallback_blocks.json`` so it can be browsed,
+# extended, or replaced *without touching Python code*. Set the
+# ``SCHEMATICA_FALLBACK_BLOCKS`` environment variable to a JSON file with the
+# same layout (``{"format": 1, "states": {...tables...}, "blocks": [...]}``).
+# A block entry may reference one or more named state tables whose field lists
+# are concatenated. Only a tiny air/stone set is embedded here as a last
+# resort so the package stays importable if the data file is missing.
+# ---------------------------------------------------------------------------
 
-
-_FALLBACK_BLOCKS: list[dict[str, object]] = [
+_EMERGENCY_BLOCKS: list[dict[str, object]] = [
     {"id": 0, "name": "minecraft:air", "displayName": "Air"},
     {"id": 1, "name": "minecraft:stone", "displayName": "Stone"},
     {"id": 2, "name": "minecraft:grass_block", "displayName": "Grass Block"},
     {"id": 3, "name": "minecraft:dirt", "displayName": "Dirt"},
-    {"id": 4, "name": "minecraft:cobblestone", "displayName": "Cobblestone"},
-    {"id": 5, "name": "minecraft:oak_planks", "displayName": "Oak Planks"},
-    {"id": 7, "name": "minecraft:bedrock", "displayName": "Bedrock"},
     {"id": 12, "name": "minecraft:sand", "displayName": "Sand"},
-    {"id": 17, "name": "minecraft:oak_log", "displayName": "Oak Log", "states": _AXIS_STATES},
     {"id": 20, "name": "minecraft:glass", "displayName": "Glass"},
-    {"id": 45, "name": "minecraft:bricks", "displayName": "Bricks"},
     {"id": 49, "name": "minecraft:obsidian", "displayName": "Obsidian"},
-    {"id": 85, "name": "minecraft:oak_fence", "displayName": "Oak Fence", "states": _FENCE_STATES},
     {"id": 89, "name": "minecraft:glowstone", "displayName": "Glowstone"},
-    {"id": 121, "name": "minecraft:end_stone", "displayName": "End Stone"},
-    {"id": 155, "name": "minecraft:quartz_block", "displayName": "Block of Quartz"},
-    {"id": 95, "name": "minecraft:purple_stained_glass", "displayName": "Purple Stained Glass"},
-    {"id": 168, "name": "minecraft:prismarine", "displayName": "Prismarine"},
-    {"id": 169, "name": "minecraft:sea_lantern", "displayName": "Sea Lantern"},
-    {"id": 12, "name": "minecraft:red_sand", "displayName": "Red Sand"},
-    {"id": 174, "name": "minecraft:packed_ice", "displayName": "Packed Ice"},
-    {"id": 18, "name": "minecraft:oak_leaves", "displayName": "Oak Leaves"},
-    {"id": 98, "name": "minecraft:stone_bricks", "displayName": "Stone Bricks"},
-    {"id": 109, "name": "minecraft:stone_brick_stairs", "displayName": "Stone Brick Stairs", "states": _STAIRS_STATES},
-    {"id": 48, "name": "minecraft:mossy_cobblestone", "displayName": "Mossy Cobblestone"},
-    {"id": 1, "name": "minecraft:granite", "displayName": "Granite"},
-    {"id": 1, "name": "minecraft:diorite", "displayName": "Diorite"},
-    {"id": 1, "name": "minecraft:andesite", "displayName": "Andesite"},
-    {"id": 1, "name": "minecraft:deepslate", "displayName": "Deepslate"},
-    {"id": 1, "name": "minecraft:tuff", "displayName": "Tuff"},
-    {"id": 1, "name": "minecraft:calcite", "displayName": "Calcite"},
-    {"id": 1, "name": "minecraft:amethyst_block", "displayName": "Block of Amethyst"},
-    {"id": 1, "name": "minecraft:budding_amethyst", "displayName": "Budding Amethyst"},
-    {"id": 1, "name": "minecraft:smooth_stone", "displayName": "Smooth Stone"},
-    {"id": 53, "name": "minecraft:oak_stairs", "displayName": "Oak Stairs", "states": _STAIRS_STATES},
-    {"id": 1, "name": "minecraft:spruce_log", "displayName": "Spruce Log", "states": _AXIS_STATES},
-    {"id": 1, "name": "minecraft:birch_log", "displayName": "Birch Log", "states": _AXIS_STATES},
-    {"id": 1, "name": "minecraft:spruce_planks", "displayName": "Spruce Planks"},
-    {"id": 1, "name": "minecraft:birch_planks", "displayName": "Birch Planks"},
-    {"id": 1, "name": "minecraft:water", "displayName": "Water"},
-    {"id": 1, "name": "minecraft:lava", "displayName": "Lava"},
-    {"id": 1, "name": "minecraft:snow_block", "displayName": "Snow Block"},
-    {"id": 1, "name": "minecraft:ice", "displayName": "Ice"},
-    {"id": 1, "name": "minecraft:blue_ice", "displayName": "Blue Ice"},
-    {"id": 1, "name": "minecraft:terracotta", "displayName": "Terracotta"},
-    {"id": 1, "name": "minecraft:white_concrete", "displayName": "White Concrete"},
-    {"id": 1, "name": "minecraft:black_concrete", "displayName": "Black Concrete"},
-    {"id": 1, "name": "minecraft:red_concrete", "displayName": "Red Concrete"},
-    {"id": 1, "name": "minecraft:blue_concrete", "displayName": "Blue Concrete"},
-    {"id": 1, "name": "minecraft:white_wool", "displayName": "White Wool"},
-    {"id": 1, "name": "minecraft:black_wool", "displayName": "Black Wool"},
-    {"id": 1, "name": "minecraft:red_wool", "displayName": "Red Wool"},
-    {"id": 1, "name": "minecraft:blue_wool", "displayName": "Blue Wool"},
-    {"id": 1, "name": "minecraft:white_terracotta", "displayName": "White Terracotta"},
-    {"id": 1, "name": "minecraft:sandstone", "displayName": "Sandstone"},
-    {"id": 1, "name": "minecraft:red_sandstone", "displayName": "Red Sandstone"},
-    {"id": 1, "name": "minecraft:smooth_sandstone", "displayName": "Smooth Sandstone"},
-    {"id": 1, "name": "minecraft:netherrack", "displayName": "Netherrack"},
-    {"id": 1, "name": "minecraft:soul_sand", "displayName": "Soul Sand"},
-    {"id": 1, "name": "minecraft:soul_soil", "displayName": "Soul Soil"},
-    {"id": 1, "name": "minecraft:glowstone", "displayName": "Glowstone"},
-    {"id": 1, "name": "minecraft:obsidian", "displayName": "Obsidian"},
-    {"id": 1, "name": "minecraft:crying_obsidian", "displayName": "Crying Obsidian"},
-    {"id": 1, "name": "minecraft:nether_bricks", "displayName": "Nether Bricks"},
-    {"id": 1, "name": "minecraft:blackstone", "displayName": "Blackstone"},
-    {"id": 1, "name": "minecraft:basalt", "displayName": "Basalt"},
-    {"id": 1, "name": "minecraft:smooth_basalt", "displayName": "Smooth Basalt"},
-    {"id": 1, "name": "minecraft:end_stone_bricks", "displayName": "End Stone Bricks"},
-    {"id": 1, "name": "minecraft:purpur_block", "displayName": "Purpur Block"},
-    {"id": 1, "name": "minecraft:purpur_pillar", "displayName": "Purpur Pillar", "states": _AXIS_STATES},
 ]
 
-_FALLBACK_COLORS = (
-    "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
-    "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black",
-)
+_DEFAULT_FALLBACK_JSON = Path(__file__).resolve().parent / "data" / "fallback_blocks.json"
 
-_FALLBACK_EXTRA_BLOCKS: list[dict[str, object]] = []
-_next_fallback_id = 5000
-for _family in ("wool", "stained_glass", "terracotta", "concrete"):
-    for _color in _FALLBACK_COLORS:
-        _display = f"{_color.replace('_', ' ').title()} {_family.replace('_', ' ').title()}"
-        _FALLBACK_EXTRA_BLOCKS.append({
-            "id": _next_fallback_id,
-            "name": f"minecraft:{_color}_{_family}",
-            "displayName": _display,
-        })
-        _next_fallback_id += 1
 
-_COMMON_FALLBACK_BLOCKS: list[dict[str, object]] = [
-    {"id": 42, "name": "minecraft:iron_block", "displayName": "Block of Iron"},
-    {"id": 41, "name": "minecraft:gold_block", "displayName": "Block of Gold"},
-    {"id": 57, "name": "minecraft:diamond_block", "displayName": "Block of Diamond"},
-    {"id": 133, "name": "minecraft:emerald_block", "displayName": "Block of Emerald"},
-    {"id": 173, "name": "minecraft:coal_block", "displayName": "Block of Coal"},
-    {"id": 22, "name": "minecraft:lapis_block", "displayName": "Lapis Lazuli Block"},
-    {"id": 152, "name": "minecraft:redstone_block", "displayName": "Block of Redstone"},
-    {"id": 138, "name": "minecraft:beacon", "displayName": "Beacon"},
-    {"id": 145, "name": "minecraft:anvil", "displayName": "Anvil"},
-    {"id": 58, "name": "minecraft:crafting_table", "displayName": "Crafting Table"},
-    {"id": 61, "name": "minecraft:furnace", "displayName": "Furnace",
-     "states": [_FACING_STATE, {"name": "lit", "type": "bool", "default": False}]},
-    {"id": 54, "name": "minecraft:chest", "displayName": "Chest", "states": _CHEST_STATES},
-    {"id": 130, "name": "minecraft:ender_chest", "displayName": "Ender Chest",
-     "states": [_FACING_STATE, _WATERLOGGED_STATE]},
-    {"id": 65, "name": "minecraft:ladder", "displayName": "Ladder",
-     "states": [_FACING_STATE, _WATERLOGGED_STATE]},
-    {"id": 102, "name": "minecraft:glass_pane", "displayName": "Glass Pane", "states": _PANE_STATES},
-    {"id": 101, "name": "minecraft:iron_bars", "displayName": "Iron Bars", "states": _PANE_STATES},
-    {"id": 96, "name": "minecraft:oak_trapdoor", "displayName": "Oak Trapdoor", "states": _TRAPDOOR_STATES},
-    {"id": 167, "name": "minecraft:iron_trapdoor", "displayName": "Iron Trapdoor", "states": _TRAPDOOR_STATES},
-    {"id": 64, "name": "minecraft:oak_door", "displayName": "Oak Door", "states": _DOOR_STATES},
-    {"id": 71, "name": "minecraft:iron_door", "displayName": "Iron Door", "states": _DOOR_STATES},
-    {"id": 107, "name": "minecraft:oak_fence_gate", "displayName": "Oak Fence Gate", "states": _FENCE_GATE_STATES},
-    {"id": 139, "name": "minecraft:cobblestone_wall", "displayName": "Cobblestone Wall", "states": _WALL_STATES},
-    {"id": 44, "name": "minecraft:stone_slab", "displayName": "Stone Slab", "states": _SLAB_STATES},
-    {"id": 126, "name": "minecraft:oak_slab", "displayName": "Oak Slab", "states": _SLAB_STATES},
-    {"id": 67, "name": "minecraft:cobblestone_stairs", "displayName": "Cobblestone Stairs", "states": _STAIRS_STATES},
-    {"id": 53, "name": "minecraft:oak_stairs", "displayName": "Oak Stairs", "states": _STAIRS_STATES},
-    {"id": 26, "name": "minecraft:red_bed", "displayName": "Red Bed", "states": _BED_STATES},
-    {"id": 166, "name": "minecraft:barrier", "displayName": "Barrier"},
-    {"id": 50, "name": "minecraft:torch", "displayName": "Torch"},
-    {"id": 76, "name": "minecraft:redstone_torch", "displayName": "Redstone Torch", "states": [
-        {"name": "lit", "type": "bool", "default": True},
-    ]},
-    {"id": 123, "name": "minecraft:redstone_lamp", "displayName": "Redstone Lamp", "states": [
-        {"name": "lit", "type": "bool", "default": False},
-    ]},
-    {"id": _next_fallback_id, "name": "minecraft:lantern", "displayName": "Lantern", "states": [
-        {"name": "hanging", "type": "bool", "default": False}, _WATERLOGGED_STATE,
-    ]},
-    {"id": _next_fallback_id + 1, "name": "minecraft:chain", "displayName": "Chain", "states": _AXIS_STATES},
-    {"id": _next_fallback_id + 2, "name": "minecraft:oak_sign", "displayName": "Oak Sign",
-     "states": [{"name": "rotation", "type": "int", "default": 0, "values": list(range(16))},
-                _WATERLOGGED_STATE]},
-    {"id": _next_fallback_id + 3, "name": "minecraft:oak_wall_sign", "displayName": "Oak Wall Sign",
-     "states": [_FACING_STATE, _WATERLOGGED_STATE]},
-]
+def _load_fallback_blocks() -> list[dict[str, object]]:
+    """Load the fallback catalog from JSON (env override > bundled data file)."""
+    import os
 
-_FALLBACK_EXTRA_BLOCKS.extend(_COMMON_FALLBACK_BLOCKS)
-_next_fallback_id += len(_COMMON_FALLBACK_BLOCKS)
+    env = os.environ.get("SCHEMATICA_FALLBACK_BLOCKS")
+    path = Path(env) if env else _DEFAULT_FALLBACK_JSON
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        tables = raw.get("states", {})
+        blocks: list[dict[str, object]] = []
+        for entry in raw.get("blocks", []):
+            if not isinstance(entry, dict):
+                continue
+            d = dict(entry)
+            refs = d.pop("states", None)
+            if refs:
+                merged: list[dict[str, object]] = []
+                for ref in refs:
+                    tbl = tables.get(ref)
+                    if tbl is None:
+                        raise ValueError(f"fallback catalog: unknown state table '{ref}'")
+                    merged.extend(tbl)
+                d["states"] = merged
+            blocks.append(d)
+        if blocks:
+            return blocks
+    except Exception:
+        pass  # keep the package importable even if the data file is broken
+    return list(_EMERGENCY_BLOCKS)
 
-# Quartz and smooth quartz variants (blocks, slabs, stairs) so modern builds
-# don't KeyError without a vendored minecraft-data tree.
-_QUARTZ_FAMILY: list[dict[str, object]] = [
-    {"id": _next_fallback_id, "name": "minecraft:smooth_quartz", "displayName": "Smooth Quartz"},
-    {"id": _next_fallback_id + 1, "name": "minecraft:quartz_pillar",
-     "displayName": "Quartz Pillar", "states": _AXIS_STATES},
-    {"id": _next_fallback_id + 2, "name": "minecraft:chiseled_quartz_block",
-     "displayName": "Chiseled Quartz Block"},
-    {"id": _next_fallback_id + 3, "name": "minecraft:quartz_slab",
-     "displayName": "Quartz Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 4, "name": "minecraft:smooth_quartz_slab",
-     "displayName": "Smooth Quartz Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 5, "name": "minecraft:quartz_stairs",
-     "displayName": "Quartz Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 6, "name": "minecraft:smooth_quartz_stairs",
-     "displayName": "Smooth Quartz Stairs", "states": _STAIRS_STATES},
-]
-_FALLBACK_EXTRA_BLOCKS.extend(_QUARTZ_FAMILY)
-_next_fallback_id += len(_QUARTZ_FAMILY)
 
-# Concrete slabs + stairs and stone-variant slabs + stairs for modern detailing.
-_CONCRETE_SLAB_STAIRS: list[dict[str, object]] = []
-for _color in _FALLBACK_COLORS:
-    _display_color = _color.replace("_", " ").title()
-    _CONCRETE_SLAB_STAIRS.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_color}_concrete_slab",
-        "displayName": f"{_display_color} Concrete Slab",
-        "states": _SLAB_STATES,
-    })
-    _next_fallback_id += 1
-    _CONCRETE_SLAB_STAIRS.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_color}_concrete_stairs",
-        "displayName": f"{_display_color} Concrete Stairs",
-        "states": _STAIRS_STATES,
-    })
-    _next_fallback_id += 1
-_FALLBACK_EXTRA_BLOCKS.extend(_CONCRETE_SLAB_STAIRS)
+_FALLBACK_BLOCKS: list[dict[str, object]] = _load_fallback_blocks()
 
-_STONE_VARIANT_SLABS_STAIRS: list[dict[str, object]] = [
-    {"id": _next_fallback_id, "name": "minecraft:smooth_stone_slab",
-     "displayName": "Smooth Stone Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 1, "name": "minecraft:sandstone_slab",
-     "displayName": "Sandstone Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 2, "name": "minecraft:red_sandstone_slab",
-     "displayName": "Red Sandstone Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 3, "name": "minecraft:nether_brick_slab",
-     "displayName": "Nether Brick Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 4, "name": "minecraft:smooth_sandstone_stairs",
-     "displayName": "Smooth Sandstone Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 5, "name": "minecraft:red_sandstone_stairs",
-     "displayName": "Red Sandstone Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 6, "name": "minecraft:nether_brick_stairs",
-     "displayName": "Nether Brick Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 7, "name": "minecraft:prismarine_slab",
-     "displayName": "Prismarine Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 8, "name": "minecraft:prismarine_bricks_slab",
-     "displayName": "Prismarine Bricks Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 9, "name": "minecraft:dark_prismarine_slab",
-     "displayName": "Dark Prismarine Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 10, "name": "minecraft:prismarine_stairs",
-     "displayName": "Prismarine Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 11, "name": "minecraft:end_stone_brick_slab",
-     "displayName": "End Stone Brick Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 12, "name": "minecraft:end_stone_brick_stairs",
-     "displayName": "End Stone Brick Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 13, "name": "minecraft:mossy_stone_brick_slab",
-     "displayName": "Mossy Stone Brick Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 14, "name": "minecraft:mossy_stone_brick_stairs",
-     "displayName": "Mossy Stone Brick Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 15, "name": "minecraft:mossy_cobblestone_slab",
-     "displayName": "Mossy Cobblestone Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 16, "name": "minecraft:mossy_cobblestone_stairs",
-     "displayName": "Mossy Cobblestone Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 17, "name": "minecraft:granite_slab",
-     "displayName": "Granite Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 18, "name": "minecraft:granite_stairs",
-     "displayName": "Granite Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 19, "name": "minecraft:polished_granite_slab",
-     "displayName": "Polished Granite Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 20, "name": "minecraft:polished_granite_stairs",
-     "displayName": "Polished Granite Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 21, "name": "minecraft:diorite_slab",
-     "displayName": "Diorite Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 22, "name": "minecraft:diorite_stairs",
-     "displayName": "Diorite Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 23, "name": "minecraft:andesite_slab",
-     "displayName": "Andesite Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 24, "name": "minecraft:andesite_stairs",
-     "displayName": "Andesite Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 25, "name": "minecraft:deepslate_brick_slab",
-     "displayName": "Deepslate Brick Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 26, "name": "minecraft:deepslate_brick_stairs",
-     "displayName": "Deepslate Brick Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 27, "name": "minecraft:deepslate_tile_slab",
-     "displayName": "Deepslate Tile Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 28, "name": "minecraft:deepslate_tile_stairs",
-     "displayName": "Deepslate Tile Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 29, "name": "minecraft:blackstone_slab",
-     "displayName": "Blackstone Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 30, "name": "minecraft:blackstone_stairs",
-     "displayName": "Blackstone Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 31, "name": "minecraft:smooth_basalt",
-     "displayName": "Smooth Basalt"},
-    {"id": _next_fallback_id + 32, "name": "minecraft:tuff_slab",
-     "displayName": "Tuff Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 33, "name": "minecraft:tuff_stairs",
-     "displayName": "Tuff Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 34, "name": "minecraft:tuff_bricks",
-     "displayName": "Tuff Bricks"},
-    {"id": _next_fallback_id + 35, "name": "minecraft:tuff_brick_slab",
-     "displayName": "Tuff Brick Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 36, "name": "minecraft:tuff_brick_stairs",
-     "displayName": "Tuff Brick Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 37, "name": "minecraft:calcite_slab",
-     "displayName": "Calcite Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 38, "name": "minecraft:calcite_stairs",
-     "displayName": "Calcite Stairs", "states": _STAIRS_STATES},
-    {"id": _next_fallback_id + 39, "name": "minecraft:chiseled_deepslate",
-     "displayName": "Chiseled Deepslate"},
-    {"id": _next_fallback_id + 40, "name": "minecraft:polished_deepslate_slab",
-     "displayName": "Polished Deepslate Slab", "states": _SLAB_STATES},
-    {"id": _next_fallback_id + 41, "name": "minecraft:polished_deepslate_stairs",
-     "displayName": "Polished Deepslate Stairs", "states": _STAIRS_STATES},
-]
-_FALLBACK_EXTRA_BLOCKS.extend(_STONE_VARIANT_SLABS_STAIRS)
-_next_fallback_id += len(_STONE_VARIANT_SLABS_STAIRS)
 
-for _color in _FALLBACK_COLORS:
-    _display_color = _color.replace("_", " ").title()
-    _FALLBACK_EXTRA_BLOCKS.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_color}_bed",
-        "displayName": f"{_display_color} Bed",
-        "states": _BED_STATES,
-    })
-    _next_fallback_id += 1
-    _FALLBACK_EXTRA_BLOCKS.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_color}_carpet",
-        "displayName": f"{_display_color} Carpet",
-    })
-    _next_fallback_id += 1
-    _FALLBACK_EXTRA_BLOCKS.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_color}_stained_glass_pane",
-        "displayName": f"{_display_color} Stained Glass Pane",
-        "states": _PANE_STATES,
-    })
-    _next_fallback_id += 1
-
-# --- Wood decorative families (spruce, birch, jungle, acacia, dark_oak,
-#     mangrove, cherry, bamboo, crimson, warped) fences, slabs, stairs, gates,
-#     trapdoors, doors, buttons, pressure plates, signs and walls ---------------
-# These cover the modern decorative wood families absent from the original
-# fallback catalog so builds do not fall back to oak for every wood type.
-_WOOD_TYPES = (
-    "spruce", "birch", "jungle", "acacia", "dark_oak",
-    "mangrove", "cherry", "bamboo", "crimson", "warped",
-)
-_WOOD_FAMILY: list[dict[str, object]] = []
-for _wood in _WOOD_TYPES:
-    _display_wood = _wood.replace("_", " ").title()
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_fence",
-        "displayName": f"{_display_wood} Fence",
-        "states": _FENCE_STATES,
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_fence_gate",
-        "displayName": f"{_display_wood} Fence Gate",
-        "states": _FENCE_GATE_STATES,
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_slab",
-        "displayName": f"{_display_wood} Slab",
-        "states": _SLAB_STATES,
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_stairs",
-        "displayName": f"{_display_wood} Stairs",
-        "states": _STAIRS_STATES,
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_trapdoor",
-        "displayName": f"{_display_wood} Trapdoor",
-        "states": _TRAPDOOR_STATES,
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_door",
-        "displayName": f"{_display_wood} Door",
-        "states": _DOOR_STATES,
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_sign",
-        "displayName": f"{_display_wood} Sign",
-        "states": [{"name": "rotation", "type": "int", "default": 0, "values": list(range(16))},
-                   _WATERLOGGED_STATE],
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_wall_sign",
-        "displayName": f"{_display_wood} Wall Sign",
-        "states": [_FACING_STATE, _WATERLOGGED_STATE],
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_button",
-        "displayName": f"{_display_wood} Button",
-        "states": [_FACING_STATE, {"name": "powered", "type": "bool", "default": False},
-                   _WATERLOGGED_STATE],
-    })
-    _next_fallback_id += 1
-    _WOOD_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_wood}_pressure_plate",
-        "displayName": f"{_display_wood} Pressure Plate",
-        "states": [{"name": "powered", "type": "bool", "default": False}],
-    })
-    _next_fallback_id += 1
-_FALLBACK_EXTRA_BLOCKS.extend(_WOOD_FAMILY)
-
-# --- Copper block family ----------------------------------------------------
-# Modern industrial builds use copper and its oxidation stages. Each variant
-# has a non-oxidized, exposed, weathered and oxidized form plus waxed variants.
-# Blockstate: `age` ∈ {0,1,2,3} for untreated copper; waxed variants lack age.
-_COPPER_BASES = (
-    "copper_block", "exposed_copper", "weathered_copper", "oxidized_copper",
-    "cut_copper", "exposed_cut_copper", "weathered_cut_copper",
-    "oxidized_cut_copper",
-)
-_COPPER_SLAB_STAIR_BASES = (
-    "cut_copper", "exposed_cut_copper", "weathered_cut_copper",
-    "oxidized_cut_copper",
-)
-_COPPER_FAMILY: list[dict[str, object]] = []
-_AGE_STATE = {"name": "age", "type": "int", "values": [0, 1, 2, 3], "default": 0}
-for _base in _COPPER_BASES:
-    _COPPER_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_base}",
-        "displayName": _base.replace("_", " ").title(),
-    })
-    _next_fallback_id += 1
-for _base in _COPPER_SLAB_STAIR_BASES:
-    _COPPER_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_base}_slab",
-        "displayName": f"{_base.replace('_', ' ').title()} Slab",
-        "states": _SLAB_STATES,
-    })
-    _next_fallback_id += 1
-    _COPPER_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_base}_stairs",
-        "displayName": f"{_base.replace('_', ' ').title()} Stairs",
-        "states": _STAIRS_STATES,
-    })
-    _next_fallback_id += 1
-# Waxed copper variants (no age progression).
-_WAXED_COPPER_BASES = (
-    "waxed_copper_block", "waxed_exposed_copper", "waxed_weathered_copper",
-    "waxed_oxidized_copper", "waxed_cut_copper", "waxed_exposed_cut_copper",
-    "waxed_weathered_cut_copper", "waxed_oxidized_cut_copper",
-)
-for _base in _WAXED_COPPER_BASES:
-    _COPPER_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_base}",
-        "displayName": _base.replace("_", " ").title(),
-    })
-    _next_fallback_id += 1
-for _base in (
-    "waxed_cut_copper", "waxed_exposed_cut_copper",
-    "waxed_weathered_cut_copper", "waxed_oxidized_cut_copper",
-):
-    _COPPER_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_base}_slab",
-        "displayName": f"{_base.replace('_', ' ').title()} Slab",
-        "states": _SLAB_STATES,
-    })
-    _next_fallback_id += 1
-    _COPPER_FAMILY.append({
-        "id": _next_fallback_id,
-        "name": f"minecraft:{_base}_stairs",
-        "displayName": f"{_base.replace('_', ' ').title()} Stairs",
-        "states": _STAIRS_STATES,
-    })
-    _next_fallback_id += 1
-# Raw copper block and chiseled / raw copper variants for industrial builds.
-_COPPER_FAMILY.extend([
-    {"id": _next_fallback_id, "name": "minecraft:raw_copper_block",
-     "displayName": "Block of Raw Copper"},
-    {"id": _next_fallback_id + 1, "name": "minecraft:chiseled_copper",
-     "displayName": "Chiseled Copper"},
-    {"id": _next_fallback_id + 2, "name": "minecraft:copper_grate",
-     "displayName": "Copper Grate"},
-    {"id": _next_fallback_id + 3, "name": "minecraft:copper_bulb",
-     "displayName": "Copper Bulb",
-     "states": [{"name": "lit", "type": "bool", "default": False},
-                {"name": "powered", "type": "bool", "default": False}]},
-])
-_next_fallback_id += 4
-_FALLBACK_EXTRA_BLOCKS.extend(_COPPER_FAMILY)
-
-_FALLBACK_BLOCKS.extend(_FALLBACK_EXTRA_BLOCKS)
+def fallback_blocks() -> list[dict[str, object]]:
+    """Return the raw fallback catalog entries (as loaded from JSON)."""
+    return _FALLBACK_BLOCKS
 
 
 def _parse_state_schema(raw: dict[str, object]) -> BlockStateSchema:
@@ -771,11 +295,11 @@ class BlockRegistry:
             if strict:
                 _validate_states(bd, block.states, self.version)
             return Block(name=bd.name)
-        
+
         explicit = dict(block.states)
         if strict:
             explicit = dict(_validate_states(bd, block.states, self.version))
-            
+
         unflattened_defaults = {}
         if bd.default_state is not None and bd.min_state_id is not None:
             offset = bd.default_state - bd.min_state_id
@@ -784,7 +308,7 @@ class BlockRegistry:
                     n = len(s.values) if s.values else s.num_values if s.num_values is not None else 2 if s.type == "bool" else 1
                     if n <= 0:
                         n = 1
-                    
+
                     val_idx = offset % n
                     if s.values:
                         val = s.values[val_idx]
@@ -794,7 +318,7 @@ class BlockRegistry:
                         val = val_idx
                     else:
                         val = ""
-                        
+
                     unflattened_defaults[s.name] = val
                     offset = offset // n
 

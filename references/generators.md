@@ -275,3 +275,39 @@ temple" request:
 5. `export` to `.schem` and hand the file to the user.
 
 The toolkit provides the primitives; the agent provides the design.
+
+
+## Design generators (Phase 14)
+
+The `schematica.design` package turns the map-layout work professional builders
+do by hand into seeded, scriptable ops. All of them are exposed as both
+library functions and CLI commands, work on dense **and** chunked (big-map)
+backends, and are undoable through session history.
+
+- **Design palettes** — `palette.list` / `palette.info name=X` / library
+  `get_palette`, `list_palettes`. Roles: `ramp` (dark->light gradient),
+  `mix` (weighted texture blend), `accents`, `trim`, `path`, `light`.
+  Data file: `data/design_palettes.json` (override `SCHEMATICA_PALETTES`).
+- **Palette gradients** — `paint.ramp palette=medieval_stone frm=0,0,0
+  to=15,24,15 axis=y blend=0.15` paints the palette ramp onto existing solids
+  with jittered bands.
+- **Roads** — `road points="4,4;24,14;44,40" width=3 palette=rustic_oak
+  border=minecraft:oak_log smooth=4 seed=2`. Terrain-draped by default; use 3D
+  points with `drape=false support=minecraft:spruce_log` for bridges.
+- **Rivers** — `river points="2,40;30,34;62,46" width=3 depth=3
+  bed=minecraft:gravel smooth=4` carves then floods one below grade.
+- **Roofs** — `roof.gable frm=24,22,24 to=36,22,36 axis=x
+  palette=medieval_stone stairs=minecraft:stone_brick_stairs`, or `roof.hip`
+  for towers. `stairs=` adds facing stair courses along the slopes.
+- **Vegetation** — `tree2 at=24,30 kind=spruce seed=3`,
+  `forest frm=2,0,2 to=40,0,40 density=0.04 kinds=oak+birch min_spacing=4
+  seed=9`.
+- **Surface probes** — `surface x=20 z=20` returns the top solid y.
+
+Library equivalents live in `schematica.design.paths` / `.roofs` / `.flora` /
+`.palettes` and on `Session` (`apply_path`, `apply_river`,
+`apply_gable_roof`, `apply_hip_roof`, `apply_tree_v2`, `apply_forest`,
+`surface_height`, `paint_palette_gradient`, `list_design_palettes`).
+
+Read `references/design_playbook.md` for the composition/color/verification
+methodology these tools support.

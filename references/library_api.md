@@ -364,6 +364,95 @@ Extract `grid[corner .. corner+size]` as a small dense sub-grid and render it
 with the standard pipeline. Useful for reviewing one team base or focal
 structure on large maps. Raises `ValueError` if the region is outside the grid.
 
+Block colors are resolved live: bundled texture-derived table ->
+per-version caches (`blocks.colors`) -> `SCHEMATICA_BLOCK_COLORS` override,
+then variant-family fallback, then a stable hash (see preview_rendering.md).
+
+## `schematica.config`
+
+### `default_version() -> str`
+Default Minecraft version for new sessions: `SCHEMATICA_MC_VERSION` env var,
+else `"1.20.1"`.
+
+### `package_data_dir() -> Path`
+Directory holding bundled JSON data (`design_palettes.json`,
+`block_colors.json`); overridable via `SCHEMATICA_DATA_ROOT`.
+
+## `schematica.resources`
+
+### `load_json_resource(filename, env_var=None) -> Any`
+Load bundled JSON from the package data dir, honoring an env override. The
+cache is keyed on the resolved absolute path, so changing an env var after
+import works. `data_path(filename, env_var=None)` returns the resolved path;
+`clear_resource_cache()` forces re-reads.
+
+## `schematica.blocks.colors`
+
+### `download_block_colors(mc_version, *, cache_root=None, force=False) -> Path`
+Fetch a per-version average-color table derived from PrismarineJS
+minecraft-assets textures; cached next to `blocks.json` and picked up by
+previews automatically. Also: `best_assets_version(mc_version)`,
+`list_assets_versions()`, `compute_block_colors(assets_version)`. CLI:
+`python -m schematica.blocks.colors <mc_version> [--list] [--force]`.
+
+## `schematica.design.palettes`
+
+Themed design palettes, data-driven from `data/design_palettes.json`
+(override with `SCHEMATICA_PALETTES`).
+
+### `DesignPalette` dataclass
+Roles: `ramp` (dark->light gradient ramp), `mix` (weighted surface blend),
+`accents`, `trim`, `path`, `light`. Helpers: `ramp_block(t)` (t=0 darkest) and
+`texture(scale=0.12, seed=0, noise="perlin") -> TexturePalette` for the noise
+texture tools.
+
+### `load_palettes()`, `list_palettes()`, `get_palette(name)`, `resolve_blocks(spec, palette_role="path")`
+`resolve_blocks` accepts a palette name, a `DesignPalette`, a single block, or
+a list of blocks and always returns a block list.
+
+## `schematica.design.paths`
+
+### `ground_height(grid, x, z) -> int | None`
+Topmost non-air y of a column (both backends).
+
+### `plan_path(grid, points, *, width=3, drape=True, closed=False, smooth=0, smooth_drape=True) -> dict[(x,z), y]`
+Rasterize a polyline (optional Catmull-Rom smoothing via `smooth`) into
+terrain-draped core cells. Exposed for layout planning/previewing.
+
+### `apply_path(session, points, *, width=3, block=None, blocks=None, palette=None, border=None, drape=True, closed=False, smooth=0, smooth_drape=True, support=None, seed=0) -> int`
+Lay a road: draped to the terrain by default (median-smoothed), or fixed-y
+when 3D points + `drape=False`. `blocks` mixes per cell deterministically;
+`palette` uses the palette's `path` role; `border` kerbs the rim into air.
+`support` fills bridge columns down to ground on non-draped paths.
+
+### `apply_river(session, points, *, width=3, depth=3, water="minecraft:water", bed=None, drape=True, closed=False, smooth=0) -> int`
+Carve a channel `depth` below grade, pave `bed` at the floor, and flood up to
+one block below grade (banks stay walkable; `depth=1` carves a dry trench).
+
+## `schematica.design.roofs`
+
+### `apply_gable_roof(session, frm, to, *, axis="x", block=None, ramp=None, palette=None, overhang=1, steps_per_rise=1, stair_block=None, fill=False) -> int`
+Pitched roof above the wall box; eaves grow by `overhang`; per-level gradient
+with `ramp`/`palette` (eaves = `ramp[0]`, ridge = `ramp[-1]`); `stair_block`
+lays facing stair courses (e.g. `minecraft:stone_brick_stairs`) for smooth
+rooflines; `fill` solidifies (pyramid look).
+
+### `apply_hip_roof(session, frm, to, *, block=None, ramp=None, palette=None, overhang=1, steps_per_rise=1) -> int`
+Four-sided hip roof to a central ridge — the square-tower default.
+
+## `schematica.design.flora`
+
+Tree kinds are data (key `trees` in `design_palettes.json`, merged over
+built-ins): oak, birch, spruce, cherry, jungle, mega (2x2 trunk), dead (bare).
+
+### `apply_tree(session, x, z, *, kind="oak", height=None, seed=0, canopy=None, trunk=None, leaves=None) -> bool`
+Terrain-snapped tree; canopy shape per kind (`sphere`/`cone`/`stacked`/`none`).
+Returns False on empty columns or without headroom — safe to call repeatedly.
+
+### `apply_forest(session, frm, to, *, density=0.02, kinds=("oak",), seed=0, min_spacing=3) -> int`
+Seeded forest with Chebyshev `min_spacing` rejection sampling; deterministic per
+seed. Returns trees planted.
+
 ## `schematica.export.sponge`
 
 ### `write_sponge(grid, path, data_version=3465, offset=(0,0,0), metadata=None) -> Path`
@@ -395,7 +484,8 @@ Writes a single-region Litematica `.litematic` with palette and packed
 
 ## `schematica.session.session`
 
-### `Session.new(shape, version="1.20.1", fill=AIR, chunked=False, chunk_size=16) -> Session`
+### `Session.new(shape, version=None, fill=AIR, chunked=False, chunk_size=16) -> Session`
+`version` defaults to `SCHEMATICA_MC_VERSION` env var, else `"1.20.1"`.
 ### `Session.load(path) -> Session`, `Session.restore(snap) -> Session`
 
 Properties:

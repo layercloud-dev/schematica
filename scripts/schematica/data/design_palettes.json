@@ -1,0 +1,354 @@
+{
+ "format": 1,
+ "name": "schematica design palettes",
+ "description": "Themed block palettes for map design. Roles: ramp = dark->light gradient ramp (used by paint.ramp / gradients); mix = weighted base-surface blend; accents = detail pops; trim = edge/kerb material; path = road surface candidates (ramp ordered); light = preferred light source. Override with SCHEMATICA_PALETTES.",
+ "palettes": {
+  "medieval_stone": {
+   "description": "Castle walls, keeps, town fortifications",
+   "themes": [
+    "medieval",
+    "fortress",
+    "town"
+   ],
+   "ramp": [
+    "minecraft:deepslate_bricks",
+    "minecraft:cobblestone",
+    "minecraft:stone_bricks",
+    "minecraft:stone"
+   ],
+   "mix": {
+    "minecraft:stone_bricks": 6,
+    "minecraft:cracked_stone_bricks": 1,
+    "minecraft:mossy_stone_bricks": 2,
+    "minecraft:cobblestone": 2
+   },
+   "accents": [
+    "minecraft:mossy_cobblestone",
+    "minecraft:cobblestone_wall",
+    "minecraft:oak_trapdoor"
+   ],
+   "trim": "minecraft:stone_slab",
+   "path": [
+    "minecraft:cobblestone",
+    "minecraft:gravel"
+   ],
+   "light": "minecraft:lantern"
+  },
+  "rustic_oak": {
+   "description": "Villages, farms, warm wooden builds",
+   "themes": [
+    "village",
+    "farm",
+    "cozy"
+   ],
+   "ramp": [
+    "minecraft:spruce_planks",
+    "minecraft:oak_planks",
+    "minecraft:birch_planks"
+   ],
+   "mix": {
+    "minecraft:oak_planks": 6,
+    "minecraft:spruce_planks": 2,
+    "minecraft:stripped_oak_log": 1
+   },
+   "accents": [
+    "minecraft:hay_block",
+    "minecraft:oak_fence",
+    "minecraft:poppy"
+   ],
+   "trim": "minecraft:spruce_slab",
+   "path": [
+    "minecraft:coarse_dirt",
+    "minecraft:gravel"
+   ],
+   "light": "minecraft:lantern"
+  },
+  "desert_sandstone": {
+   "description": "Desert temples, sun-bleached towns",
+   "themes": [
+    "desert",
+    "temple",
+    "dry"
+   ],
+   "ramp": [
+    "minecraft:red_sandstone",
+    "minecraft:sandstone",
+    "minecraft:smooth_sandstone"
+   ],
+   "mix": {
+    "minecraft:sandstone": 6,
+    "minecraft:smooth_sandstone": 3,
+    "minecraft:sand": 2
+   },
+   "accents": [
+    "minecraft:red_sandstone",
+    "minecraft:chiseled_sandstone",
+    "minecraft:dead_bush"
+   ],
+   "trim": "minecraft:sandstone_stairs",
+   "path": [
+    "minecraft:sand",
+    "minecraft:red_sand"
+   ],
+   "light": "minecraft:glowstone"
+  },
+  "nether_fortress": {
+   "description": "Ominous nether keeps",
+   "themes": [
+    "nether",
+    "fortress",
+    "dark"
+   ],
+   "ramp": [
+    "minecraft:blackstone",
+    "minecraft:nether_bricks",
+    "minecraft:cracked_nether_bricks"
+   ],
+   "mix": {
+    "minecraft:nether_bricks": 6,
+    "minecraft:blackstone": 2,
+    "minecraft:cracked_nether_bricks": 1
+   },
+   "accents": [
+    "minecraft:shroomlight",
+    "minecraft:chain",
+    "minecraft:crimson_stem"
+   ],
+   "trim": "minecraft:nether_brick_slab",
+   "path": [
+    "minecraft:netherrack",
+    "minecraft:blackstone"
+   ],
+   "light": "minecraft:shroomlight"
+  },
+  "end_island": {
+   "description": "Purpur towers and end cities",
+   "themes": [
+    "end",
+    "alien",
+    "void"
+   ],
+   "ramp": [
+    "minecraft:end_stone",
+    "minecraft:end_stone_bricks",
+    "minecraft:purpur_block"
+   ],
+   "mix": {
+    "minecraft:end_stone_bricks": 6,
+    "minecraft:purpur_block": 3,
+    "minecraft:purpur_pillar": 1
+   },
+   "accents": [
+    "minecraft:magenta_stained_glass",
+    "minecraft:ender_chest"
+   ],
+   "trim": "minecraft:end_stone_brick_slab",
+   "path": [
+    "minecraft:end_stone",
+    "minecraft:end_stone_bricks"
+   ],
+   "light": "minecraft:end_rod"
+  },
+  "modern_concrete": {
+   "description": "Clean contemporary blocks",
+   "themes": [
+    "modern",
+    "city",
+    "minimal"
+   ],
+   "ramp": [
+    "minecraft:gray_concrete",
+    "minecraft:light_gray_concrete",
+    "minecraft:white_concrete"
+   ],
+   "mix": {
+    "minecraft:white_concrete": 6,
+    "minecraft:light_gray_concrete": 3,
+    "minecraft:quartz_block": 1
+   },
+   "accents": [
+    "minecraft:glass",
+    "minecraft:cyan_stained_glass",
+    "minecraft:sea_lantern"
+   ],
+   "trim": "minecraft:smooth_quartz_slab",
+   "path": [
+    "minecraft:light_gray_concrete",
+    "minecraft:gray_concrete"
+   ],
+   "light": "minecraft:sea_lantern"
+  },
+  "copper_industrial": {
+   "description": "Oxidizing copper machinery halls",
+   "themes": [
+    "industrial",
+    "steampunk",
+    "factory"
+   ],
+   "ramp": [
+    "minecraft:oxidized_copper",
+    "minecraft:weathered_copper",
+    "minecraft:copper_block"
+   ],
+   "mix": {
+    "minecraft:copper_block": 5,
+    "minecraft:exposed_copper": 3,
+    "minecraft:oxidized_copper": 1
+   },
+   "accents": [
+    "minecraft:copper_bulb",
+    "minecraft:copper_grate",
+    "minecraft:chain"
+   ],
+   "trim": "minecraft:cut_copper_slab",
+   "path": [
+    "minecraft:copper_grate",
+    "minecraft:iron_block"
+   ],
+   "light": "minecraft:copper_bulb"
+  },
+  "deepslate_dungeon": {
+   "description": "Brooding underground halls",
+   "themes": [
+    "deep",
+    "dungeon",
+    "dark"
+   ],
+   "ramp": [
+    "minecraft:deepslate",
+    "minecraft:deepslate_bricks",
+    "minecraft:polished_deepslate"
+   ],
+   "mix": {
+    "minecraft:deepslate_bricks": 6,
+    "minecraft:deepslate_tiles": 3,
+    "minecraft:cobbled_deepslate": 2
+   },
+   "accents": [
+    "minecraft:sculk",
+    "minecraft:candle",
+    "minecraft:soul_lantern"
+   ],
+   "trim": "minecraft:deepslate_brick_slab",
+   "path": [
+    "minecraft:cobbled_deepslate",
+    "minecraft:deepslate"
+   ],
+   "light": "minecraft:soul_lantern"
+  },
+  "prismarine_ocean": {
+   "description": "Sunken ruins and sea temples",
+   "themes": [
+    "ocean",
+    "ruin",
+    "wet"
+   ],
+   "ramp": [
+    "minecraft:dark_prismarine",
+    "minecraft:prismarine",
+    "minecraft:prismarine_bricks"
+   ],
+   "mix": {
+    "minecraft:prismarine": 5,
+    "minecraft:prismarine_bricks": 4,
+    "minecraft:dark_prismarine": 1
+   },
+   "accents": [
+    "minecraft:sea_lantern",
+    "minecraft:blue_ice",
+    "minecraft:tube_coral_block"
+   ],
+   "trim": "minecraft:prismarine_slab",
+   "path": [
+    "minecraft:prismarine_bricks",
+    "minecraft:prismarine"
+   ],
+   "light": "minecraft:sea_lantern"
+  },
+  "red_sand_badlands": {
+   "description": "Mesas and canyons",
+   "themes": [
+    "mesa",
+    "canyon",
+    "wild_west"
+   ],
+   "ramp": [
+    "minecraft:red_terracotta",
+    "minecraft:orange_terracotta",
+    "minecraft:terracotta"
+   ],
+   "mix": {
+    "minecraft:red_terracotta": 4,
+    "minecraft:terracotta": 3,
+    "minecraft:orange_terracotta": 3
+   },
+   "accents": [
+    "minecraft:red_sandstone",
+    "minecraft:dead_bush"
+   ],
+   "trim": "minecraft:red_sandstone_slab",
+   "path": [
+    "minecraft:red_sand",
+    "minecraft:gravel"
+   ],
+   "light": "minecraft:campfire"
+  },
+  "ice_frost": {
+   "description": "Frozen peaks and ice palaces",
+   "themes": [
+    "snow",
+    "ice",
+    "frozen"
+   ],
+   "ramp": [
+    "minecraft:packed_ice",
+    "minecraft:blue_ice",
+    "minecraft:snow_block"
+   ],
+   "mix": {
+    "minecraft:snow_block": 5,
+    "minecraft:packed_ice": 3,
+    "minecraft:ice": 2
+   },
+   "accents": [
+    "minecraft:spruce_fence",
+    "minecraft:snow_block"
+   ],
+   "trim": "minecraft:cyan_wool",
+   "path": [
+    "minecraft:packed_ice",
+    "minecraft:snow_block"
+   ],
+   "light": "minecraft:lantern"
+  },
+  "cherry_grove": {
+   "description": "Soft pink blossom hills",
+   "themes": [
+    "grove",
+    "spring",
+    "soft"
+   ],
+   "ramp": [
+    "minecraft:cherry_planks",
+    "minecraft:pink_wool",
+    "minecraft:white_wool"
+   ],
+   "mix": {
+    "minecraft:cherry_planks": 5,
+    "minecraft:stripped_cherry_log": 2,
+    "minecraft:pink_terracotta": 1
+   },
+   "accents": [
+    "minecraft:cherry_leaves",
+    "minecraft:pink_petals",
+    "minecraft:poppy"
+   ],
+   "trim": "minecraft:cherry_slab",
+   "path": [
+    "minecraft:coarse_dirt",
+    "minecraft:moss_block"
+   ],
+   "light": "minecraft:lantern"
+  }
+ }
+}

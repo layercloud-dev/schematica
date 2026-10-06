@@ -1,0 +1,4943 @@
+{
+ "format": 1,
+ "name": "schematica bundled block colors",
+ "assets_version": "1.21.4",
+ "source": "average of vanilla textures from PrismarineJS/minecraft-assets data/1.21.4; regenerate with `python -m schematica.blocks.colors <mc_version>`",
+ "colors": {
+  "minecraft:acacia_button": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_door": [
+   0.6389,
+   0.3598,
+   0.225
+  ],
+  "minecraft:acacia_fence_gate": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_hanging_sign": [
+   0.6853,
+   0.3644,
+   0.2344
+  ],
+  "minecraft:acacia_leaves": [
+   0.4672,
+   0.7054,
+   0.5405
+  ],
+  "minecraft:acacia_log": [
+   0.5918,
+   0.3484,
+   0.2163
+  ],
+  "minecraft:acacia_planks": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_pressure_plate": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_sapling": [
+   0.4655,
+   0.4624,
+   0.0927
+  ],
+  "minecraft:acacia_sign": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_slab": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_stairs": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_trapdoor": [
+   0.6145,
+   0.342,
+   0.2011
+  ],
+  "minecraft:acacia_wall_hanging_sign": [
+   0.6853,
+   0.3644,
+   0.2344
+  ],
+  "minecraft:acacia_wall_sign": [
+   0.6593,
+   0.3544,
+   0.197
+  ],
+  "minecraft:acacia_wood": [
+   0.4049,
+   0.3787,
+   0.3409
+  ],
+  "minecraft:activator_rail": [
+   0.451,
+   0.342,
+   0.2915
+  ],
+  "minecraft:allium": [
+   0.6234,
+   0.5381,
+   0.7213
+  ],
+  "minecraft:amethyst_block": [
+   0.5246,
+   0.3843,
+   0.75
+  ],
+  "minecraft:amethyst_cluster": [
+   0.6425,
+   0.4975,
+   0.8128
+  ],
+  "minecraft:ancient_debris": [
+   0.3718,
+   0.2607,
+   0.2292
+  ],
+  "minecraft:andesite": [
+   0.5339,
+   0.5344,
+   0.5364
+  ],
+  "minecraft:andesite_slab": [
+   0.5339,
+   0.5344,
+   0.5364
+  ],
+  "minecraft:andesite_stairs": [
+   0.5339,
+   0.5344,
+   0.5364
+  ],
+  "minecraft:anvil": [
+   0.2844,
+   0.2844,
+   0.2844
+  ],
+  "minecraft:attached_melon_stem": [
+   0.603,
+   0.603,
+   0.603
+  ],
+  "minecraft:attached_pumpkin_stem": [
+   0.6044,
+   0.6046,
+   0.6044
+  ],
+  "minecraft:azalea": [
+   0.3685,
+   0.4626,
+   0.1781
+  ],
+  "minecraft:azalea_leaves": [
+   0.3537,
+   0.4505,
+   0.1733
+  ],
+  "minecraft:azure_bluet": [
+   0.6643,
+   0.802,
+   0.4996
+  ],
+  "minecraft:bamboo_block": [
+   0.5455,
+   0.556,
+   0.245
+  ],
+  "minecraft:bamboo_button": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_door": [
+   0.781,
+   0.6995,
+   0.3325
+  ],
+  "minecraft:bamboo_fence_gate": [
+   0.8116,
+   0.7279,
+   0.3316
+  ],
+  "minecraft:bamboo_hanging_sign": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_mosaic": [
+   0.7459,
+   0.6674,
+   0.3063
+  ],
+  "minecraft:bamboo_mosaic_slab": [
+   0.7459,
+   0.6674,
+   0.3063
+  ],
+  "minecraft:bamboo_mosaic_stairs": [
+   0.7459,
+   0.6674,
+   0.3063
+  ],
+  "minecraft:bamboo_planks": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_pressure_plate": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_sapling": [
+   0.3625,
+   0.3492,
+   0.1407
+  ],
+  "minecraft:bamboo_sign": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_slab": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_stairs": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_trapdoor": [
+   0.7793,
+   0.7032,
+   0.3346
+  ],
+  "minecraft:bamboo_wall_hanging_sign": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:bamboo_wall_sign": [
+   0.7583,
+   0.6788,
+   0.3156
+  ],
+  "minecraft:barrel": [
+   0.4532,
+   0.335,
+   0.1916
+  ],
+  "minecraft:barrier": [
+   0.8335,
+   0.0005,
+   0.0005
+  ],
+  "minecraft:basalt": [
+   0.316,
+   0.3196,
+   0.3382
+  ],
+  "minecraft:beacon": [
+   0.6895,
+   0.8389,
+   0.8589
+  ],
+  "minecraft:bedrock": [
+   0.3338,
+   0.3338,
+   0.3338
+  ],
+  "minecraft:bee_nest": [
+   0.6295,
+   0.4987,
+   0.3445
+  ],
+  "minecraft:beehive": [
+   0.708,
+   0.5729,
+   0.354
+  ],
+  "minecraft:beetroots": [
+   0.2573,
+   0.5393,
+   0.1608
+  ],
+  "minecraft:bell": [
+   0.7394,
+   0.5822,
+   0.1653
+  ],
+  "minecraft:big_dripleaf": [
+   0.4375,
+   0.5563,
+   0.2029
+  ],
+  "minecraft:big_dripleaf_stem": [
+   0.3584,
+   0.4516,
+   0.1802
+  ],
+  "minecraft:birch_button": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_door": [
+   0.8171,
+   0.7609,
+   0.5657
+  ],
+  "minecraft:birch_fence_gate": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_hanging_sign": [
+   0.7725,
+   0.6903,
+   0.4642
+  ],
+  "minecraft:birch_leaves": [
+   0.408,
+   0.616,
+   0.472
+  ],
+  "minecraft:birch_log": [
+   0.7578,
+   0.7036,
+   0.53
+  ],
+  "minecraft:birch_planks": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_pressure_plate": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_sapling": [
+   0.5017,
+   0.6308,
+   0.3118
+  ],
+  "minecraft:birch_sign": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_slab": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_stairs": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_trapdoor": [
+   0.8118,
+   0.7623,
+   0.6161
+  ],
+  "minecraft:birch_wall_hanging_sign": [
+   0.7725,
+   0.6903,
+   0.4642
+  ],
+  "minecraft:birch_wall_sign": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:birch_wood": [
+   0.8492,
+   0.8432,
+   0.8247
+  ],
+  "minecraft:black_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:black_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:black_candle": [
+   0.1501,
+   0.1438,
+   0.2258
+  ],
+  "minecraft:black_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:black_carpet": [
+   0.0808,
+   0.0835,
+   0.1005
+  ],
+  "minecraft:black_concrete": [
+   0.033,
+   0.0408,
+   0.0604
+  ],
+  "minecraft:black_concrete_powder": [
+   0.0992,
+   0.1049,
+   0.1254
+  ],
+  "minecraft:black_glazed_terracotta": [
+   0.2656,
+   0.1178,
+   0.1263
+  ],
+  "minecraft:black_shulker_box": [
+   0.0983,
+   0.0997,
+   0.1158
+  ],
+  "minecraft:black_stained_glass": [
+   0.098,
+   0.098,
+   0.098
+  ],
+  "minecraft:black_terracotta": [
+   0.146,
+   0.0895,
+   0.0643
+  ],
+  "minecraft:black_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:black_wool": [
+   0.0808,
+   0.0835,
+   0.1005
+  ],
+  "minecraft:blackstone": [
+   0.1665,
+   0.143,
+   0.1646
+  ],
+  "minecraft:blackstone_slab": [
+   0.1665,
+   0.143,
+   0.1646
+  ],
+  "minecraft:blackstone_stairs": [
+   0.1665,
+   0.143,
+   0.1646
+  ],
+  "minecraft:blast_furnace": [
+   0.4219,
+   0.4222,
+   0.4206
+  ],
+  "minecraft:blue_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:blue_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:blue_candle": [
+   0.2237,
+   0.2995,
+   0.6316
+  ],
+  "minecraft:blue_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:blue_carpet": [
+   0.2081,
+   0.2245,
+   0.6176
+  ],
+  "minecraft:blue_concrete": [
+   0.1747,
+   0.1825,
+   0.5624
+  ],
+  "minecraft:blue_concrete_powder": [
+   0.2754,
+   0.2873,
+   0.6542
+  ],
+  "minecraft:blue_glazed_terracotta": [
+   0.1861,
+   0.2535,
+   0.5466
+  ],
+  "minecraft:blue_ice": [
+   0.4553,
+   0.6574,
+   0.9922
+  ],
+  "minecraft:blue_orchid": [
+   0.1855,
+   0.6373,
+   0.6599
+  ],
+  "minecraft:blue_shulker_box": [
+   0.1713,
+   0.1788,
+   0.5498
+  ],
+  "minecraft:blue_stained_glass": [
+   0.2,
+   0.298,
+   0.698
+  ],
+  "minecraft:blue_terracotta": [
+   0.2913,
+   0.2341,
+   0.3573
+  ],
+  "minecraft:blue_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:blue_wool": [
+   0.2081,
+   0.2245,
+   0.6176
+  ],
+  "minecraft:bone_block": [
+   0.8228,
+   0.8087,
+   0.7035
+  ],
+  "minecraft:bookshelf": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:brain_coral": [
+   0.7749,
+   0.3318,
+   0.5962
+  ],
+  "minecraft:brain_coral_block": [
+   0.8136,
+   0.3574,
+   0.625
+  ],
+  "minecraft:brain_coral_fan": [
+   0.7944,
+   0.3302,
+   0.6037
+  ],
+  "minecraft:brain_coral_wall_fan": [
+   0.7944,
+   0.3302,
+   0.6037
+  ],
+  "minecraft:brick_slab": [
+   0.592,
+   0.3826,
+   0.3257
+  ],
+  "minecraft:brick_stairs": [
+   0.592,
+   0.3826,
+   0.3257
+  ],
+  "minecraft:bricks": [
+   0.592,
+   0.3826,
+   0.3257
+  ],
+  "minecraft:brown_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:brown_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:brown_candle": [
+   0.4375,
+   0.2747,
+   0.161
+  ],
+  "minecraft:brown_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:brown_carpet": [
+   0.448,
+   0.2808,
+   0.1592
+  ],
+  "minecraft:brown_concrete": [
+   0.3782,
+   0.2335,
+   0.1239
+  ],
+  "minecraft:brown_concrete_powder": [
+   0.4923,
+   0.3327,
+   0.2112
+  ],
+  "minecraft:brown_glazed_terracotta": [
+   0.4705,
+   0.4167,
+   0.337
+  ],
+  "minecraft:brown_mushroom": [
+   0.602,
+   0.4581,
+   0.3627
+  ],
+  "minecraft:brown_shulker_box": [
+   0.417,
+   0.2591,
+   0.1411
+  ],
+  "minecraft:brown_stained_glass": [
+   0.4,
+   0.298,
+   0.2
+  ],
+  "minecraft:brown_terracotta": [
+   0.3029,
+   0.2007,
+   0.14
+  ],
+  "minecraft:brown_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:brown_wool": [
+   0.448,
+   0.2808,
+   0.1592
+  ],
+  "minecraft:bubble_column": [
+   0.6945,
+   0.6945,
+   0.6945
+  ],
+  "minecraft:bubble_coral": [
+   0.6331,
+   0.0937,
+   0.6263
+  ],
+  "minecraft:bubble_coral_block": [
+   0.6484,
+   0.1032,
+   0.6361
+  ],
+  "minecraft:bubble_coral_fan": [
+   0.6278,
+   0.1277,
+   0.6252
+  ],
+  "minecraft:bubble_coral_wall_fan": [
+   0.6278,
+   0.1277,
+   0.6252
+  ],
+  "minecraft:budding_amethyst": [
+   0.5193,
+   0.3772,
+   0.7324
+  ],
+  "minecraft:cactus": [
+   0.3472,
+   0.5102,
+   0.1777
+  ],
+  "minecraft:cake": [
+   0.7966,
+   0.5959,
+   0.4778
+  ],
+  "minecraft:calcite": [
+   0.8764,
+   0.8803,
+   0.8653
+  ],
+  "minecraft:calibrated_sculk_sensor": [
+   0.0345,
+   0.4815,
+   0.4968
+  ],
+  "minecraft:campfire": [
+   0.3116,
+   0.2923,
+   0.2653
+  ],
+  "minecraft:candle": [
+   0.9102,
+   0.7866,
+   0.6011
+  ],
+  "minecraft:candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:carrots": [
+   0.1749,
+   0.4325,
+   0.1557
+  ],
+  "minecraft:cartography_table": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:carved_pumpkin": [
+   0.5889,
+   0.3304,
+   0.0677
+  ],
+  "minecraft:cauldron": [
+   0.2907,
+   0.2877,
+   0.2929
+  ],
+  "minecraft:cave_vines": [
+   0.3546,
+   0.4289,
+   0.16
+  ],
+  "minecraft:cave_vines_plant": [
+   0.3458,
+   0.3985,
+   0.1496
+  ],
+  "minecraft:chain": [
+   0.2015,
+   0.2272,
+   0.2917
+  ],
+  "minecraft:chain_command_block": [
+   0.5098,
+   0.6158,
+   0.5687
+  ],
+  "minecraft:cherry_button": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_door": [
+   0.885,
+   0.6906,
+   0.6655
+  ],
+  "minecraft:cherry_fence_gate": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_hanging_sign": [
+   0.8434,
+   0.5693,
+   0.5841
+  ],
+  "minecraft:cherry_leaves": [
+   0.8997,
+   0.6784,
+   0.7611
+  ],
+  "minecraft:cherry_log": [
+   0.7261,
+   0.5531,
+   0.5383
+  ],
+  "minecraft:cherry_planks": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_pressure_plate": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_sapling": [
+   0.6434,
+   0.4624,
+   0.5615
+  ],
+  "minecraft:cherry_sign": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_slab": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_stairs": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_trapdoor": [
+   0.888,
+   0.7004,
+   0.6761
+  ],
+  "minecraft:cherry_wall_hanging_sign": [
+   0.8434,
+   0.5693,
+   0.5841
+  ],
+  "minecraft:cherry_wall_sign": [
+   0.8883,
+   0.7009,
+   0.6773
+  ],
+  "minecraft:cherry_wood": [
+   0.2146,
+   0.1295,
+   0.1741
+  ],
+  "minecraft:chest": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:chipped_anvil": [
+   0.2861,
+   0.2856,
+   0.2856
+  ],
+  "minecraft:chiseled_copper": [
+   0.7216,
+   0.3953,
+   0.2896
+  ],
+  "minecraft:chiseled_deepslate": [
+   0.2129,
+   0.213,
+   0.2152
+  ],
+  "minecraft:chiseled_nether_bricks": [
+   0.1795,
+   0.0898,
+   0.1069
+  ],
+  "minecraft:chiseled_polished_blackstone": [
+   0.2117,
+   0.1908,
+   0.2228
+  ],
+  "minecraft:chiseled_quartz_block": [
+   0.9081,
+   0.8885,
+   0.8517
+  ],
+  "minecraft:chiseled_red_sandstone": [
+   0.711,
+   0.3836,
+   0.1234
+  ],
+  "minecraft:chiseled_sandstone": [
+   0.8778,
+   0.84,
+   0.668
+  ],
+  "minecraft:chiseled_stone_bricks": [
+   0.4697,
+   0.4663,
+   0.4697
+  ],
+  "minecraft:chiseled_tuff": [
+   0.3678,
+   0.3867,
+   0.3576
+  ],
+  "minecraft:chiseled_tuff_bricks": [
+   0.4348,
+   0.447,
+   0.4189
+  ],
+  "minecraft:chorus_flower": [
+   0.5935,
+   0.4744,
+   0.5951
+  ],
+  "minecraft:clay": [
+   0.6301,
+   0.6528,
+   0.7037
+  ],
+  "minecraft:coal_block": [
+   0.0628,
+   0.0624,
+   0.0624
+  ],
+  "minecraft:coal_ore": [
+   0.4144,
+   0.415,
+   0.4132
+  ],
+  "minecraft:coarse_dirt": [
+   0.4684,
+   0.3357,
+   0.2329
+  ],
+  "minecraft:cobbled_deepslate": [
+   0.303,
+   0.303,
+   0.3161
+  ],
+  "minecraft:cobbled_deepslate_slab": [
+   0.303,
+   0.303,
+   0.3161
+  ],
+  "minecraft:cobbled_deepslate_stairs": [
+   0.303,
+   0.303,
+   0.3161
+  ],
+  "minecraft:cobblestone": [
+   0.5011,
+   0.4992,
+   0.5004
+  ],
+  "minecraft:cobblestone_slab": [
+   0.5011,
+   0.4992,
+   0.5004
+  ],
+  "minecraft:cobblestone_stairs": [
+   0.5011,
+   0.4992,
+   0.5004
+  ],
+  "minecraft:cobweb": [
+   0.8964,
+   0.9145,
+   0.9191
+  ],
+  "minecraft:cocoa": [
+   0.5227,
+   0.5285,
+   0.2432
+  ],
+  "minecraft:command_block": [
+   0.6815,
+   0.5146,
+   0.4189
+  ],
+  "minecraft:comparator": [
+   0.6523,
+   0.635,
+   0.6256
+  ],
+  "minecraft:conduit": [
+   0.626,
+   0.5478,
+   0.4433
+  ],
+  "minecraft:copper_block": [
+   0.7546,
+   0.4222,
+   0.313
+  ],
+  "minecraft:copper_bulb": [
+   0.6127,
+   0.3408,
+   0.2251
+  ],
+  "minecraft:copper_door": [
+   0.7092,
+   0.4057,
+   0.3032
+  ],
+  "minecraft:copper_grate": [
+   0.7529,
+   0.4218,
+   0.3115
+  ],
+  "minecraft:copper_ore": [
+   0.4891,
+   0.4929,
+   0.4708
+  ],
+  "minecraft:copper_trapdoor": [
+   0.748,
+   0.4164,
+   0.312
+  ],
+  "minecraft:cornflower": [
+   0.3124,
+   0.4754,
+   0.5746
+  ],
+  "minecraft:cracked_deepslate_bricks": [
+   0.2548,
+   0.2545,
+   0.2559
+  ],
+  "minecraft:cracked_deepslate_tiles": [
+   0.2064,
+   0.2059,
+   0.2068
+  ],
+  "minecraft:cracked_nether_bricks": [
+   0.1583,
+   0.0786,
+   0.0939
+  ],
+  "minecraft:cracked_polished_blackstone_bricks": [
+   0.1727,
+   0.1475,
+   0.1723
+  ],
+  "minecraft:cracked_stone_bricks": [
+   0.464,
+   0.4614,
+   0.464
+  ],
+  "minecraft:crafter": [
+   0.3095,
+   0.3092,
+   0.3087
+  ],
+  "minecraft:crafting_table": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:creeper_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:creeper_wall_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:crimson_button": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crimson_door": [
+   0.4528,
+   0.2165,
+   0.3116
+  ],
+  "minecraft:crimson_fence_gate": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crimson_fungus": [
+   0.5544,
+   0.1731,
+   0.1163
+  ],
+  "minecraft:crimson_hanging_sign": [
+   0.5385,
+   0.2248,
+   0.3531
+  ],
+  "minecraft:crimson_hyphae": [
+   0.3639,
+   0.1003,
+   0.117
+  ],
+  "minecraft:crimson_nylium": [
+   0.3827,
+   0.1506,
+   0.1506
+  ],
+  "minecraft:crimson_planks": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crimson_pressure_plate": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crimson_roots": [
+   0.4942,
+   0.0317,
+   0.1644
+  ],
+  "minecraft:crimson_sign": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crimson_slab": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crimson_stairs": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crimson_stem": [
+   0.4419,
+   0.1944,
+   0.275
+  ],
+  "minecraft:crimson_trapdoor": [
+   0.4076,
+   0.1989,
+   0.2841
+  ],
+  "minecraft:crimson_wall_hanging_sign": [
+   0.5385,
+   0.2248,
+   0.3531
+  ],
+  "minecraft:crimson_wall_sign": [
+   0.3962,
+   0.1913,
+   0.2767
+  ],
+  "minecraft:crying_obsidian": [
+   0.1278,
+   0.0395,
+   0.237
+  ],
+  "minecraft:cut_copper": [
+   0.7497,
+   0.4191,
+   0.3159
+  ],
+  "minecraft:cut_copper_slab": [
+   0.7497,
+   0.4191,
+   0.3159
+  ],
+  "minecraft:cut_copper_stairs": [
+   0.7497,
+   0.4191,
+   0.3159
+  ],
+  "minecraft:cut_red_sandstone": [
+   0.711,
+   0.3836,
+   0.1234
+  ],
+  "minecraft:cut_red_sandstone_slab": [
+   0.711,
+   0.3836,
+   0.1234
+  ],
+  "minecraft:cut_sandstone": [
+   0.8778,
+   0.84,
+   0.668
+  ],
+  "minecraft:cut_sandstone_slab": [
+   0.8778,
+   0.84,
+   0.668
+  ],
+  "minecraft:cyan_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:cyan_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:cyan_candle": [
+   0.0669,
+   0.4848,
+   0.4848
+  ],
+  "minecraft:cyan_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:cyan_carpet": [
+   0.0833,
+   0.5401,
+   0.57
+  ],
+  "minecraft:cyan_concrete": [
+   0.0841,
+   0.4675,
+   0.5341
+  ],
+  "minecraft:cyan_concrete_powder": [
+   0.1437,
+   0.5803,
+   0.6163
+  ],
+  "minecraft:cyan_glazed_terracotta": [
+   0.2049,
+   0.4656,
+   0.4915
+  ],
+  "minecraft:cyan_shulker_box": [
+   0.0793,
+   0.4759,
+   0.5297
+  ],
+  "minecraft:cyan_stained_glass": [
+   0.298,
+   0.498,
+   0.6
+  ],
+  "minecraft:cyan_terracotta": [
+   0.3401,
+   0.3569,
+   0.3569
+  ],
+  "minecraft:cyan_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:cyan_wool": [
+   0.0833,
+   0.5401,
+   0.57
+  ],
+  "minecraft:damaged_anvil": [
+   0.2837,
+   0.2832,
+   0.2832
+  ],
+  "minecraft:dandelion": [
+   0.5792,
+   0.6755,
+   0.1705
+  ],
+  "minecraft:dark_oak_button": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_door": [
+   0.2882,
+   0.1928,
+   0.094
+  ],
+  "minecraft:dark_oak_fence_gate": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_hanging_sign": [
+   0.2856,
+   0.2231,
+   0.1413
+  ],
+  "minecraft:dark_oak_leaves": [
+   0.4733,
+   0.7147,
+   0.5476
+  ],
+  "minecraft:dark_oak_log": [
+   0.2654,
+   0.1769,
+   0.0877
+  ],
+  "minecraft:dark_oak_planks": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_pressure_plate": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_sapling": [
+   0.2398,
+   0.3557,
+   0.1207
+  ],
+  "minecraft:dark_oak_sign": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_slab": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_stairs": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_trapdoor": [
+   0.2954,
+   0.1945,
+   0.0916
+  ],
+  "minecraft:dark_oak_wall_hanging_sign": [
+   0.2856,
+   0.2231,
+   0.1413
+  ],
+  "minecraft:dark_oak_wall_sign": [
+   0.2614,
+   0.169,
+   0.0793
+  ],
+  "minecraft:dark_oak_wood": [
+   0.2368,
+   0.1826,
+   0.1026
+  ],
+  "minecraft:dark_prismarine": [
+   0.2034,
+   0.3594,
+   0.2978
+  ],
+  "minecraft:dark_prismarine_slab": [
+   0.2034,
+   0.3594,
+   0.2978
+  ],
+  "minecraft:dark_prismarine_stairs": [
+   0.2034,
+   0.3594,
+   0.2978
+  ],
+  "minecraft:daylight_detector": [
+   0.2619,
+   0.2168,
+   0.1396
+  ],
+  "minecraft:dead_brain_coral": [
+   0.5245,
+   0.4903,
+   0.4741
+  ],
+  "minecraft:dead_brain_coral_block": [
+   0.4876,
+   0.4609,
+   0.4477
+  ],
+  "minecraft:dead_brain_coral_fan": [
+   0.5213,
+   0.4911,
+   0.4756
+  ],
+  "minecraft:dead_brain_coral_wall_fan": [
+   0.5213,
+   0.4911,
+   0.4756
+  ],
+  "minecraft:dead_bubble_coral": [
+   0.5202,
+   0.489,
+   0.4726
+  ],
+  "minecraft:dead_bubble_coral_block": [
+   0.517,
+   0.4845,
+   0.4683
+  ],
+  "minecraft:dead_bubble_coral_fan": [
+   0.5521,
+   0.5276,
+   0.51
+  ],
+  "minecraft:dead_bubble_coral_wall_fan": [
+   0.5521,
+   0.5276,
+   0.51
+  ],
+  "minecraft:dead_bush": [
+   0.4215,
+   0.3095,
+   0.159
+  ],
+  "minecraft:dead_fire_coral": [
+   0.5369,
+   0.5037,
+   0.4863
+  ],
+  "minecraft:dead_fire_coral_block": [
+   0.5162,
+   0.4852,
+   0.4695
+  ],
+  "minecraft:dead_fire_coral_fan": [
+   0.4896,
+   0.4632,
+   0.4498
+  ],
+  "minecraft:dead_fire_coral_wall_fan": [
+   0.4896,
+   0.4632,
+   0.4498
+  ],
+  "minecraft:dead_horn_coral": [
+   0.5595,
+   0.5295,
+   0.5097
+  ],
+  "minecraft:dead_horn_coral_block": [
+   0.524,
+   0.495,
+   0.4796
+  ],
+  "minecraft:dead_horn_coral_fan": [
+   0.5257,
+   0.4931,
+   0.4763
+  ],
+  "minecraft:dead_horn_coral_wall_fan": [
+   0.5257,
+   0.4931,
+   0.4763
+  ],
+  "minecraft:dead_tube_coral": [
+   0.4631,
+   0.4357,
+   0.4235
+  ],
+  "minecraft:dead_tube_coral_block": [
+   0.5117,
+   0.4831,
+   0.4693
+  ],
+  "minecraft:dead_tube_coral_fan": [
+   0.5037,
+   0.4788,
+   0.4644
+  ],
+  "minecraft:dead_tube_coral_wall_fan": [
+   0.5037,
+   0.4788,
+   0.4644
+  ],
+  "minecraft:decorated_pot": [
+   0.5966,
+   0.3687,
+   0.2656
+  ],
+  "minecraft:deepslate": [
+   0.342,
+   0.342,
+   0.3507
+  ],
+  "minecraft:deepslate_brick_slab": [
+   0.2783,
+   0.2781,
+   0.2795
+  ],
+  "minecraft:deepslate_brick_stairs": [
+   0.2783,
+   0.2781,
+   0.2795
+  ],
+  "minecraft:deepslate_bricks": [
+   0.2783,
+   0.2781,
+   0.2795
+  ],
+  "minecraft:deepslate_coal_ore": [
+   0.2918,
+   0.292,
+   0.2982
+  ],
+  "minecraft:deepslate_copper_ore": [
+   0.3614,
+   0.3652,
+   0.3501
+  ],
+  "minecraft:deepslate_diamond_ore": [
+   0.3269,
+   0.4174,
+   0.4194
+  ],
+  "minecraft:deepslate_emerald_ore": [
+   0.3076,
+   0.4097,
+   0.3443
+  ],
+  "minecraft:deepslate_gold_ore": [
+   0.4519,
+   0.4036,
+   0.3065
+  ],
+  "minecraft:deepslate_iron_ore": [
+   0.4186,
+   0.3909,
+   0.3714
+  ],
+  "minecraft:deepslate_lapis_ore": [
+   0.3134,
+   0.3561,
+   0.4522
+  ],
+  "minecraft:deepslate_redstone_ore": [
+   0.4106,
+   0.2875,
+   0.2934
+  ],
+  "minecraft:deepslate_tile_slab": [
+   0.2153,
+   0.2149,
+   0.216
+  ],
+  "minecraft:deepslate_tile_stairs": [
+   0.2153,
+   0.2149,
+   0.216
+  ],
+  "minecraft:deepslate_tiles": [
+   0.2153,
+   0.2149,
+   0.216
+  ],
+  "minecraft:detector_rail": [
+   0.4826,
+   0.4113,
+   0.3548
+  ],
+  "minecraft:diamond_block": [
+   0.385,
+   0.9299,
+   0.8946
+  ],
+  "minecraft:diamond_ore": [
+   0.4754,
+   0.5539,
+   0.5517
+  ],
+  "minecraft:diorite": [
+   0.7401,
+   0.739,
+   0.7411
+  ],
+  "minecraft:diorite_slab": [
+   0.7401,
+   0.739,
+   0.7411
+  ],
+  "minecraft:diorite_stairs": [
+   0.7401,
+   0.739,
+   0.7411
+  ],
+  "minecraft:dirt": [
+   0.5265,
+   0.3776,
+   0.2627
+  ],
+  "minecraft:dirt_path": [
+   0.5265,
+   0.3776,
+   0.2627
+  ],
+  "minecraft:dispenser": [
+   0.3865,
+   0.384,
+   0.384
+  ],
+  "minecraft:dragon_egg": [
+   0.0492,
+   0.037,
+   0.0616
+  ],
+  "minecraft:dragon_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:dragon_wall_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:dried_kelp_block": [
+   0.1505,
+   0.1917,
+   0.1159
+  ],
+  "minecraft:dripstone_block": [
+   0.5273,
+   0.4218,
+   0.3628
+  ],
+  "minecraft:dropper": [
+   0.383,
+   0.3802,
+   0.3802
+  ],
+  "minecraft:emerald_block": [
+   0.1662,
+   0.7978,
+   0.3443
+  ],
+  "minecraft:emerald_ore": [
+   0.4247,
+   0.5347,
+   0.4536
+  ],
+  "minecraft:enchanting_table": [
+   0.0594,
+   0.0416,
+   0.0963
+  ],
+  "minecraft:end_gateway": [
+   0.0594,
+   0.0416,
+   0.0963
+  ],
+  "minecraft:end_portal": [
+   0.0594,
+   0.0416,
+   0.0963
+  ],
+  "minecraft:end_portal_frame": [
+   0.5912,
+   0.6392,
+   0.4823
+  ],
+  "minecraft:end_rod": [
+   0.8139,
+   0.7776,
+   0.7337
+  ],
+  "minecraft:end_stone": [
+   0.8608,
+   0.8743,
+   0.6209
+  ],
+  "minecraft:end_stone_brick_slab": [
+   0.8567,
+   0.8786,
+   0.6361
+  ],
+  "minecraft:end_stone_brick_stairs": [
+   0.8567,
+   0.8786,
+   0.6361
+  ],
+  "minecraft:end_stone_bricks": [
+   0.8567,
+   0.8786,
+   0.6361
+  ],
+  "minecraft:ender_chest": [
+   0.0594,
+   0.0416,
+   0.0963
+  ],
+  "minecraft:exposed_chiseled_copper": [
+   0.6064,
+   0.4682,
+   0.3953
+  ],
+  "minecraft:exposed_copper": [
+   0.6317,
+   0.493,
+   0.4076
+  ],
+  "minecraft:exposed_copper_bulb": [
+   0.5298,
+   0.4216,
+   0.3526
+  ],
+  "minecraft:exposed_copper_door": [
+   0.5986,
+   0.4633,
+   0.3929
+  ],
+  "minecraft:exposed_copper_grate": [
+   0.6347,
+   0.4938,
+   0.4102
+  ],
+  "minecraft:exposed_copper_trapdoor": [
+   0.6315,
+   0.4907,
+   0.4107
+  ],
+  "minecraft:exposed_cut_copper": [
+   0.6065,
+   0.4775,
+   0.3971
+  ],
+  "minecraft:exposed_cut_copper_slab": [
+   0.6065,
+   0.4775,
+   0.3971
+  ],
+  "minecraft:exposed_cut_copper_stairs": [
+   0.6065,
+   0.4775,
+   0.3971
+  ],
+  "minecraft:farmland": [
+   0.5265,
+   0.3776,
+   0.2627
+  ],
+  "minecraft:fern": [
+   0.9757,
+   0.9771,
+   0.9757
+  ],
+  "minecraft:fire_coral": [
+   0.6547,
+   0.1476,
+   0.1838
+  ],
+  "minecraft:fire_coral_block": [
+   0.642,
+   0.1379,
+   0.1838
+  ],
+  "minecraft:fire_coral_fan": [
+   0.6226,
+   0.1364,
+   0.1787
+  ],
+  "minecraft:fire_coral_wall_fan": [
+   0.6226,
+   0.1364,
+   0.1787
+  ],
+  "minecraft:fletching_table": [
+   0.7548,
+   0.6874,
+   0.4755
+  ],
+  "minecraft:flower_pot": [
+   0.4868,
+   0.269,
+   0.2095
+  ],
+  "minecraft:flowering_azalea": [
+   0.4355,
+   0.4447,
+   0.2878
+  ],
+  "minecraft:flowering_azalea_leaves": [
+   0.3905,
+   0.4357,
+   0.2387
+  ],
+  "minecraft:frogspawn": [
+   0.4322,
+   0.373,
+   0.3403
+  ],
+  "minecraft:frosted_ice": [
+   0.55,
+   0.7106,
+   0.991
+  ],
+  "minecraft:furnace": [
+   0.3597,
+   0.3578,
+   0.3578
+  ],
+  "minecraft:gilded_blackstone": [
+   0.2181,
+   0.1684,
+   0.1503
+  ],
+  "minecraft:glass": [
+   0.6895,
+   0.8389,
+   0.8589
+  ],
+  "minecraft:glowstone": [
+   0.6736,
+   0.5144,
+   0.3306
+  ],
+  "minecraft:gold_block": [
+   0.9663,
+   0.8169,
+   0.2417
+  ],
+  "minecraft:gold_ore": [
+   0.5692,
+   0.525,
+   0.4178
+  ],
+  "minecraft:granite": [
+   0.586,
+   0.4049,
+   0.3371
+  ],
+  "minecraft:granite_slab": [
+   0.586,
+   0.4049,
+   0.3371
+  ],
+  "minecraft:granite_stairs": [
+   0.586,
+   0.4049,
+   0.3371
+  ],
+  "minecraft:grass_block": [
+   0.53,
+   0.72,
+   0.33
+  ],
+  "minecraft:gravel": [
+   0.5174,
+   0.4998,
+   0.4961
+  ],
+  "minecraft:gray_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:gray_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:gray_candle": [
+   0.3154,
+   0.3705,
+   0.3796
+  ],
+  "minecraft:gray_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:gray_carpet": [
+   0.2461,
+   0.2676,
+   0.2806
+  ],
+  "minecraft:gray_concrete": [
+   0.2142,
+   0.2259,
+   0.2416
+  ],
+  "minecraft:gray_concrete_powder": [
+   0.3017,
+   0.3181,
+   0.333
+  ],
+  "minecraft:gray_glazed_terracotta": [
+   0.3259,
+   0.3542,
+   0.3672
+  ],
+  "minecraft:gray_shulker_box": [
+   0.2169,
+   0.2306,
+   0.245
+  ],
+  "minecraft:gray_stained_glass": [
+   0.298,
+   0.298,
+   0.298
+  ],
+  "minecraft:gray_terracotta": [
+   0.2266,
+   0.1663,
+   0.1395
+  ],
+  "minecraft:gray_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:gray_wool": [
+   0.2461,
+   0.2676,
+   0.2806
+  ],
+  "minecraft:green_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:green_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:green_candle": [
+   0.2855,
+   0.378,
+   0.0822
+  ],
+  "minecraft:green_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:green_carpet": [
+   0.3327,
+   0.4295,
+   0.1079
+  ],
+  "minecraft:green_concrete": [
+   0.2879,
+   0.3582,
+   0.1431
+  ],
+  "minecraft:green_concrete_powder": [
+   0.3811,
+   0.4671,
+   0.1748
+  ],
+  "minecraft:green_glazed_terracotta": [
+   0.4589,
+   0.5581,
+   0.2644
+  ],
+  "minecraft:green_shulker_box": [
+   0.3103,
+   0.3955,
+   0.1242
+  ],
+  "minecraft:green_stained_glass": [
+   0.4,
+   0.498,
+   0.2
+  ],
+  "minecraft:green_terracotta": [
+   0.2981,
+   0.3266,
+   0.166
+  ],
+  "minecraft:green_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:green_wool": [
+   0.3327,
+   0.4295,
+   0.1079
+  ],
+  "minecraft:grindstone": [
+   0.2865,
+   0.1803,
+   0.0829
+  ],
+  "minecraft:hanging_roots": [
+   0.6322,
+   0.4517,
+   0.3588
+  ],
+  "minecraft:hay_block": [
+   0.6508,
+   0.5456,
+   0.0488
+  ],
+  "minecraft:heavy_core": [
+   0.3226,
+   0.3381,
+   0.3691
+  ],
+  "minecraft:heavy_weighted_pressure_plate": [
+   0.8632,
+   0.8628,
+   0.8628
+  ],
+  "minecraft:honey_block": [
+   0.9845,
+   0.7266,
+   0.206
+  ],
+  "minecraft:honeycomb_block": [
+   0.8994,
+   0.582,
+   0.1158
+  ],
+  "minecraft:hopper": [
+   0.2612,
+   0.2582,
+   0.2674
+  ],
+  "minecraft:horn_coral": [
+   0.82,
+   0.7299,
+   0.2461
+  ],
+  "minecraft:horn_coral_block": [
+   0.8471,
+   0.7841,
+   0.2588
+  ],
+  "minecraft:horn_coral_fan": [
+   0.8078,
+   0.7176,
+   0.2393
+  ],
+  "minecraft:horn_coral_wall_fan": [
+   0.8078,
+   0.7176,
+   0.2393
+  ],
+  "minecraft:ice": [
+   0.5714,
+   0.7206,
+   0.996
+  ],
+  "minecraft:infested_chiseled_stone_bricks": [
+   0.4697,
+   0.4663,
+   0.4697
+  ],
+  "minecraft:infested_cobblestone": [
+   0.5011,
+   0.4992,
+   0.5004
+  ],
+  "minecraft:infested_cracked_stone_bricks": [
+   0.464,
+   0.4614,
+   0.464
+  ],
+  "minecraft:infested_deepslate": [
+   0.342,
+   0.342,
+   0.3507
+  ],
+  "minecraft:infested_mossy_stone_bricks": [
+   0.4527,
+   0.475,
+   0.4123
+  ],
+  "minecraft:infested_stone": [
+   0.4923,
+   0.4923,
+   0.4923
+  ],
+  "minecraft:infested_stone_bricks": [
+   0.4802,
+   0.4777,
+   0.4802
+  ],
+  "minecraft:iron_block": [
+   0.8632,
+   0.8628,
+   0.8628
+  ],
+  "minecraft:iron_door": [
+   0.7676,
+   0.7638,
+   0.7638
+  ],
+  "minecraft:iron_ore": [
+   0.5347,
+   0.507,
+   0.4814
+  ],
+  "minecraft:iron_trapdoor": [
+   0.796,
+   0.7931,
+   0.7931
+  ],
+  "minecraft:jack_o_lantern": [
+   0.8414,
+   0.5978,
+   0.2075
+  ],
+  "minecraft:jigsaw": [
+   0.245,
+   0.2117,
+   0.2489
+  ],
+  "minecraft:jukebox": [
+   0.3481,
+   0.2312,
+   0.16
+  ],
+  "minecraft:jungle_button": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_door": [
+   0.6202,
+   0.4455,
+   0.3088
+  ],
+  "minecraft:jungle_fence_gate": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_hanging_sign": [
+   0.6725,
+   0.5209,
+   0.3317
+  ],
+  "minecraft:jungle_leaves": [
+   0.4754,
+   0.7177,
+   0.5499
+  ],
+  "minecraft:jungle_log": [
+   0.5865,
+   0.4287,
+   0.277
+  ],
+  "minecraft:jungle_planks": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_pressure_plate": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_sapling": [
+   0.1865,
+   0.3181,
+   0.0655
+  ],
+  "minecraft:jungle_sign": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_slab": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_stairs": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_trapdoor": [
+   0.5995,
+   0.4327,
+   0.3038
+  ],
+  "minecraft:jungle_wall_hanging_sign": [
+   0.6725,
+   0.5209,
+   0.3317
+  ],
+  "minecraft:jungle_wall_sign": [
+   0.6292,
+   0.4517,
+   0.3168
+  ],
+  "minecraft:jungle_wood": [
+   0.3342,
+   0.2666,
+   0.0987
+  ],
+  "minecraft:kelp": [
+   0.3419,
+   0.5502,
+   0.1748
+  ],
+  "minecraft:kelp_plant": [
+   0.3402,
+   0.5117,
+   0.1672
+  ],
+  "minecraft:ladder": [
+   0.4888,
+   0.379,
+   0.2144
+  ],
+  "minecraft:lantern": [
+   0.416,
+   0.3583,
+   0.3292
+  ],
+  "minecraft:lapis_block": [
+   0.1202,
+   0.2642,
+   0.5494
+  ],
+  "minecraft:lapis_ore": [
+   0.4197,
+   0.4623,
+   0.554
+  ],
+  "minecraft:large_amethyst_bud": [
+   0.6324,
+   0.496,
+   0.7955
+  ],
+  "minecraft:large_fern": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "minecraft:lava": [
+   0.8329,
+   0.353,
+   0.0711
+  ],
+  "minecraft:lava_cauldron": [
+   0.1587,
+   0.1587,
+   0.175
+  ],
+  "minecraft:lectern": [
+   0.5879,
+   0.4593,
+   0.2648
+  ],
+  "minecraft:lever": [
+   0.5011,
+   0.4992,
+   0.5004
+  ],
+  "minecraft:light": [
+   0.535,
+   0.5694,
+   0.5247
+  ],
+  "minecraft:light_blue_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:light_blue_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:light_blue_candle": [
+   0.1356,
+   0.5402,
+   0.7711
+  ],
+  "minecraft:light_blue_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:light_blue_carpet": [
+   0.2277,
+   0.6865,
+   0.8522
+  ],
+  "minecraft:light_blue_concrete": [
+   0.1396,
+   0.5374,
+   0.7801
+  ],
+  "minecraft:light_blue_concrete_powder": [
+   0.2913,
+   0.7087,
+   0.8367
+  ],
+  "minecraft:light_blue_glazed_terracotta": [
+   0.3708,
+   0.6456,
+   0.8193
+  ],
+  "minecraft:light_blue_shulker_box": [
+   0.1933,
+   0.6426,
+   0.8319
+  ],
+  "minecraft:light_blue_stained_glass": [
+   0.4,
+   0.6,
+   0.8471
+  ],
+  "minecraft:light_blue_terracotta": [
+   0.445,
+   0.4256,
+   0.5411
+  ],
+  "minecraft:light_blue_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:light_blue_wool": [
+   0.2277,
+   0.6865,
+   0.8522
+  ],
+  "minecraft:light_gray_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:light_gray_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:light_gray_candle": [
+   0.4646,
+   0.4726,
+   0.4411
+  ],
+  "minecraft:light_gray_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:light_gray_carpet": [
+   0.557,
+   0.5575,
+   0.5278
+  ],
+  "minecraft:light_gray_concrete": [
+   0.4903,
+   0.4903,
+   0.4511
+  ],
+  "minecraft:light_gray_concrete_powder": [
+   0.6074,
+   0.6077,
+   0.5811
+  ],
+  "minecraft:light_gray_glazed_terracotta": [
+   0.5657,
+   0.6512,
+   0.6586
+  ],
+  "minecraft:light_gray_shulker_box": [
+   0.4879,
+   0.4879,
+   0.4526
+  ],
+  "minecraft:light_gray_stained_glass": [
+   0.6,
+   0.6,
+   0.6
+  ],
+  "minecraft:light_gray_terracotta": [
+   0.5304,
+   0.4191,
+   0.3824
+  ],
+  "minecraft:light_gray_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:light_gray_wool": [
+   0.557,
+   0.5575,
+   0.5278
+  ],
+  "minecraft:light_weighted_pressure_plate": [
+   0.9663,
+   0.8169,
+   0.2417
+  ],
+  "minecraft:lightning_rod": [
+   0.7712,
+   0.4361,
+   0.3255
+  ],
+  "minecraft:lilac": [
+   0.5376,
+   0.4867,
+   0.4978
+  ],
+  "minecraft:lily_of_the_valley": [
+   0.4829,
+   0.6846,
+   0.373
+  ],
+  "minecraft:lily_pad": [
+   0.5236,
+   0.5236,
+   0.5236
+  ],
+  "minecraft:lime_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:lime_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:lime_candle": [
+   0.3851,
+   0.6736,
+   0.0891
+  ],
+  "minecraft:lime_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:lime_carpet": [
+   0.44,
+   0.7263,
+   0.1012
+  ],
+  "minecraft:lime_concrete": [
+   0.369,
+   0.662,
+   0.0961
+  ],
+  "minecraft:lime_concrete_powder": [
+   0.4917,
+   0.7422,
+   0.1643
+  ],
+  "minecraft:lime_glazed_terracotta": [
+   0.639,
+   0.7752,
+   0.2165
+  ],
+  "minecraft:lime_shulker_box": [
+   0.3913,
+   0.677,
+   0.0902
+  ],
+  "minecraft:lime_stained_glass": [
+   0.498,
+   0.8,
+   0.098
+  ],
+  "minecraft:lime_terracotta": [
+   0.406,
+   0.4615,
+   0.207
+  ],
+  "minecraft:lime_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:lime_wool": [
+   0.44,
+   0.7263,
+   0.1012
+  ],
+  "minecraft:lodestone": [
+   0.5766,
+   0.5849,
+   0.5992
+  ],
+  "minecraft:loom": [
+   0.2988,
+   0.2357,
+   0.1413
+  ],
+  "minecraft:magenta_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:magenta_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:magenta_candle": [
+   0.6301,
+   0.18,
+   0.6013
+  ],
+  "minecraft:magenta_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:magenta_carpet": [
+   0.7433,
+   0.2697,
+   0.7056
+  ],
+  "minecraft:magenta_concrete": [
+   0.6636,
+   0.1901,
+   0.6244
+  ],
+  "minecraft:magenta_concrete_powder": [
+   0.7558,
+   0.3287,
+   0.7241
+  ],
+  "minecraft:magenta_glazed_terracotta": [
+   0.8167,
+   0.3938,
+   0.7526
+  ],
+  "minecraft:magenta_shulker_box": [
+   0.6818,
+   0.2121,
+   0.6415
+  ],
+  "minecraft:magenta_stained_glass": [
+   0.698,
+   0.298,
+   0.8471
+  ],
+  "minecraft:magenta_terracotta": [
+   0.5869,
+   0.3455,
+   0.4262
+  ],
+  "minecraft:magenta_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:magenta_wool": [
+   0.7433,
+   0.2697,
+   0.7056
+  ],
+  "minecraft:magma_block": [
+   0.5597,
+   0.249,
+   0.1239
+  ],
+  "minecraft:mangrove_button": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_door": [
+   0.44,
+   0.1876,
+   0.1821
+  ],
+  "minecraft:mangrove_fence_gate": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_hanging_sign": [
+   0.4688,
+   0.2134,
+   0.1882
+  ],
+  "minecraft:mangrove_leaves": [
+   0.4046,
+   0.6109,
+   0.4681
+  ],
+  "minecraft:mangrove_log": [
+   0.4032,
+   0.1912,
+   0.1661
+  ],
+  "minecraft:mangrove_planks": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_pressure_plate": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_propagule": [
+   0.3775,
+   0.6847,
+   0.3286
+  ],
+  "minecraft:mangrove_roots": [
+   0.2955,
+   0.2349,
+   0.1507
+  ],
+  "minecraft:mangrove_sign": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_slab": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_stairs": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_trapdoor": [
+   0.4348,
+   0.1834,
+   0.1665
+  ],
+  "minecraft:mangrove_wall_hanging_sign": [
+   0.4688,
+   0.2134,
+   0.1882
+  ],
+  "minecraft:mangrove_wall_sign": [
+   0.4626,
+   0.2121,
+   0.1908
+  ],
+  "minecraft:mangrove_wood": [
+   0.3279,
+   0.2617,
+   0.1613
+  ],
+  "minecraft:medium_amethyst_bud": [
+   0.6208,
+   0.4724,
+   0.7903
+  ],
+  "minecraft:melon": [
+   0.4355,
+   0.5674,
+   0.1196
+  ],
+  "minecraft:melon_stem": [
+   0.603,
+   0.603,
+   0.603
+  ],
+  "minecraft:moss_block": [
+   0.3493,
+   0.4303,
+   0.178
+  ],
+  "minecraft:moss_carpet": [
+   0.3493,
+   0.4303,
+   0.178
+  ],
+  "minecraft:mossy_cobblestone": [
+   0.4318,
+   0.4647,
+   0.3723
+  ],
+  "minecraft:mossy_cobblestone_slab": [
+   0.4318,
+   0.4647,
+   0.3723
+  ],
+  "minecraft:mossy_cobblestone_stairs": [
+   0.4318,
+   0.4647,
+   0.3723
+  ],
+  "minecraft:mossy_stone_brick_slab": [
+   0.4527,
+   0.475,
+   0.4123
+  ],
+  "minecraft:mossy_stone_brick_stairs": [
+   0.4527,
+   0.475,
+   0.4123
+  ],
+  "minecraft:mossy_stone_bricks": [
+   0.4527,
+   0.475,
+   0.4123
+  ],
+  "minecraft:moving_piston": [
+   0.431,
+   0.4106,
+   0.3785
+  ],
+  "minecraft:mud": [
+   0.2357,
+   0.2254,
+   0.2378
+  ],
+  "minecraft:mud_brick_slab": [
+   0.5378,
+   0.407,
+   0.3101
+  ],
+  "minecraft:mud_brick_stairs": [
+   0.5378,
+   0.407,
+   0.3101
+  ],
+  "minecraft:mud_bricks": [
+   0.5378,
+   0.407,
+   0.3101
+  ],
+  "minecraft:muddy_mangrove_roots": [
+   0.2746,
+   0.23,
+   0.177
+  ],
+  "minecraft:mycelium": [
+   0.5265,
+   0.3776,
+   0.2627
+  ],
+  "minecraft:nether_brick_slab": [
+   0.1737,
+   0.0858,
+   0.1023
+  ],
+  "minecraft:nether_brick_stairs": [
+   0.1737,
+   0.0858,
+   0.1023
+  ],
+  "minecraft:nether_bricks": [
+   0.1737,
+   0.0858,
+   0.1023
+  ],
+  "minecraft:nether_gold_ore": [
+   0.4525,
+   0.2155,
+   0.1649
+  ],
+  "minecraft:nether_portal": [
+   0.3428,
+   0.0419,
+   0.7507
+  ],
+  "minecraft:nether_quartz_ore": [
+   0.4621,
+   0.2575,
+   0.2447
+  ],
+  "minecraft:nether_sprouts": [
+   0.0767,
+   0.5928,
+   0.523
+  ],
+  "minecraft:nether_wart": [
+   0.4609,
+   0.0734,
+   0.0848
+  ],
+  "minecraft:nether_wart_block": [
+   0.4502,
+   0.0115,
+   0.0085
+  ],
+  "minecraft:netherite_block": [
+   0.2609,
+   0.2412,
+   0.2505
+  ],
+  "minecraft:netherrack": [
+   0.3827,
+   0.1506,
+   0.1506
+  ],
+  "minecraft:note_block": [
+   0.3481,
+   0.2312,
+   0.16
+  ],
+  "minecraft:oak_button": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_door": [
+   0.544,
+   0.4241,
+   0.2446
+  ],
+  "minecraft:oak_fence_gate": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_hanging_sign": [
+   0.6959,
+   0.5651,
+   0.3375
+  ],
+  "minecraft:oak_leaves": [
+   0.4524,
+   0.6831,
+   0.5234
+  ],
+  "minecraft:oak_log": [
+   0.5939,
+   0.4771,
+   0.2863
+  ],
+  "minecraft:oak_planks": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_pressure_plate": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_sapling": [
+   0.304,
+   0.4179,
+   0.1598
+  ],
+  "minecraft:oak_sign": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_slab": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_stairs": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_trapdoor": [
+   0.4898,
+   0.39,
+   0.2224
+  ],
+  "minecraft:oak_wall_hanging_sign": [
+   0.6959,
+   0.5651,
+   0.3375
+  ],
+  "minecraft:oak_wall_sign": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:oak_wood": [
+   0.4278,
+   0.3338,
+   0.1988
+  ],
+  "minecraft:observer": [
+   0.2821,
+   0.2736,
+   0.2736
+  ],
+  "minecraft:obsidian": [
+   0.0594,
+   0.0416,
+   0.0963
+  ],
+  "minecraft:ochre_froglight": [
+   0.9832,
+   0.9614,
+   0.8098
+  ],
+  "minecraft:orange_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:orange_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:orange_candle": [
+   0.8599,
+   0.3937,
+   0.0353
+  ],
+  "minecraft:orange_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:orange_carpet": [
+   0.9437,
+   0.4631,
+   0.0765
+  ],
+  "minecraft:orange_concrete": [
+   0.8798,
+   0.3809,
+   0.0025
+  ],
+  "minecraft:orange_concrete_powder": [
+   0.8913,
+   0.5171,
+   0.1251
+  ],
+  "minecraft:orange_glazed_terracotta": [
+   0.607,
+   0.5784,
+   0.3606
+  ],
+  "minecraft:orange_shulker_box": [
+   0.918,
+   0.4173,
+   0.0343
+  ],
+  "minecraft:orange_stained_glass": [
+   0.8471,
+   0.498,
+   0.2
+  ],
+  "minecraft:orange_terracotta": [
+   0.6337,
+   0.3289,
+   0.1477
+  ],
+  "minecraft:orange_tulip": [
+   0.3665,
+   0.5575,
+   0.1206
+  ],
+  "minecraft:orange_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:orange_wool": [
+   0.9437,
+   0.4631,
+   0.0765
+  ],
+  "minecraft:oxeye_daisy": [
+   0.7033,
+   0.7939,
+   0.5622
+  ],
+  "minecraft:oxidized_chiseled_copper": [
+   0.3276,
+   0.6349,
+   0.5187
+  ],
+  "minecraft:oxidized_copper": [
+   0.3232,
+   0.6379,
+   0.521
+  ],
+  "minecraft:oxidized_copper_bulb": [
+   0.2754,
+   0.5192,
+   0.4285
+  ],
+  "minecraft:oxidized_copper_door": [
+   0.3121,
+   0.6009,
+   0.4987
+  ],
+  "minecraft:oxidized_copper_grate": [
+   0.3217,
+   0.6322,
+   0.5146
+  ],
+  "minecraft:oxidized_copper_trapdoor": [
+   0.3278,
+   0.6325,
+   0.5183
+  ],
+  "minecraft:oxidized_cut_copper": [
+   0.3126,
+   0.6024,
+   0.4958
+  ],
+  "minecraft:oxidized_cut_copper_slab": [
+   0.3126,
+   0.6024,
+   0.4958
+  ],
+  "minecraft:oxidized_cut_copper_stairs": [
+   0.3126,
+   0.6024,
+   0.4958
+  ],
+  "minecraft:packed_ice": [
+   0.5552,
+   0.7059,
+   0.9823
+  ],
+  "minecraft:packed_mud": [
+   0.5587,
+   0.4186,
+   0.3133
+  ],
+  "minecraft:pearlescent_froglight": [
+   0.9636,
+   0.9414,
+   0.9399
+  ],
+  "minecraft:peony": [
+   0.3393,
+   0.3976,
+   0.3667
+  ],
+  "minecraft:petrified_oak_slab": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:piglin_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:piglin_wall_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:pink_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:pink_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:pink_candle": [
+   0.8157,
+   0.3996,
+   0.5578
+  ],
+  "minecraft:pink_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:pink_carpet": [
+   0.933,
+   0.5544,
+   0.6759
+  ],
+  "minecraft:pink_concrete": [
+   0.8373,
+   0.3961,
+   0.5603
+  ],
+  "minecraft:pink_concrete_powder": [
+   0.8975,
+   0.6013,
+   0.71
+  ],
+  "minecraft:pink_glazed_terracotta": [
+   0.9222,
+   0.6078,
+   0.712
+  ],
+  "minecraft:pink_shulker_box": [
+   0.9037,
+   0.4778,
+   0.6184
+  ],
+  "minecraft:pink_stained_glass": [
+   0.949,
+   0.498,
+   0.6471
+  ],
+  "minecraft:pink_terracotta": [
+   0.635,
+   0.307,
+   0.3085
+  ],
+  "minecraft:pink_tulip": [
+   0.3888,
+   0.6175,
+   0.3072
+  ],
+  "minecraft:pink_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:pink_wool": [
+   0.933,
+   0.5544,
+   0.6759
+  ],
+  "minecraft:piston": [
+   0.3807,
+   0.3788,
+   0.3788
+  ],
+  "minecraft:piston_head": [
+   0.6007,
+   0.5003,
+   0.334
+  ],
+  "minecraft:pitcher_crop": [
+   0.7607,
+   0.6504,
+   0.4052
+  ],
+  "minecraft:pitcher_plant": [
+   0.4087,
+   0.4957,
+   0.3661
+  ],
+  "minecraft:player_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:player_wall_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:podzol": [
+   0.5265,
+   0.3776,
+   0.2627
+  ],
+  "minecraft:pointed_dripstone": [
+   0.5075,
+   0.4035,
+   0.3513
+  ],
+  "minecraft:polished_andesite": [
+   0.5187,
+   0.5284,
+   0.5255
+  ],
+  "minecraft:polished_andesite_slab": [
+   0.5187,
+   0.5284,
+   0.5255
+  ],
+  "minecraft:polished_andesite_stairs": [
+   0.5187,
+   0.5284,
+   0.5255
+  ],
+  "minecraft:polished_basalt": [
+   0.3898,
+   0.3865,
+   0.3949
+  ],
+  "minecraft:polished_blackstone": [
+   0.2087,
+   0.1907,
+   0.2225
+  ],
+  "minecraft:polished_blackstone_brick_slab": [
+   0.1893,
+   0.1668,
+   0.1952
+  ],
+  "minecraft:polished_blackstone_brick_stairs": [
+   0.1893,
+   0.1668,
+   0.1952
+  ],
+  "minecraft:polished_blackstone_bricks": [
+   0.1893,
+   0.1668,
+   0.1952
+  ],
+  "minecraft:polished_blackstone_button": [
+   0.2087,
+   0.1907,
+   0.2225
+  ],
+  "minecraft:polished_blackstone_pressure_plate": [
+   0.2087,
+   0.1907,
+   0.2225
+  ],
+  "minecraft:polished_blackstone_slab": [
+   0.2087,
+   0.1907,
+   0.2225
+  ],
+  "minecraft:polished_blackstone_stairs": [
+   0.2087,
+   0.1907,
+   0.2225
+  ],
+  "minecraft:polished_deepslate": [
+   0.2842,
+   0.2846,
+   0.2868
+  ],
+  "minecraft:polished_deepslate_slab": [
+   0.2842,
+   0.2846,
+   0.2868
+  ],
+  "minecraft:polished_deepslate_stairs": [
+   0.2842,
+   0.2846,
+   0.2868
+  ],
+  "minecraft:polished_diorite": [
+   0.7568,
+   0.7572,
+   0.7629
+  ],
+  "minecraft:polished_diorite_slab": [
+   0.7568,
+   0.7572,
+   0.7629
+  ],
+  "minecraft:polished_diorite_stairs": [
+   0.7568,
+   0.7572,
+   0.7629
+  ],
+  "minecraft:polished_granite": [
+   0.6043,
+   0.419,
+   0.3499
+  ],
+  "minecraft:polished_granite_slab": [
+   0.6043,
+   0.419,
+   0.3499
+  ],
+  "minecraft:polished_granite_stairs": [
+   0.6043,
+   0.419,
+   0.3499
+  ],
+  "minecraft:polished_tuff": [
+   0.3829,
+   0.4084,
+   0.3917
+  ],
+  "minecraft:polished_tuff_slab": [
+   0.3829,
+   0.4084,
+   0.3917
+  ],
+  "minecraft:polished_tuff_stairs": [
+   0.3829,
+   0.4084,
+   0.3917
+  ],
+  "minecraft:poppy": [
+   0.5045,
+   0.2542,
+   0.148
+  ],
+  "minecraft:potatoes": [
+   0.2303,
+   0.5082,
+   0.1597
+  ],
+  "minecraft:potted_acacia_sapling": [
+   0.4655,
+   0.4624,
+   0.0927
+  ],
+  "minecraft:potted_allium": [
+   0.6234,
+   0.5381,
+   0.7213
+  ],
+  "minecraft:potted_azalea_bush": [
+   0.3633,
+   0.4237,
+   0.1674
+  ],
+  "minecraft:potted_azure_bluet": [
+   0.6643,
+   0.802,
+   0.4996
+  ],
+  "minecraft:potted_bamboo": [
+   0.4868,
+   0.269,
+   0.2095
+  ],
+  "minecraft:potted_birch_sapling": [
+   0.5017,
+   0.6308,
+   0.3118
+  ],
+  "minecraft:potted_blue_orchid": [
+   0.1855,
+   0.6373,
+   0.6599
+  ],
+  "minecraft:potted_brown_mushroom": [
+   0.602,
+   0.4581,
+   0.3627
+  ],
+  "minecraft:potted_cactus": [
+   0.4868,
+   0.269,
+   0.2095
+  ],
+  "minecraft:potted_cherry_sapling": [
+   0.6434,
+   0.4624,
+   0.5615
+  ],
+  "minecraft:potted_cornflower": [
+   0.3124,
+   0.4754,
+   0.5746
+  ],
+  "minecraft:potted_crimson_fungus": [
+   0.5544,
+   0.1731,
+   0.1163
+  ],
+  "minecraft:potted_crimson_roots": [
+   0.498,
+   0.0327,
+   0.1617
+  ],
+  "minecraft:potted_dandelion": [
+   0.5792,
+   0.6755,
+   0.1705
+  ],
+  "minecraft:potted_dark_oak_sapling": [
+   0.2398,
+   0.3557,
+   0.1207
+  ],
+  "minecraft:potted_dead_bush": [
+   0.4215,
+   0.3095,
+   0.159
+  ],
+  "minecraft:potted_fern": [
+   0.4879,
+   0.4886,
+   0.4879
+  ],
+  "minecraft:potted_flowering_azalea_bush": [
+   0.3917,
+   0.4068,
+   0.2214
+  ],
+  "minecraft:potted_jungle_sapling": [
+   0.1865,
+   0.3181,
+   0.0655
+  ],
+  "minecraft:potted_lily_of_the_valley": [
+   0.4829,
+   0.6846,
+   0.373
+  ],
+  "minecraft:potted_mangrove_propagule": [
+   0.4868,
+   0.269,
+   0.2095
+  ],
+  "minecraft:potted_oak_sapling": [
+   0.304,
+   0.4179,
+   0.1598
+  ],
+  "minecraft:potted_orange_tulip": [
+   0.3665,
+   0.5575,
+   0.1206
+  ],
+  "minecraft:potted_oxeye_daisy": [
+   0.7033,
+   0.7939,
+   0.5622
+  ],
+  "minecraft:potted_pink_tulip": [
+   0.3888,
+   0.6175,
+   0.3072
+  ],
+  "minecraft:potted_poppy": [
+   0.5045,
+   0.2542,
+   0.148
+  ],
+  "minecraft:potted_red_mushroom": [
+   0.8509,
+   0.2957,
+   0.2661
+  ],
+  "minecraft:potted_red_tulip": [
+   0.3512,
+   0.5042,
+   0.1292
+  ],
+  "minecraft:potted_spruce_sapling": [
+   0.1756,
+   0.2359,
+   0.1437
+  ],
+  "minecraft:potted_torchflower": [
+   0.3959,
+   0.3969,
+   0.3024
+  ],
+  "minecraft:potted_warped_fungus": [
+   0.291,
+   0.4277,
+   0.3449
+  ],
+  "minecraft:potted_warped_roots": [
+   0.0805,
+   0.5357,
+   0.4835
+  ],
+  "minecraft:potted_white_tulip": [
+   0.3668,
+   0.6461,
+   0.2786
+  ],
+  "minecraft:potted_wither_rose": [
+   0.1626,
+   0.1755,
+   0.0914
+  ],
+  "minecraft:powder_snow": [
+   0.9731,
+   0.9936,
+   0.9936
+  ],
+  "minecraft:powder_snow_cauldron": [
+   0.1587,
+   0.1587,
+   0.175
+  ],
+  "minecraft:powered_rail": [
+   0.541,
+   0.4309,
+   0.2909
+  ],
+  "minecraft:prismarine": [
+   0.39,
+   0.6125,
+   0.5925
+  ],
+  "minecraft:prismarine_brick_slab": [
+   0.3892,
+   0.673,
+   0.6213
+  ],
+  "minecraft:prismarine_brick_stairs": [
+   0.3892,
+   0.673,
+   0.6213
+  ],
+  "minecraft:prismarine_bricks": [
+   0.3892,
+   0.673,
+   0.6213
+  ],
+  "minecraft:prismarine_slab": [
+   0.39,
+   0.6125,
+   0.5925
+  ],
+  "minecraft:prismarine_stairs": [
+   0.39,
+   0.6125,
+   0.5925
+  ],
+  "minecraft:pumpkin": [
+   0.7769,
+   0.4656,
+   0.0959
+  ],
+  "minecraft:pumpkin_stem": [
+   0.6044,
+   0.6046,
+   0.6044
+  ],
+  "minecraft:purple_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:purple_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:purple_candle": [
+   0.4134,
+   0.1352,
+   0.6254
+  ],
+  "minecraft:purple_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:purple_carpet": [
+   0.4779,
+   0.1655,
+   0.6765
+  ],
+  "minecraft:purple_concrete": [
+   0.3938,
+   0.124,
+   0.6133
+  ],
+  "minecraft:purple_concrete_powder": [
+   0.5173,
+   0.2183,
+   0.6965
+  ],
+  "minecraft:purple_glazed_terracotta": [
+   0.4307,
+   0.1877,
+   0.5975
+  ],
+  "minecraft:purple_shulker_box": [
+   0.4046,
+   0.1273,
+   0.6133
+  ],
+  "minecraft:purple_stained_glass": [
+   0.498,
+   0.2471,
+   0.698
+  ],
+  "minecraft:purple_terracotta": [
+   0.4645,
+   0.2756,
+   0.3376
+  ],
+  "minecraft:purple_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:purple_wool": [
+   0.4779,
+   0.1655,
+   0.6765
+  ],
+  "minecraft:purpur_block": [
+   0.6663,
+   0.4938,
+   0.6654
+  ],
+  "minecraft:purpur_pillar": [
+   0.6737,
+   0.5034,
+   0.6725
+  ],
+  "minecraft:purpur_slab": [
+   0.6663,
+   0.4938,
+   0.6654
+  ],
+  "minecraft:purpur_stairs": [
+   0.6663,
+   0.4938,
+   0.6654
+  ],
+  "minecraft:quartz_block": [
+   0.9246,
+   0.9016,
+   0.8743
+  ],
+  "minecraft:quartz_bricks": [
+   0.9204,
+   0.8987,
+   0.8697
+  ],
+  "minecraft:quartz_pillar": [
+   0.922,
+   0.9012,
+   0.8743
+  ],
+  "minecraft:quartz_slab": [
+   0.9246,
+   0.9016,
+   0.8743
+  ],
+  "minecraft:quartz_stairs": [
+   0.9246,
+   0.9016,
+   0.8743
+  ],
+  "minecraft:rail": [
+   0.4931,
+   0.4379,
+   0.3473
+  ],
+  "minecraft:raw_copper_block": [
+   0.6053,
+   0.4154,
+   0.3101
+  ],
+  "minecraft:raw_gold_block": [
+   0.8694,
+   0.6639,
+   0.1838
+  ],
+  "minecraft:raw_iron_block": [
+   0.6521,
+   0.5322,
+   0.4212
+  ],
+  "minecraft:red_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:red_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:red_candle": [
+   0.6006,
+   0.1528,
+   0.1417
+  ],
+  "minecraft:red_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:red_carpet": [
+   0.6312,
+   0.1542,
+   0.1358
+  ],
+  "minecraft:red_concrete": [
+   0.5584,
+   0.1287,
+   0.1287
+  ],
+  "minecraft:red_concrete_powder": [
+   0.6596,
+   0.2123,
+   0.1985
+  ],
+  "minecraft:red_glazed_terracotta": [
+   0.7137,
+   0.2337,
+   0.2079
+  ],
+  "minecraft:red_mushroom": [
+   0.8509,
+   0.2957,
+   0.2661
+  ],
+  "minecraft:red_nether_brick_slab": [
+   0.2727,
+   0.0276,
+   0.0353
+  ],
+  "minecraft:red_nether_brick_stairs": [
+   0.2727,
+   0.0276,
+   0.0353
+  ],
+  "minecraft:red_nether_bricks": [
+   0.2727,
+   0.0276,
+   0.0353
+  ],
+  "minecraft:red_sand": [
+   0.7477,
+   0.4038,
+   0.1301
+  ],
+  "minecraft:red_sandstone": [
+   0.728,
+   0.3859,
+   0.1113
+  ],
+  "minecraft:red_sandstone_slab": [
+   0.728,
+   0.3859,
+   0.1113
+  ],
+  "minecraft:red_sandstone_stairs": [
+   0.728,
+   0.3859,
+   0.1113
+  ],
+  "minecraft:red_shulker_box": [
+   0.5506,
+   0.1218,
+   0.1178
+  ],
+  "minecraft:red_stained_glass": [
+   0.6,
+   0.2,
+   0.2
+  ],
+  "minecraft:red_terracotta": [
+   0.5612,
+   0.2393,
+   0.1839
+  ],
+  "minecraft:red_tulip": [
+   0.3512,
+   0.5042,
+   0.1292
+  ],
+  "minecraft:red_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:red_wool": [
+   0.6312,
+   0.1542,
+   0.1358
+  ],
+  "minecraft:redstone_block": [
+   0.6885,
+   0.0972,
+   0.0201
+  ],
+  "minecraft:redstone_lamp": [
+   0.3734,
+   0.2142,
+   0.1179
+  ],
+  "minecraft:redstone_ore": [
+   0.5508,
+   0.4298,
+   0.4298
+  ],
+  "minecraft:redstone_torch": [
+   0.3976,
+   0.2743,
+   0.1712
+  ],
+  "minecraft:redstone_wall_torch": [
+   0.3976,
+   0.2743,
+   0.1712
+  ],
+  "minecraft:reinforced_deepslate": [
+   0.3103,
+   0.3235,
+   0.3136
+  ],
+  "minecraft:repeater": [
+   0.6283,
+   0.6162,
+   0.612
+  ],
+  "minecraft:repeating_command_block": [
+   0.502,
+   0.4297,
+   0.6544
+  ],
+  "minecraft:respawn_anchor": [
+   0.1278,
+   0.0395,
+   0.237
+  ],
+  "minecraft:rooted_dirt": [
+   0.5648,
+   0.4062,
+   0.3001
+  ],
+  "minecraft:rose_bush": [
+   0.3825,
+   0.3286,
+   0.1472
+  ],
+  "minecraft:sand": [
+   0.8594,
+   0.8126,
+   0.6396
+  ],
+  "minecraft:sandstone": [
+   0.8458,
+   0.7924,
+   0.6047
+  ],
+  "minecraft:sandstone_slab": [
+   0.8458,
+   0.7924,
+   0.6047
+  ],
+  "minecraft:sandstone_stairs": [
+   0.8458,
+   0.7924,
+   0.6047
+  ],
+  "minecraft:scaffolding": [
+   0.6673,
+   0.5159,
+   0.287
+  ],
+  "minecraft:sculk": [
+   0.0505,
+   0.1175,
+   0.1414
+  ],
+  "minecraft:sculk_catalyst": [
+   0.3503,
+   0.4282,
+   0.4284
+  ],
+  "minecraft:sculk_sensor": [
+   0.0345,
+   0.4815,
+   0.4968
+  ],
+  "minecraft:sculk_shrieker": [
+   0.051,
+   0.1095,
+   0.1325
+  ],
+  "minecraft:sea_lantern": [
+   0.6755,
+   0.7839,
+   0.7455
+  ],
+  "minecraft:sea_pickle": [
+   0.3545,
+   0.3821,
+   0.1552
+  ],
+  "minecraft:seagrass": [
+   0.1999,
+   0.4965,
+   0.0317
+  ],
+  "minecraft:short_grass": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "minecraft:shroomlight": [
+   0.9445,
+   0.5747,
+   0.278
+  ],
+  "minecraft:shulker_box": [
+   0.5463,
+   0.3801,
+   0.5463
+  ],
+  "minecraft:skeleton_skull": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:skeleton_wall_skull": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:slime_block": [
+   0.4375,
+   0.7529,
+   0.3594
+  ],
+  "minecraft:small_amethyst_bud": [
+   0.5167,
+   0.389,
+   0.7545
+  ],
+  "minecraft:small_dripleaf": [
+   0.3714,
+   0.4786,
+   0.177
+  ],
+  "minecraft:smithing_table": [
+   0.2517,
+   0.1101,
+   0.0935
+  ],
+  "minecraft:smoker": [
+   0.4214,
+   0.4143,
+   0.4066
+  ],
+  "minecraft:smooth_basalt": [
+   0.285,
+   0.2835,
+   0.3067
+  ],
+  "minecraft:smooth_quartz": [
+   0.9288,
+   0.9034,
+   0.8781
+  ],
+  "minecraft:smooth_quartz_slab": [
+   0.9288,
+   0.9034,
+   0.8781
+  ],
+  "minecraft:smooth_quartz_stairs": [
+   0.9288,
+   0.9034,
+   0.8781
+  ],
+  "minecraft:smooth_red_sandstone": [
+   0.711,
+   0.3836,
+   0.1234
+  ],
+  "minecraft:smooth_red_sandstone_slab": [
+   0.711,
+   0.3836,
+   0.1234
+  ],
+  "minecraft:smooth_red_sandstone_stairs": [
+   0.711,
+   0.3836,
+   0.1234
+  ],
+  "minecraft:smooth_sandstone": [
+   0.8778,
+   0.84,
+   0.668
+  ],
+  "minecraft:smooth_sandstone_slab": [
+   0.8778,
+   0.84,
+   0.668
+  ],
+  "minecraft:smooth_sandstone_stairs": [
+   0.8778,
+   0.84,
+   0.668
+  ],
+  "minecraft:smooth_stone": [
+   0.6223,
+   0.6223,
+   0.6223
+  ],
+  "minecraft:smooth_stone_slab": [
+   0.6223,
+   0.6223,
+   0.6223
+  ],
+  "minecraft:sniffer_egg": [
+   0.2874,
+   0.0989,
+   0.1026
+  ],
+  "minecraft:snow": [
+   0.9765,
+   0.997,
+   0.997
+  ],
+  "minecraft:snow_block": [
+   0.9765,
+   0.997,
+   0.997
+  ],
+  "minecraft:soul_campfire": [
+   0.3116,
+   0.2923,
+   0.2653
+  ],
+  "minecraft:soul_lantern": [
+   0.2823,
+   0.39,
+   0.4506
+  ],
+  "minecraft:soul_sand": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:soul_soil": [
+   0.2972,
+   0.2256,
+   0.1829
+  ],
+  "minecraft:soul_torch": [
+   0.4286,
+   0.4516,
+   0.3514
+  ],
+  "minecraft:soul_wall_torch": [
+   0.4286,
+   0.4516,
+   0.3514
+  ],
+  "minecraft:spawner": [
+   0.1428,
+   0.1818,
+   0.2463
+  ],
+  "minecraft:sponge": [
+   0.768,
+   0.7535,
+   0.2926
+  ],
+  "minecraft:spore_blossom": [
+   0.8115,
+   0.3802,
+   0.6218
+  ],
+  "minecraft:spruce_button": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_door": [
+   0.4152,
+   0.3152,
+   0.1916
+  ],
+  "minecraft:spruce_fence_gate": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_hanging_sign": [
+   0.4535,
+   0.3528,
+   0.2057
+  ],
+  "minecraft:spruce_leaves": [
+   0.3956,
+   0.5973,
+   0.4577
+  ],
+  "minecraft:spruce_log": [
+   0.4267,
+   0.3152,
+   0.1836
+  ],
+  "minecraft:spruce_planks": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_pressure_plate": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_sapling": [
+   0.1756,
+   0.2359,
+   0.1437
+  ],
+  "minecraft:spruce_sign": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_slab": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_stairs": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_trapdoor": [
+   0.4066,
+   0.31,
+   0.1877
+  ],
+  "minecraft:spruce_wall_hanging_sign": [
+   0.4535,
+   0.3528,
+   0.2057
+  ],
+  "minecraft:spruce_wall_sign": [
+   0.4507,
+   0.3327,
+   0.1904
+  ],
+  "minecraft:spruce_wood": [
+   0.2307,
+   0.1477,
+   0.0663
+  ],
+  "minecraft:sticky_piston": [
+   0.3807,
+   0.3788,
+   0.3788
+  ],
+  "minecraft:stone": [
+   0.4923,
+   0.4923,
+   0.4923
+  ],
+  "minecraft:stone_brick_slab": [
+   0.4802,
+   0.4777,
+   0.4802
+  ],
+  "minecraft:stone_brick_stairs": [
+   0.4802,
+   0.4777,
+   0.4802
+  ],
+  "minecraft:stone_bricks": [
+   0.4802,
+   0.4777,
+   0.4802
+  ],
+  "minecraft:stone_button": [
+   0.4923,
+   0.4923,
+   0.4923
+  ],
+  "minecraft:stone_pressure_plate": [
+   0.4923,
+   0.4923,
+   0.4923
+  ],
+  "minecraft:stone_slab": [
+   0.4923,
+   0.4923,
+   0.4923
+  ],
+  "minecraft:stone_stairs": [
+   0.4923,
+   0.4923,
+   0.4923
+  ],
+  "minecraft:stonecutter": [
+   0.4632,
+   0.4618,
+   0.4631
+  ],
+  "minecraft:stripped_acacia_log": [
+   0.6515,
+   0.3569,
+   0.2025
+  ],
+  "minecraft:stripped_acacia_wood": [
+   0.6853,
+   0.3644,
+   0.2344
+  ],
+  "minecraft:stripped_bamboo_block": [
+   0.6998,
+   0.623,
+   0.2853
+  ],
+  "minecraft:stripped_birch_log": [
+   0.7496,
+   0.6737,
+   0.4564
+  ],
+  "minecraft:stripped_birch_wood": [
+   0.7725,
+   0.6903,
+   0.4642
+  ],
+  "minecraft:stripped_cherry_log": [
+   0.8668,
+   0.6453,
+   0.6183
+  ],
+  "minecraft:stripped_cherry_wood": [
+   0.8434,
+   0.5693,
+   0.5841
+  ],
+  "minecraft:stripped_crimson_hyphae": [
+   0.5385,
+   0.2248,
+   0.3531
+  ],
+  "minecraft:stripped_crimson_stem": [
+   0.4774,
+   0.2208,
+   0.3239
+  ],
+  "minecraft:stripped_dark_oak_log": [
+   0.2584,
+   0.1734,
+   0.0893
+  ],
+  "minecraft:stripped_dark_oak_wood": [
+   0.2856,
+   0.2231,
+   0.1413
+  ],
+  "minecraft:stripped_jungle_log": [
+   0.6504,
+   0.4823,
+   0.321
+  ],
+  "minecraft:stripped_jungle_wood": [
+   0.6725,
+   0.5209,
+   0.3317
+  ],
+  "minecraft:stripped_mangrove_log": [
+   0.4276,
+   0.1709,
+   0.1698
+  ],
+  "minecraft:stripped_mangrove_wood": [
+   0.4688,
+   0.2134,
+   0.1882
+  ],
+  "minecraft:stripped_oak_log": [
+   0.6278,
+   0.5086,
+   0.3026
+  ],
+  "minecraft:stripped_oak_wood": [
+   0.6959,
+   0.5651,
+   0.3375
+  ],
+  "minecraft:stripped_spruce_log": [
+   0.4152,
+   0.3147,
+   0.1826
+  ],
+  "minecraft:stripped_spruce_wood": [
+   0.4535,
+   0.3528,
+   0.2057
+  ],
+  "minecraft:stripped_warped_hyphae": [
+   0.2258,
+   0.5919,
+   0.5795
+  ],
+  "minecraft:stripped_warped_stem": [
+   0.2043,
+   0.5056,
+   0.4881
+  ],
+  "minecraft:structure_block": [
+   0.2685,
+   0.2258,
+   0.2731
+  ],
+  "minecraft:structure_void": [
+   0.0971,
+   0.3403,
+   0.3655
+  ],
+  "minecraft:sugar_cane": [
+   0.5833,
+   0.7564,
+   0.3963
+  ],
+  "minecraft:sunflower": [
+   0.2226,
+   0.5298,
+   0.1212
+  ],
+  "minecraft:suspicious_gravel": [
+   0.5089,
+   0.4906,
+   0.4868
+  ],
+  "minecraft:suspicious_sand": [
+   0.8537,
+   0.8013,
+   0.6244
+  ],
+  "minecraft:sweet_berry_bush": [
+   0.1683,
+   0.3514,
+   0.2203
+  ],
+  "minecraft:tall_grass": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "minecraft:tall_seagrass": [
+   0.1782,
+   0.4603,
+   0.0165
+  ],
+  "minecraft:target": [
+   0.8878,
+   0.6679,
+   0.6188
+  ],
+  "minecraft:terracotta": [
+   0.5966,
+   0.3687,
+   0.2656
+  ],
+  "minecraft:tinted_glass": [
+   0.1839,
+   0.1344,
+   0.2058
+  ],
+  "minecraft:tnt": [
+   0.6539,
+   0.2618,
+   0.2088
+  ],
+  "minecraft:torch": [
+   0.5445,
+   0.4447,
+   0.2508
+  ],
+  "minecraft:torchflower": [
+   0.3959,
+   0.3969,
+   0.3024
+  ],
+  "minecraft:torchflower_crop": [
+   0.1125,
+   0.3827,
+   0.2641
+  ],
+  "minecraft:trapped_chest": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:trial_spawner": [
+   0.1636,
+   0.2324,
+   0.2989
+  ],
+  "minecraft:tripwire": [
+   0.5063,
+   0.5063,
+   0.5063
+  ],
+  "minecraft:tripwire_hook": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:tube_coral": [
+   0.1868,
+   0.3272,
+   0.7728
+  ],
+  "minecraft:tube_coral_block": [
+   0.1926,
+   0.3417,
+   0.8104
+  ],
+  "minecraft:tube_coral_fan": [
+   0.1996,
+   0.3592,
+   0.8186
+  ],
+  "minecraft:tube_coral_wall_fan": [
+   0.1996,
+   0.3592,
+   0.8186
+  ],
+  "minecraft:tuff": [
+   0.4238,
+   0.428,
+   0.4025
+  ],
+  "minecraft:tuff_brick_slab": [
+   0.3847,
+   0.4025,
+   0.3739
+  ],
+  "minecraft:tuff_brick_stairs": [
+   0.3847,
+   0.4025,
+   0.3739
+  ],
+  "minecraft:tuff_bricks": [
+   0.3847,
+   0.4025,
+   0.3739
+  ],
+  "minecraft:tuff_slab": [
+   0.4238,
+   0.428,
+   0.4025
+  ],
+  "minecraft:tuff_stairs": [
+   0.4238,
+   0.428,
+   0.4025
+  ],
+  "minecraft:turtle_egg": [
+   0.8942,
+   0.8898,
+   0.7523
+  ],
+  "minecraft:twisting_vines": [
+   0.079,
+   0.5616,
+   0.4877
+  ],
+  "minecraft:twisting_vines_plant": [
+   0.0791,
+   0.5332,
+   0.4787
+  ],
+  "minecraft:vault": [
+   0.1727,
+   0.1699,
+   0.2203
+  ],
+  "minecraft:verdant_froglight": [
+   0.8991,
+   0.9587,
+   0.8945
+  ],
+  "minecraft:wall_torch": [
+   0.5445,
+   0.4447,
+   0.2508
+  ],
+  "minecraft:warped_button": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_door": [
+   0.1698,
+   0.4659,
+   0.4408
+  ],
+  "minecraft:warped_fence_gate": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_fungus": [
+   0.291,
+   0.4277,
+   0.3449
+  ],
+  "minecraft:warped_hanging_sign": [
+   0.2258,
+   0.5919,
+   0.5795
+  ],
+  "minecraft:warped_hyphae": [
+   0.2278,
+   0.2307,
+   0.304
+  ],
+  "minecraft:warped_nylium": [
+   0.3827,
+   0.1506,
+   0.1506
+  ],
+  "minecraft:warped_planks": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_pressure_plate": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_roots": [
+   0.0798,
+   0.5416,
+   0.487
+  ],
+  "minecraft:warped_sign": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_slab": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_stairs": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_stem": [
+   0.2092,
+   0.43,
+   0.4319
+  ],
+  "minecraft:warped_trapdoor": [
+   0.1855,
+   0.4688,
+   0.4381
+  ],
+  "minecraft:warped_wall_hanging_sign": [
+   0.2258,
+   0.5919,
+   0.5795
+  ],
+  "minecraft:warped_wall_sign": [
+   0.1688,
+   0.4113,
+   0.3888
+  ],
+  "minecraft:warped_wart_block": [
+   0.0894,
+   0.4704,
+   0.4749
+  ],
+  "minecraft:water": [
+   0.24,
+   0.42,
+   0.82
+  ],
+  "minecraft:water_cauldron": [
+   0.1587,
+   0.1587,
+   0.175
+  ],
+  "minecraft:waxed_chiseled_copper": [
+   0.7216,
+   0.3953,
+   0.2896
+  ],
+  "minecraft:waxed_copper_block": [
+   0.7546,
+   0.4222,
+   0.313
+  ],
+  "minecraft:waxed_copper_bulb": [
+   0.6127,
+   0.3408,
+   0.2251
+  ],
+  "minecraft:waxed_copper_door": [
+   0.7092,
+   0.4057,
+   0.3032
+  ],
+  "minecraft:waxed_copper_grate": [
+   0.7529,
+   0.4218,
+   0.3115
+  ],
+  "minecraft:waxed_copper_trapdoor": [
+   0.748,
+   0.4164,
+   0.312
+  ],
+  "minecraft:waxed_cut_copper": [
+   0.7497,
+   0.4191,
+   0.3159
+  ],
+  "minecraft:waxed_cut_copper_slab": [
+   0.7497,
+   0.4191,
+   0.3159
+  ],
+  "minecraft:waxed_cut_copper_stairs": [
+   0.7497,
+   0.4191,
+   0.3159
+  ],
+  "minecraft:waxed_exposed_chiseled_copper": [
+   0.6064,
+   0.4682,
+   0.3953
+  ],
+  "minecraft:waxed_exposed_copper": [
+   0.6317,
+   0.493,
+   0.4076
+  ],
+  "minecraft:waxed_exposed_copper_bulb": [
+   0.5298,
+   0.4216,
+   0.3526
+  ],
+  "minecraft:waxed_exposed_copper_door": [
+   0.5986,
+   0.4633,
+   0.3929
+  ],
+  "minecraft:waxed_exposed_copper_grate": [
+   0.6347,
+   0.4938,
+   0.4102
+  ],
+  "minecraft:waxed_exposed_copper_trapdoor": [
+   0.6315,
+   0.4907,
+   0.4107
+  ],
+  "minecraft:waxed_exposed_cut_copper": [
+   0.6065,
+   0.4775,
+   0.3971
+  ],
+  "minecraft:waxed_exposed_cut_copper_slab": [
+   0.6065,
+   0.4775,
+   0.3971
+  ],
+  "minecraft:waxed_exposed_cut_copper_stairs": [
+   0.6065,
+   0.4775,
+   0.3971
+  ],
+  "minecraft:waxed_oxidized_chiseled_copper": [
+   0.3276,
+   0.6349,
+   0.5187
+  ],
+  "minecraft:waxed_oxidized_copper": [
+   0.3232,
+   0.6379,
+   0.521
+  ],
+  "minecraft:waxed_oxidized_copper_bulb": [
+   0.2754,
+   0.5192,
+   0.4285
+  ],
+  "minecraft:waxed_oxidized_copper_door": [
+   0.3121,
+   0.6009,
+   0.4987
+  ],
+  "minecraft:waxed_oxidized_copper_grate": [
+   0.3217,
+   0.6322,
+   0.5146
+  ],
+  "minecraft:waxed_oxidized_copper_trapdoor": [
+   0.3278,
+   0.6325,
+   0.5183
+  ],
+  "minecraft:waxed_oxidized_cut_copper": [
+   0.3126,
+   0.6024,
+   0.4958
+  ],
+  "minecraft:waxed_oxidized_cut_copper_slab": [
+   0.3126,
+   0.6024,
+   0.4958
+  ],
+  "minecraft:waxed_oxidized_cut_copper_stairs": [
+   0.3126,
+   0.6024,
+   0.4958
+  ],
+  "minecraft:waxed_weathered_chiseled_copper": [
+   0.411,
+   0.592,
+   0.4357
+  ],
+  "minecraft:waxed_weathered_copper": [
+   0.4247,
+   0.6,
+   0.4328
+  ],
+  "minecraft:waxed_weathered_copper_bulb": [
+   0.3624,
+   0.4968,
+   0.3902
+  ],
+  "minecraft:waxed_weathered_copper_door": [
+   0.4206,
+   0.5612,
+   0.3985
+  ],
+  "minecraft:waxed_weathered_copper_grate": [
+   0.4165,
+   0.5996,
+   0.4352
+  ],
+  "minecraft:waxed_weathered_copper_trapdoor": [
+   0.4265,
+   0.6008,
+   0.4321
+  ],
+  "minecraft:waxed_weathered_cut_copper": [
+   0.4289,
+   0.5701,
+   0.4217
+  ],
+  "minecraft:waxed_weathered_cut_copper_slab": [
+   0.4289,
+   0.5701,
+   0.4217
+  ],
+  "minecraft:waxed_weathered_cut_copper_stairs": [
+   0.4289,
+   0.5701,
+   0.4217
+  ],
+  "minecraft:weathered_chiseled_copper": [
+   0.411,
+   0.592,
+   0.4357
+  ],
+  "minecraft:weathered_copper": [
+   0.4247,
+   0.6,
+   0.4328
+  ],
+  "minecraft:weathered_copper_bulb": [
+   0.3624,
+   0.4968,
+   0.3902
+  ],
+  "minecraft:weathered_copper_door": [
+   0.4206,
+   0.5612,
+   0.3985
+  ],
+  "minecraft:weathered_copper_grate": [
+   0.4165,
+   0.5996,
+   0.4352
+  ],
+  "minecraft:weathered_copper_trapdoor": [
+   0.4265,
+   0.6008,
+   0.4321
+  ],
+  "minecraft:weathered_cut_copper": [
+   0.4289,
+   0.5701,
+   0.4217
+  ],
+  "minecraft:weathered_cut_copper_slab": [
+   0.4289,
+   0.5701,
+   0.4217
+  ],
+  "minecraft:weathered_cut_copper_stairs": [
+   0.4289,
+   0.5701,
+   0.4217
+  ],
+  "minecraft:weeping_vines": [
+   0.4101,
+   0.005,
+   0.0
+  ],
+  "minecraft:weeping_vines_plant": [
+   0.5205,
+   0.0644,
+   0.0478
+  ],
+  "minecraft:wet_sponge": [
+   0.671,
+   0.7106,
+   0.2762
+  ],
+  "minecraft:wheat": [
+   0.0336,
+   0.5008,
+   0.0611
+  ],
+  "minecraft:white_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:white_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:white_candle": [
+   0.8245,
+   0.85,
+   0.8538
+  ],
+  "minecraft:white_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:white_carpet": [
+   0.916,
+   0.9267,
+   0.9285
+  ],
+  "minecraft:white_concrete": [
+   0.8122,
+   0.8356,
+   0.8395
+  ],
+  "minecraft:white_concrete_powder": [
+   0.8852,
+   0.8921,
+   0.8935
+  ],
+  "minecraft:white_glazed_terracotta": [
+   0.7392,
+   0.8333,
+   0.7957
+  ],
+  "minecraft:white_shulker_box": [
+   0.8452,
+   0.8649,
+   0.8668
+  ],
+  "minecraft:white_stained_glass": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "minecraft:white_terracotta": [
+   0.8221,
+   0.6982,
+   0.6327
+  ],
+  "minecraft:white_tulip": [
+   0.3668,
+   0.6461,
+   0.2786
+  ],
+  "minecraft:white_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:white_wool": [
+   0.916,
+   0.9267,
+   0.9285
+  ],
+  "minecraft:wither_rose": [
+   0.1626,
+   0.1755,
+   0.0914
+  ],
+  "minecraft:wither_skeleton_skull": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:wither_skeleton_wall_skull": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:yellow_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:yellow_bed": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:yellow_candle": [
+   0.8196,
+   0.6461,
+   0.1968
+  ],
+  "minecraft:yellow_candle_cake": [
+   0.5251,
+   0.2448,
+   0.1278
+  ],
+  "minecraft:yellow_carpet": [
+   0.9756,
+   0.7763,
+   0.1554
+  ],
+  "minecraft:yellow_concrete": [
+   0.9451,
+   0.6879,
+   0.0841
+  ],
+  "minecraft:yellow_concrete_powder": [
+   0.9133,
+   0.7811,
+   0.2148
+  ],
+  "minecraft:yellow_glazed_terracotta": [
+   0.919,
+   0.7542,
+   0.3479
+  ],
+  "minecraft:yellow_shulker_box": [
+   0.9727,
+   0.7412,
+   0.1154
+  ],
+  "minecraft:yellow_stained_glass": [
+   0.898,
+   0.898,
+   0.2
+  ],
+  "minecraft:yellow_terracotta": [
+   0.7305,
+   0.5221,
+   0.1387
+  ],
+  "minecraft:yellow_wall_banner": [
+   0.6361,
+   0.513,
+   0.3083
+  ],
+  "minecraft:yellow_wool": [
+   0.9756,
+   0.7763,
+   0.1554
+  ],
+  "minecraft:zombie_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ],
+  "minecraft:zombie_wall_head": [
+   0.3192,
+   0.2438,
+   0.1988
+  ]
+ }
+}

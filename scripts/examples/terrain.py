@@ -13,10 +13,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from schematica.session.session import Session
-from schematica.generators.templates import apply_terrain, apply_tree
 from schematica.export.sponge import write_sponge
+from schematica.generators.templates import apply_terrain, apply_tree
 from schematica.render.preview import preview
+from schematica.session.session import Session
 
 
 def main() -> None:

@@ -5,8 +5,11 @@ schematics, packaged as an AI skill. Compose geometry primitives, shapely
 polygons, trimesh meshes, heightmaps, boolean ops, and procedural generators
 into structures, with session-based editing (undo/redo), multi-view PNG
 previews, and Sponge `.schem`, MCEdit `.schematic`, and Litematica `.litematic`
-export. The AI agent is the creative driver: it uses this toolkit to realize
-the user's request.
+export. Version 0.2 adds an **advanced map-design toolkit**: 12 themed design
+palettes, terrain-draped roads and rivers, gable/hip roof builders, seeded
+forests, and preview colors derived from the real vanilla textures. The AI
+agent is the creative driver: it uses this toolkit to realize the user's
+request.
 
 ## Install
 
@@ -30,9 +33,12 @@ skill root, or point `SCHEMATICA_MINECRAFT_DATA` at any clone:
 git clone https://github.com/PrismarineJS/minecraft-data minecraft_data
 ```
 
-Without it, a built-in fallback block list is used. The fallback covers common
-structural blocks plus colored wool, stained glass, terracotta, and concrete,
-but it is not a full per-version catalog.
+Without it, a built-in fallback block list is used (519 blocks incl. wood,
+copper, colored and modern-decor families) shipped as editable JSON at
+`scripts/schematica/blocks/data/fallback_blocks.json`
+(`SCHEMATICA_FALLBACK_BLOCKS` overrides). Previews pick colors from a bundled
+texture-derived table; regenerate per version with
+`python -m schematica.blocks.colors <mc_version>`.
 
 ## Quick start (library)
 
@@ -94,6 +100,13 @@ preview out_dir=previews
 | `subtract.box` | `frm=x,y,z to=x,y,z` | carve air |
 | `replace` | `src=B dst=B` | global find/replace |
 | `paint` | (mask) `block=B` | repaint existing solids |
+| `paint.ramp` | `palette=P frm=A to=B axis=y blend=0.15` | dark->light palette gradient |
+| `road` | `points=x,z;x,z width=3 palette=P border=B` | terrain-draped road |
+| `river` | `points=x,z;x,z width=3 depth=3 bed=B` | carve + flood channel |
+| `roof.gable` / `roof.hip` | `frm=A to=B palette=P stairs=S` | pitched roofs over wall boxes |
+| `tree2` / `forest` | `at=x,z kind=spruce` / `frm=A to=B density=0.05` | seeded vegetation |
+| `surface` | `x=N z=N` | top solid height probe |
+| `palette.list` / `palette.info` | | themed design palettes |
 | `fill` | `block=B` | fill entire grid |
 | `clear` | | all air |
 | `mirror` | `axis=x\|y\|z` | |
@@ -201,8 +214,10 @@ references/       docs loaded on demand
 - **Sponge block ordering**: `index = (y*length + z)*width + x`, varint-encoded.
 - **History**: deltas store only changed voxels (coords + old/new), so undo of
   a 32³ grid where a 3³ box was added touches only 27 voxels.
-- **Preview color map**: hand-picked for common blocks; others hashed from name.
-  Edit `scripts/schematica/render/preview.py::_BLOCK_COLORS` to extend.
+- **Preview color map**: texture-derived bundled table (~987 blocks, averaged
+  from vanilla textures) -> per-version cache -> `SCHEMATICA_BLOCK_COLORS`
+  override -> variant-family fallback -> stable hash. See
+  `references/preview_rendering.md`.
 - **Bulk procedural writes**: use `Session.set_box(...)` and `Session.set_many(...)`
   for high-volume generated detail instead of thousands of tiny shape masks.
 - **Determinism**: all procedural generators take a `seed`; pin it in tests.

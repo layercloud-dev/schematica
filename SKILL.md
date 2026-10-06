@@ -159,6 +159,21 @@ terracotta, and concrete.
   flattened names or blockstate properties. Treat that warning as a signal to
   switch to MCEdit or target a post-1.13 data version.
 
+### Live data & configuration (no hardcodes)
+
+Package data is bundled as editable JSON and resolved live:
+
+| What | Bundled file | Override |
+|---|---|---|
+| Fallback block catalog | `scripts/schematica/blocks/data/fallback_blocks.json` | `SCHEMATICA_FALLBACK_BLOCKS` |
+| Preview block colors (~987, texture-derived) | `scripts/schematica/data/block_colors.json` | `SCHEMATICA_BLOCK_COLORS` |
+| Design palettes + tree kinds | `scripts/schematica/data/design_palettes.json` | `SCHEMATICA_PALETTES` |
+| Default MC version | `1.20.1` | `SCHEMATICA_MC_VERSION` |
+
+`python -m schematica.blocks.download <version>` fetches a live full block
+catalog; `python -m schematica.blocks.colors <version>` fetches that version's
+true texture colors for previews. Both cache under the minecraft-data root.
+
 ### Two entry points
 
 1. **Library API** — import and script directly. See `references/library_api.md`.
@@ -297,6 +312,22 @@ from schematica.session.session import Session
 shape = load_mesh("castle.obj", origin=(0,0,0), scale=1.0)
 s = Session.new((64, 64, 64))
 s.add(shape, "minecraft:stone_bricks")
+```
+
+#### Example 5b — "Terrain + road + river + house + forest (design CLI)"
+
+```
+session.new size=64x28x64 version=1.20.1
+generate.terrain seed=11 amplitude=5
+road points=4,4;28,16;60,56 width=3 palette=rustic_oak border=minecraft:oak_log smooth=4 seed=2
+river points=2,40;30,34;62,46 width=3 depth=3 bed=minecraft:gravel smooth=4
+add.hbox frm=24,12,24 to=36,22,36 block=minecraft:stone_bricks
+roof.gable frm=24,22,24 to=36,22,36 axis=x palette=medieval_stone stairs=minecraft:stone_brick_stairs
+paint.ramp palette=deepslate_dungeon frm=24,12,24 to=36,22,36 axis=y blend=0.15
+forest frm=2,0,2 to=20,0,20 density=0.05 kinds=oak+birch seed=4
+surface x=24 z=24
+preview out_dir=previews
+export path=town.schem
 ```
 
 #### Example 5 — "Build a castle with hollow walls, towers, and staircase (CLI)"

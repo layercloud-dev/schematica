@@ -6,10 +6,14 @@ are already placed, so they are safe to run after the structural build is
 complete.
 
 All tools work on both ``VoxelGrid`` (dense) and ``ChunkedGrid`` (sparse)
-backends and integrate with the session history system when called via
-``Session`` methods.
+backends. On chunked grids they stream chunk-by-chunk with a one-voxel halo
+for neighbour lookups, so they scale to maps that would not fit a dense copy
+in memory. (Noise-seeded scatter/gradient jitter draws are per-backend and
+therefore not bit-identical across backends; structural results are.)
 """
 from __future__ import annotations
+
+from collections.abc import Iterator
 
 import numpy as np
 
@@ -20,7 +24,7 @@ from ..core.voxel import VoxelGrid
 Grid = VoxelGrid | ChunkedGrid
 
 
-# ---- helpers -----------------------------------------------------------
+# ---- dense helpers -------------------------------------------------------
 
 def _dense_data(grid: Grid) -> np.ndarray:
     """Return a writable dense uint16 view (or copy) for vectorised ops."""
@@ -29,85 +33,94 @@ def _dense_data(grid: Grid) -> np.ndarray:
     return grid.data
 
 
-def _solid_mask(grid: Grid) -> np.ndarray:
-    """Boolean array: True where the voxel is non-air."""
-    if isinstance(grid, ChunkedGrid):
-        return grid.to_dense().data != 0
-    return grid.data != 0
-
-
 def _air_neighbour_count(dense: np.ndarray) -> np.ndarray:
-    """Count how many of the 6 face-neighbours of each voxel are air.
-
-    Out-of-bounds neighbours are treated as air. Returns an int array of
-    the same shape as ``dense`` with values 0-6.
-    """
-    sx, sy, sz = dense.shape
+    """Count air face-neighbours per voxel; out-of-bounds counts as air."""
     air = dense == 0
     count = np.zeros(dense.shape, dtype=np.int8)
-    # +x / -x
-    count[1:, :, :] += air[:-1, :, :]
-    count[:-1, :, :] += air[1:, :, :]
-    # +y / -y
-    count[:, 1:, :] += air[:, :-1, :]
-    count[:, :-1, :] += air[:, 1:, :]
-    # +z / -z
-    count[:, :, 1:] += air[:, :, :-1]
-    count[:, :, :-1] += air[:, :, 1:]
-    # Edges: out-of-bounds = air
-    count[0, :, :] += 1
-    count[-1, :, :] += 1
-    count[:, 0, :] += 1
-    count[:, -1, :] += 1
-    count[:, :, 0] += 1
-    count[:, :, -1] += 1
-    # But we added +1 on faces that are in-bounds air, then we also need
-    # to subtract the in-bounds contributions that were double-counted.
-    # Actually: the shift logic above already handles in-bounds. For
-    # boundary voxels, out-of-bounds = air, so add 1 per boundary face.
-    # The shifts above didn't cover the boundary because slicing drops
-    # one element. Let's redo this cleanly.
-    return _air_neighbour_count_clean(dense)
-
-
-def _air_neighbour_count_clean(dense: np.ndarray) -> np.ndarray:
-    """Correct air-neighbour count with out-of-bounds = air."""
-    air = dense == 0
-    sx, sy, sz = dense.shape
-    count = np.zeros(dense.shape, dtype=np.int8)
-    # For each of the 6 directions, build a mask of "neighbour is air"
-    # (out-of-bounds counts as air).
-    # +x neighbour
     px = np.zeros(dense.shape, dtype=bool)
-    px[:-1, :, :] = air[1:, :, :]  # voxel at x has neighbour at x+1
+    px[:-1, :, :] = air[1:, :, :]
     px[-1, :, :] = True
     count += px
-    # -x neighbour
     nx = np.zeros(dense.shape, dtype=bool)
     nx[1:, :, :] = air[:-1, :, :]
     nx[0, :, :] = True
     count += nx
-    # +y neighbour
     py = np.zeros(dense.shape, dtype=bool)
     py[:, :-1, :] = air[:, 1:, :]
     py[:, -1, :] = True
     count += py
-    # -y neighbour
     ny = np.zeros(dense.shape, dtype=bool)
     ny[:, 1:, :] = air[:, :-1, :]
     ny[:, 0, :] = True
     count += ny
-    # +z neighbour
     pz = np.zeros(dense.shape, dtype=bool)
     pz[:, :, :-1] = air[:, :, 1:]
     pz[:, :, -1] = True
     count += pz
-    # -z neighbour
     nz = np.zeros(dense.shape, dtype=bool)
     nz[:, :, 1:] = air[:, :, :-1]
     nz[:, :, 0] = True
     count += nz
     return count
+
+
+# ---- chunked helpers ------------------------------------------------------
+
+def _iter_halo_chunks(grid: ChunkedGrid
+                      ) -> Iterator[tuple[tuple[int, int, int], np.ndarray, np.ndarray, tuple[int, int, int]]]:
+    """Yield ``(chunk_key, core_array, halo_array, core_shape)`` per chunk.
+
+    ``halo_array`` has shape ``core_shape + 2`` with the chunk's own data in
+    the centre and one ring of ghost cells copied from existing neighbour
+    chunks (missing neighbours / out-of-bounds = air). Mutations should be
+    written to ``core_array`` (the live chunk storage).
+    """
+    for cx, cy, cz, arr in list(grid.iter_chunks()):
+        shape = grid._chunk_shape(cx, cy, cz)
+        ox, oy, oz = grid._chunk_origin(cx, cy, cz)
+        halo = np.zeros((shape[0] + 2, shape[1] + 2, shape[2] + 2), dtype=arr.dtype)
+        halo[1:1 + shape[0], 1:1 + shape[1], 1:1 + shape[2]] = arr
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for dz in (-1, 0, 1):
+                    if dx == dy == dz == 0:
+                        continue
+                    narr = grid._chunks.get((cx + dx, cy + dy, cz + dz))
+                    if narr is None:
+                        continue
+                    nshape = grid._chunk_shape(cx + dx, cy + dy, cz + dz)
+                    nox, noy, noz = grid._chunk_origin(cx + dx, cy + dy, cz + dz)
+                    # overlap per axis between [o-1, o+s] and [no, no+ns)
+                    slices_dst: list[slice] = []
+                    slices_src: list[slice] = []
+                    ok = True
+                    for (o, s, no, ns) in ((ox, shape[0], nox, nshape[0]),
+                                           (oy, shape[1], noy, nshape[1]),
+                                           (oz, shape[2], noz, nshape[2])):
+                        # halo covers global [o-1, o+s] inclusive
+                        lo = max(o - 1, no)
+                        hi = min(o + s, no + ns - 1)  # inclusive
+                        if lo > hi:
+                            ok = False
+                            break
+                        slices_dst.append(slice(lo - (o - 1), hi - (o - 1) + 1))
+                        slices_src.append(slice(lo - no, hi - no + 1))
+                    if ok:
+                        halo[tuple(slices_dst)] = narr[tuple(slices_src)]
+        yield (cx, cy, cz), arr, halo, shape
+
+
+def _region_mask(shape: tuple[int, int, int], origin: tuple[int, int, int],
+                 lo: tuple[int, int, int] | list[int],
+                 hi: tuple[int, int, int] | list[int]) -> np.ndarray:
+    """Boolean mask over a chunk-local array selecting global region [lo, hi]."""
+    xs = np.arange(origin[0], origin[0] + shape[0])
+    ys = np.arange(origin[1], origin[1] + shape[1])
+    zs = np.arange(origin[2], origin[2] + shape[2])
+    mx = (xs >= lo[0]) & (xs <= hi[0])
+    my = (ys >= lo[1]) & (ys <= hi[1])
+    mz = (zs >= lo[2]) & (zs <= hi[2])
+    return (mx[:, None, None] & my[None, :, None] & mz[None, None, :])
 
 
 # ---- paint gradient ----------------------------------------------------
@@ -123,7 +136,8 @@ def paint_gradient(grid: Grid, frm: tuple[int, int, int], to: tuple[int, int, in
     for organic transitions (0.0 = sharp, 1.0 = very noisy).
 
     Only paints existing *solid* voxels (like ``paint`` / ``intersect``).
-    Returns the number of voxels painted.
+    On chunked grids this streams chunk-by-chunk without materialising a
+    dense copy. Returns the number of voxels painted.
     """
     if not blocks:
         raise ValueError("blocks list cannot be empty")
@@ -132,52 +146,60 @@ def paint_gradient(grid: Grid, frm: tuple[int, int, int], to: tuple[int, int, in
     ax_idx = {"x": 0, "y": 1, "z": 2}[axis]
     x0, y0, z0 = frm
     x1, y1, z1 = to
-    lo = (min(x0, x1), min(y0, y1), min(z0, z1))
-    hi = (max(x0, x1), max(y0, y1), max(z0, z1))
-    # Clip to grid bounds.
+    lo = [min(x0, x1), min(y0, y1), min(z0, z1)]
+    hi = [max(x0, x1), max(y0, y1), max(z0, z1)]
     gs = grid.shape
-    lo = tuple(max(lo[i], 0) for i in range(3))
-    hi = tuple(min(hi[i], gs[i] - 1) for i in range(3))
+    lo = [max(lo[i], 0) for i in range(3)]
+    hi = [min(hi[i], gs[i] - 1) for i in range(3)]
     if any(lo[i] > hi[i] for i in range(3)):
         return 0
 
-    # Resolve blocks to palette indices.
-    resolved = [Block.parse(b) for b in blocks]
-    palette_indices = [grid.palette.add(b) for b in resolved]
+    palette_indices = [grid.palette.add(Block.parse(b)) for b in blocks]
+    lut = np.array(palette_indices, dtype=np.uint16)
     n_blocks = len(blocks)
 
-    # Compute gradient coordinate.
-    region_shape = (hi[0] - lo[0] + 1, hi[1] - lo[1] + 1, hi[2] - lo[2] + 1)
-    # Build coordinate array along the gradient axis.
-    ax_coords = np.arange(region_shape[ax_idx], dtype=np.float32)
-    ax_lo = lo[ax_idx]
-    ax_hi = hi[ax_idx]
-    ax_span = max(ax_hi - ax_lo, 1)
-    t = (ax_coords - ax_lo) / ax_span  # 0..1 along the axis
-    t = np.clip(t, 0.0, 1.0)
-
+    ax_len = hi[ax_idx] - lo[ax_idx] + 1
+    ax_coords = np.arange(ax_len, dtype=np.float32)
+    ax_span = max(ax_len - 1, 1)
+    t = np.clip(ax_coords / ax_span, 0.0, 1.0)
     if blend > 0:
         rng = np.random.default_rng(seed)
-        jitter = rng.uniform(-blend, blend, size=region_shape[ax_idx]).astype(np.float32)
+        jitter = rng.uniform(-blend, blend, size=ax_len).astype(np.float32)
         t = np.clip(t + jitter, 0.0, 1.0)
+    block_idx = np.clip(np.rint(t * (n_blocks - 1)).astype(np.int32), 0, n_blocks - 1)
 
-    # Map t to block index: 0 at start, n_blocks-1 at end.
-    block_idx = (t * (n_blocks - 1)).astype(np.int32)
-    block_idx = np.clip(block_idx, 0, n_blocks - 1)
+    if isinstance(grid, ChunkedGrid):
+        changed = 0
+        for (cx, cy, cz), arr, _halo, shape in _iter_halo_chunks(grid):
+            origin = grid._chunk_origin(cx, cy, cz)
+            idx_grid = np.zeros(shape, dtype=np.int32)
+            for a in range(shape[ax_idx]):
+                g = origin[ax_idx] + a
+                val = block_idx[g - lo[ax_idx]] if lo[ax_idx] <= g <= hi[ax_idx] else -1
+                if ax_idx == 0:
+                    idx_grid[a, :, :] = val
+                elif ax_idx == 1:
+                    idx_grid[:, a, :] = val
+                else:
+                    idx_grid[:, :, a] = val
+            valid = idx_grid >= 0
+            valid &= _region_mask(shape, origin, lo, hi)  # clip y/z extents too
+            solid = arr != 0
+            sel = valid & solid
+            if sel.any():
+                new_vals = lut[idx_grid[sel]]
+                arr[sel] = new_vals
+                changed += int(np.count_nonzero(sel))
+        return changed
 
-    # Broadcast to 3D.
+    region_shape = (hi[0] - lo[0] + 1, hi[1] - lo[1] + 1, hi[2] - lo[2] + 1)
     if ax_idx == 0:
         idx_grid = np.broadcast_to(block_idx[:, None, None], region_shape)
     elif ax_idx == 1:
         idx_grid = np.broadcast_to(block_idx[None, :, None], region_shape)
     else:
         idx_grid = np.broadcast_to(block_idx[None, None, :], region_shape)
-
-    # Map to palette indices.
-    lut = np.array(palette_indices, dtype=np.uint16)
     new_vals = lut[idx_grid]
-
-    # Apply to solid voxels only.
     dense = _dense_data(grid)
     region = dense[lo[0]:hi[0] + 1, lo[1]:hi[1] + 1, lo[2]:hi[2] + 1]
     solid = region != 0
@@ -185,26 +207,20 @@ def paint_gradient(grid: Grid, frm: tuple[int, int, int], to: tuple[int, int, in
     if count == 0:
         return 0
     region[solid] = new_vals[solid]
-    _write_back(grid, dense, lo, hi)
     return count
 
 
-# ---- edge wear ---------------------------------------------------------
+# ---- edge wear -----------------------------------------------------------
 
 def edge_wear(grid: Grid, blocks: list[str], *,
               min_exposure: int = 1, max_exposure: int = 6,
               noise: float = 0.0, seed: int = 0) -> int:
     """Apply weathering blocks to exposed surfaces.
 
-    Each solid voxel that has between ``min_exposure`` and ``max_exposure``
-    air face-neighbours is repainted with a block from ``blocks``. Voxels with
-    more air neighbours (more exposed) map to earlier blocks in the list, so
-    the first block is the most weathered (e.g. mossy_cobblestone) and the last
-    is the least weathered (e.g. stone).
-
-    ``noise`` in [0, 1] randomly skips some voxels for patchy, organic wear.
-
-    Returns the number of voxels weathered.
+    Solid voxels with between ``min_exposure`` and ``max_exposure`` air
+    face-neighbours are repainted from ``blocks``; more exposed voxels map to
+    earlier (more weathered) entries. ``noise`` in [0, 1] randomly skips
+    voxels for patchy wear. Returns the number of voxels weathered.
     """
     if not blocks:
         raise ValueError("blocks list cannot be empty")
@@ -213,44 +229,59 @@ def edge_wear(grid: Grid, blocks: list[str], *,
     if min_exposure > max_exposure:
         raise ValueError("min_exposure cannot exceed max_exposure")
 
+    if isinstance(grid, ChunkedGrid):
+        rng = np.random.default_rng(seed) if noise > 0 else None
+        changed = 0
+        palette_indices = np.array(
+            [grid.palette.add(Block.parse(b)) for b in blocks], dtype=np.uint16)
+        n = len(blocks)
+        span = max(max_exposure - min_exposure, 1)
+        for _key, arr, halo, _shape in _iter_halo_chunks(grid):
+            core = halo[1:-1, 1:-1, 1:-1]
+            solid = core != 0
+            exposed = solid.copy()
+            cnt = _air_count_uint16(halo)[1:-1, 1:-1, 1:-1]
+            exposed &= (cnt >= min_exposure) & (cnt <= max_exposure)
+            if rng is not None:
+                exposed &= ~(rng.random(core.shape) < noise)
+            if not exposed.any():
+                continue
+            t = 1.0 - (cnt[exposed].astype(np.float32) - min_exposure) / span
+            idx = np.clip((np.clip(t, 0, 1) * (n - 1)).astype(np.int32), 0, n - 1)
+            arr[exposed] = palette_indices[idx]
+            changed += int(np.count_nonzero(exposed))
+        return changed
+
     dense = _dense_data(grid)
     solid = dense != 0
-    air_count = _air_neighbour_count_clean(dense)
-
-    # Mask: solid voxels within the exposure range.
+    air_count = _air_neighbour_count(dense)
     exposed = solid & (air_count >= min_exposure) & (air_count <= max_exposure)
-
     if noise > 0:
         rng = np.random.default_rng(seed)
         skip = rng.random(dense.shape) < noise
         exposed = exposed & ~skip
-
     if not exposed.any():
         return 0
-
-    # Map exposure level to block index.
-    # exposure = max_exposure -> block 0 (most weathered)
-    # exposure = min_exposure -> block n-1 (least weathered)
     n = len(blocks)
     span = max(max_exposure - min_exposure, 1)
-    # For each exposed voxel, compute block index from its air_count.
     exposed_counts = air_count[exposed]
     t = 1.0 - (exposed_counts.astype(np.float32) - min_exposure) / span
     t = np.clip(t, 0.0, 1.0)
     block_indices = (t * (n - 1)).astype(np.int32)
     block_indices = np.clip(block_indices, 0, n - 1)
-
-    # Resolve blocks to palette indices.
     palette_indices = np.array(
         [grid.palette.add(Block.parse(b)) for b in blocks], dtype=np.uint16
     )
     new_vals = palette_indices[block_indices]
     dense[exposed] = new_vals
-    _write_back(grid, dense, (0, 0, 0), tuple(d - 1 for d in dense.shape))
     return int(np.count_nonzero(exposed))
 
 
-# ---- surface scatter ---------------------------------------------------
+def _air_count_uint16(arr: np.ndarray) -> np.ndarray:
+    return _air_neighbour_count(np.asarray(arr, dtype=np.uint16))
+
+
+# ---- surface scatter ------------------------------------------------------
 
 def surface_scatter(grid: Grid, block: str, *,
                     density: float = 0.1, min_exposure: int = 1,
@@ -258,72 +289,53 @@ def surface_scatter(grid: Grid, block: str, *,
                     on_blocks: list[str] | None = None) -> int:
     """Scatter a block on exposed surfaces with probabilistic density.
 
-    Each solid voxel that has between ``min_exposure`` and ``max_exposure``
-    air face-neighbours has a ``density`` probability (0.0 to 1.0) of being
-    repainted with ``block``. This is ideal for scattering moss, lichen, gravel
-    patches, or small flowers on surfaces.
-
-    ``on_blocks`` if given restricts the scatter to voxels whose current block
-    name is in the list (e.g. only scatter moss on stone, not on wood).
-
-    Returns the number of voxels scattered.
+    Each solid voxel with between ``min_exposure`` and ``max_exposure`` air
+    face-neighbours has a ``density`` probability of being repainted with
+    ``block``. ``on_blocks`` restricts to voxels currently holding one of
+    those blocks. Returns the number of voxels scattered.
     """
     if density <= 0:
         return 0
+    rng = np.random.default_rng(seed)
+    new_idx = grid.palette.add(Block.parse(block))
+
+    allowed_names = set()
+    if on_blocks:
+        allowed_names = {Block.parse(n).name for n in on_blocks}
+    allowed_idx: set[int] = set()
+    if allowed_names:
+        pal = grid.palette.blocks()
+        for i, b in enumerate(pal):
+            if b.name in allowed_names:
+                allowed_idx.add(i)
+
+    if isinstance(grid, ChunkedGrid):
+        changed = 0
+        for _key, arr, halo, _shape in _iter_halo_chunks(grid):
+            core = halo[1:-1, 1:-1, 1:-1]
+            cnt = _air_count_uint16(halo)[1:-1, 1:-1, 1:-1]
+            exposed = (core != 0) & (cnt >= min_exposure) & (cnt <= max_exposure)
+            if allowed_idx:
+                mask_allowed = np.isin(core, list(allowed_idx))
+                exposed &= mask_allowed
+            if not exposed.any():
+                continue
+            sel = exposed & (rng.random(core.shape) < density)
+            if sel.any():
+                arr[sel] = new_idx
+                changed += int(np.count_nonzero(sel))
+        return changed
+
     dense = _dense_data(grid)
     solid = dense != 0
-    air_count = _air_neighbour_count_clean(dense)
+    air_count = _air_neighbour_count(dense)
     exposed = solid & (air_count >= min_exposure) & (air_count <= max_exposure)
-
-    if on_blocks:
-        # Build mask of allowed source blocks.
-        allowed = np.zeros(dense.shape, dtype=bool)
-        for name in on_blocks:
-            b = Block.parse(name)
-            idx = grid.palette.index_of(b)
-            if idx is not None:
-                allowed |= dense == idx
-        exposed = exposed & allowed
-
+    if allowed_idx:
+        exposed &= np.isin(dense, list(allowed_idx))
     if not exposed.any():
         return 0
-
-    rng = np.random.default_rng(seed)
     selected = exposed & (rng.random(dense.shape) < density)
     if not selected.any():
         return 0
-
-    b = Block.parse(block)
-    new_idx = grid.palette.add(b)
     dense[selected] = new_idx
-    _write_back(grid, dense, (0, 0, 0), tuple(d - 1 for d in dense.shape))
     return int(np.count_nonzero(selected))
-
-
-# ---- write-back for chunked grids --------------------------------------
-
-def _write_back(grid: Grid, dense: np.ndarray,
-                lo: tuple[int, int, int], hi: tuple[int, int, int]) -> None:
-    """Write a modified dense array back to the grid.
-
-    For VoxelGrid this is a no-op (dense was grid.data, modified in-place).
-    For ChunkedGrid we need to copy the region back into the chunked structure.
-    """
-    if isinstance(grid, ChunkedGrid):
-        cs = grid.chunk_size
-        x0, y0, z0 = lo
-        x1, y1, z1 = hi
-        for x in range(x0, x1 + 1):
-            for y in range(y0, y1 + 1):
-                for z in range(z0, z1 + 1):
-                    val = int(dense[x, y, z])
-                    cx, cy, cz = x // cs, y // cs, z // cs
-                    if val == 0:
-                        arr = grid._chunks.get((cx, cy, cz))
-                        if arr is not None:
-                            arr[x % cs, y % cs, z % cs] = 0
-                            if not np.any(arr):
-                                grid._drop_chunk_if_empty(cx, cy, cz)
-                    else:
-                        arr = grid._ensure_chunk(cx, cy, cz)
-                        arr[x % cs, y % cs, z % cs] = val
